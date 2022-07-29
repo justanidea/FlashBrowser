@@ -56,7 +56,9 @@ https://www.webfx.com/blog/web-design/flash_tutorial_websites/<br/> -->
 
 [Download Count](https://hanadigital.github.io/grev/?user=radubirsan&repo=FlashBrowser2)
 # Flash-Browser
-Flash Player enabled browser 
+Flash Player enabled browsers 
 https://github.com/radubirsan/FlashBrowser
+https://www.palemoon.org/
+https://www.waterfox.net/download/
 
 ! This is Alpha Software, please install on VM and do not log into any inportant accounts.
