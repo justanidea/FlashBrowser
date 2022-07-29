@@ -38,6 +38,10 @@ https://www.youtube.com/watch?v=Cv3umbqlw1g&t=1s
 https://www.youtube.com/watch?v=NZFzMEZ9l-Y
 
 # Websites with flash games:
+Great Flash Game selection ( offers own Electron Browser ) 
+https://evilgames.eu/flashgames.htm 
+
+https://gamaverse.com/
 http://fancyplanet.org/ </br>
 https://itch.io/games/flash <br/>
 http://mystreous.0fees.net/oyunlar/ <br/>
