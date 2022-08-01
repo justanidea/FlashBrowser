@@ -41,6 +41,9 @@ https://www.youtube.com/watch?v=NZFzMEZ9l-Y
 Great Flash Game selection ( offers own Electron Browser ) 
 https://evilgames.eu/flashgames.htm 
 
+new site
+https://flashstorage.games/
+
 https://gamaverse.com/
 http://fancyplanet.org/ </br>
 https://itch.io/games/flash <br/>
