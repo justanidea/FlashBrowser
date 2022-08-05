@@ -29,6 +29,9 @@ How to Enable Adobe Flash Player on Chrome Browser?
 <br/>![Capture](https://wethegeek.com/wp-content/uploads/2021/07/Adobe-Flash-Player.png)
 <br/>![Captures](https://images-na.ssl-images-amazon.com/images/I/A1p%2BBYQK5BL.png)
 
+You can run it from the command line:
+<br/>![Captures](https://flash.pm/Capture.JPG)
+
 How to install flash player browser video:
 
 :movie_camera: Windows:
