@@ -67,6 +67,10 @@ https://github.com/radubirsan/FlashBrowser
 https://www.palemoon.org/
 https://www.waterfox.net/download/
 
+
+Posible partners:
+Flash-to-HTML5 - https://icestonesoft.com/blog/instant-messengers/
+
 References:
 https://huwdp.github.io/Flash-Matrix/
 
