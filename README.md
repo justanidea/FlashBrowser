@@ -46,7 +46,7 @@ https://evilgames.eu/flashgames.htm
 
 new site
 https://flashstorage.games/
-
+https://www.friv.cloud/swf/list_swf_file.txt
 https://gamaverse.com/
 http://fancyplanet.org/ </br>
 https://itch.io/games/flash <br/>
