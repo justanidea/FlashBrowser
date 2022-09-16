@@ -1,5 +1,6 @@
-# Support Ukraine:
-https://twitter.com/Ukraine/status/1497594592438497282
+# DEV Contributors wanted:
+- submit a pul request
+- sent e-mail with your flashblockchain@gmail.com with what you an do to help. 
 
 # Looking for contributors:
 Setup instructions:
