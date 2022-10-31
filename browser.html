@@ -5,16 +5,16 @@
     </head>
 		<p id='topspacer' style="color:grey;font-size:1px; height:28px; min-height:28px !important; -webkit-app-region: drag;"></p>	
 		<div id="flash-tabs" style="display: inline;">
-			<embed id="FlashTab1" src="https://flash.pm/games/F.php?swf=files/adventure,%20escape,%20fighter/Achilles.swf" style='display: none;'  width="320" height="200"></embed>
-			<embed id="FlashTab2" src="https://flash.pm/games/F.php?swf=files/adventure,%20escape,%20fighter/Alias-3.swf" style='display: none;' width="320" height="200"></embed>
-			<embed id="FlashTab3" src="https://flash.pm/games/F.php?swf=files/typing/Qwerty-Warriors-2.swf" width="320" style='display: none;'  width="320" height="200"></embed>
+			<embed id="FlashTab1" src="about:blank#404" style='display: none;'  width="320" height="200"></embed>
+			<embed id="FlashTab2" src="about:blank#404" style='display: none;' width="320" height="200"></embed>
+			<embed id="FlashTab3" src="about:blank#404" width="320" style='display: none;'  width="320" height="200"></embed>
 		</div >
 		<div id="overlay">
 		<button  width="100%" onclick="showHideSettings()" style="font-size: 27px; border: none; background: none; color: hotpink;  background-color: #222222; horizontal-align:center; ">close</button>
 		
 			<div id="favoritesDiv">
 				<ul>
-					<li><a href="https://as3.ro" target="_blank" onclick="jsfunction(event)">Link 1</a></li>
+					<li><a href="about:blank#403" target="_blank" onclick="jsfunction(event)">Link 1</a></li>
 					<li><a href="#">Link 2</a></li>
 				</ul>
 			</div>
@@ -44,7 +44,7 @@
 		
         <script>
 	 const { ipcRenderer } = require('electron');
-		const Store = require('./store.js');
+		const Store = require('./store');
 		const store = new Store({
 		  configName: 'user-preferences'
 		});
@@ -150,7 +150,7 @@ var lastArgument = window.process.argv[length-1]
                    	let favURL = document.getElementById('nav-ctrls-url').value ;
 					console.log("set fav" + favURL);
 					const { remote } = require('electron');
-					const mainProcess = remote.require('./index.js');
+					const mainProcess = remote.require('./index');
 					mainProcess.setFavorite(favURL); // 'Yay'    
                  } 
 				 
@@ -164,7 +164,7 @@ let setHomeButton = document.createElement("button");
 			 function setHome(event) {					
                     let homeURL =  document.getElementById('nav-ctrls-url').value;
 					const { remote } = require('electron');
-					const mainProcess = remote.require('./index.js');
+					const mainProcess = remote.require('./index');
 					mainProcess.sethome(homeURL); // 'Yay' 
                  } 
 //Zoom In out
@@ -260,7 +260,7 @@ let muteButton = document.createElement("button");
                    
                     if(event.type === 'click'){
 							const { remote } = require('electron');
-							const mainProcess = remote.require('./index.js');
+							const mainProcess = remote.require('./index');
 									mainProcess.showSettings(); // 'Yay' 
 							
                     }
@@ -334,7 +334,7 @@ function makeUL(array) {
         var item = document.createElement('li');
       if(typeof array[i] === 'string') {
 		var a   =  document.createElement( 'a' )
-        a.text  = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.","");
+        //a.text  = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.",""); web domains may not be able to resolve in www sometimes, e.g www1, or not having www at all
         a.href  = array[i]
 		a.style = 'color:hotpink;font-size: 23px;'
 		a.onclick = jsfunction;
@@ -346,7 +346,7 @@ function makeUL(array) {
 			btn.style = "border: none; background: none; color: hotpink;  background-color: #222222;  margin-left: 30px; ";
 			btn.onclick = function (event) {
 					const { remote } = require('electron');
-					const mainProcess = remote.require('./index.js');
+					const mainProcess = remote.require('./index');
 					mainProcess.removeFav(event.target.id); // 'Yay' 
 					};
 

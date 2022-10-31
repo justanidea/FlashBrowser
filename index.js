@@ -10,7 +10,10 @@ const path = require('path');
 const Store = require('./store.js');
 const contextMenu = require('electron-context-menu');
 const { ipcMain } = require('electron');
-
+// fiae function for dynamic quick error changing
+function fiae(platform) {
+	console.error(new Error(`IA32 arch for platform "${platform}" is not supported`));
+};
 contextMenu({
 	showSaveImageAs: true
 });
@@ -22,12 +25,13 @@ switch (process.platform) {
 	case 'win32':
 		switch (process.arch) {
 			case 'ia32':
+				fiae('win32');
 			case 'x32':
-				pluginName = 'flashver/pepflashplayer32.dll'
+				pluginName = 'flashver/pepflashplayer32.dll';
 				console.log("ran!");
 				break
 			case 'x64':
-				pluginName = 'flashver/pepflashplayer64.dll'
+				pluginName = 'flashver/pepflashplayer64.dll';
 				console.log("ran!");
 				break
 		}
@@ -35,11 +39,12 @@ switch (process.platform) {
 	case 'linux':
 		switch (process.arch) {
 			case 'ia32':
+				fiae('linux');
 			case 'x32':
-				pluginName = 'flashver/libpepflashplayer.so' // added and tested :D
+				pluginName = 'flashver/libpepflashplayer.so'; // added and tested :D
 				break
 			case 'x64':
-				pluginName = 'flashver/libpepflashplayer.so'
+				pluginName = 'flashver/libpepflashplayer.so';
 				break
 		}
 
@@ -251,7 +256,7 @@ app.on('ready',   () => {
 	var {fetch} = require('cross-fetch');
 	ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker)=>{	
 		blocker.enableBlockingInSession(mainWindow.webContents.session);
-		//console.log("--AddBlcoker started" + mainWindow.webContents.session);
+		console.log(`[LOG] AdBlocker enabled for session ${mainWindow.webContents.session}`);
 	});
 
 
