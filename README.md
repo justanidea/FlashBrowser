@@ -2,6 +2,9 @@
 - submit a pul request
 - sent e-mail with your flashblockchain@gmail.com with what you an do to help. 
 
+#Discord:
+- https://discord.gg/8nR2J7EcrV
+
 # Looking for contributors:
 Setup instructions:
  - download & unzip code
