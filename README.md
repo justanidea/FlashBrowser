@@ -49,6 +49,7 @@ Great Flash Game selection ( offers own Electron Browser )
 https://evilgames.eu/flashgames.htm 
 
 new site
+http://coolbuddy.com/
 https://flashstorage.games/
 https://www.friv.cloud/swf/list_swf_file.txt
 https://gamaverse.com/
