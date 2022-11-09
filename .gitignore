@@ -8,4 +8,5 @@ FlashBrowser-win32-ia32
 FlashBrowser-win32-x64
 flashver/
 node_modules/
+package-lock.json
 

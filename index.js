@@ -5,12 +5,13 @@ const {
 	globalShortcut,
     Menu
 } = require('electron');
-const {autoUpdater} = require("electron-updater");
+
 const path = require('path');
 const Store = require('./store.js');
 const contextMenu = require('electron-context-menu');
 const { ipcMain } = require('electron');
-
+let swfURL = 'no swf'
+const {download} = require('electron-dl');
 contextMenu({
 	showSaveImageAs: true
 });
@@ -55,6 +56,8 @@ if (process.platform !== "darwin") {
 	//app.commandLine.appendSwitch('force-device-scale-factor', "1");
 }
 app.commandLine.appendSwitch("--enable-npapi");
+app.commandLine.appendSwitch("--enable-logging");
+app.commandLine.appendSwitch("--log-level", 4);
 app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname, pluginName));
 //app.commandLine.appendSwitch('ppapi-flash-path', path.join(__dirname.includes(".asar") ? process.resourcesPath : __dirname, "plugins/" + pluginName));
 app.commandLine.appendSwitch('disable-site-isolation-trials');
@@ -126,16 +129,27 @@ app.on('ready',   () => {
 	
 	// Modify the user agent for all requests to the following urls.
 	const filter = {
-	  urls: ['https://*.darkorbit.com/*', 'https://*.whatsapp.com/*']
+	  urls: ['https://*.darkorbit.com/*', 'https://*.whatsapp.com/*', '*://*/*.swf']
 	}
+
 	mainWindow.webContents.session.webRequest.onBeforeSendHeaders(filter,(details, callback) => {
-		
-        details.requestHeaders['X-APP'] = app.getVersion();
-		details.requestHeaders['User-Agent'] = 'BigpointClient/1.4.6';
-		if(details.url.indexOf("whatsapp") > 0) {
-			details.requestHeaders['User-Agent'] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15";
+     
+		if(details.url && details.url.indexOf(".swf") === -1){
+		    console.log("BIGPOINT OR WHATSUP")
+			details.requestHeaders['X-APP'] = app.getVersion();
+			details.requestHeaders['User-Agent'] = 'BigpointClient/1.4.6';
+			if(details.url.indexOf("whatsapp") > 0) {
+				details.requestHeaders['User-Agent'] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_1) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15";
+			}
 		}
+		else{
+
+		//	app.commandLine.appendSwitch('ppapi-flash-path', null);
+         console.log("swf url", details.url)
+		 swfURL = details.url
 		
+
+		}
 		
         callback({ requestHeaders: details.requestHeaders })
     });
@@ -147,6 +161,8 @@ app.on('ready',   () => {
     });
 	
 	
+	
+
 	
 	 
 	mainWindow.once('ready-to-show', () => {
@@ -185,6 +201,15 @@ app.on('ready',   () => {
     });
 
 
+	
+	ipcMain.on('download-button', async (event) => {
+		const winX = BrowserWindow.getFocusedWindow();
+		console.log( swfURL, 9921);
+
+		await download(winX,swfURL);
+   });
+
+
 	app.on('browser-window-focus', () => {
 			globalShortcut.register('CTRL+SHIFT+q', () => {
 				console.log(22321 + enav)
@@ -199,21 +224,36 @@ app.on('ready',   () => {
 			mainWindow.webContents.send('on-find');
 			});
 			
-			function toggleWindowFullScreen(){
-				mainWindow.setFullScreen(!mainWindow.isFullScreen())
-			}
+			
 			globalShortcut.register("F11", toggleWindowFullScreen);
 			globalShortcut.register("Escape", () => mainWindow.setFullScreen(true));
+
+
+
+		
+
+		   function toggleWindowFullScreen(){
+				mainWindow.setFullScreen(!mainWindow.isFullScreen())
+			}
 			ipcMain.on('fullScreen-click', toggleWindowFullScreen);
 			
 			
 			
 			ipcMain.on('clearChache-click', clearCacheFunction);
-			function clearCacheFunction(){
-				let session = mainWindow.webContents.session;
-					session.clearCache();
+			async function clearCacheFunction(){
+				console.log('clearCacheFunction()!')
+				await mainWindow.webContents.session.clearCache()
+				.then(()=>{
+					console.log('Cleared cache done! restarting..')
 					app.relaunch();
 					app.exit();
+				})
+
+				//console.log(22331,mainWindow.webContents.clearCache )
+				//let session = mainWindow.webContents.session;
+				//	mainWindow.webContents.clearCache();
+				//	app.relaunch();
+				//	app.exit();
 			}
 			
 		
@@ -243,8 +283,7 @@ app.on('ready',   () => {
 
 		
 	mainWindow.webContents.zoomFactor = 1;
-	console.log("checkForUpdatesAndNotify");
-	autoUpdater.checkForUpdatesAndNotify();
+	
 		
 
 	var {ElectronBlocker} = require('@cliqz/adblocker-electron');
@@ -264,15 +303,7 @@ app.on('open-file', (event, path) =>
     event.preventDefault();
     console.log(path);
 });
-exports.test = () => clearCache();
-function clearCache() {
-	
-	let session = mainWindow.webContents.session;
-        session.clearCache();
-        app.relaunch();
-        app.exit();
-	
-};
+
 
 exports.sethome = (a) => homeSetter(a);
 	
@@ -291,11 +322,25 @@ function favoriteSetter(a){
 		 settingsShow(true)
 	 }
 	 else{
-		// fav = [a]
+		 fav =  new Array()// [a]
+		 store.set('favorites', fav);
 	 }
     
 	 console.log("S url:" + fav.indexOf(a));
 };
+
+exports.removeAllFav = (a) => removeAllFav(a);
+
+function removeAllFav(){
+    
+	 let fav2 = [] 
+	
+	 store.set('favorites', fav2);
+	 settingsShow(true)
+	 console.log("removeAllFav" );
+	
+};
+
 
 exports.removeFav = (a) => removeFav(a);
 
@@ -327,35 +372,6 @@ app.on('window-all-closed', () => {
     //}
 });
 
-autoUpdater.on('checking-for-update', () => {
-    sendWindow('checking-for-update', '');
-});
-
-autoUpdater.on('update-available', () => {
-    sendWindow('update-available', '');
-});
-
-autoUpdater.on('update-not-available', () => {
-    sendWindow('update-not-available', '');
-});
-
-autoUpdater.on('error', (err) => {
-    sendWindow('error', 'Error: ' + err);
-});
-
-autoUpdater.on('download-progress', (d) => {
-    sendWindow('download-progress', {
-        speed: d.bytesPerSecond,
-        percent: d.percent,
-        transferred: d.transferred,
-        total: d.total
-    });
-});
-
-autoUpdater.on('update-downloaded', () => {
-    sendWindow('update-downloaded', 'Update downloaded');
-    autoUpdater.quitAndInstall();
-});
 
 
 
