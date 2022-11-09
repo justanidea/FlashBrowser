@@ -2,6 +2,9 @@
 - submit a pul request
 - sent e-mail with your flashblockchain@gmail.com with what you an do to help. 
 
+#Discord:
+- https://discord.gg/8nR2J7EcrV
+
 # Looking for contributors:
 Setup instructions:
  - download & unzip code
@@ -46,6 +49,7 @@ Great Flash Game selection ( offers own Electron Browser )
 https://evilgames.eu/flashgames.htm 
 
 new site
+http://coolbuddy.com/
 https://flashstorage.games/
 https://www.friv.cloud/swf/list_swf_file.txt
 https://gamaverse.com/
