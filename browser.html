@@ -351,6 +351,7 @@ function makeUL(array) {
         var item = document.createElement('li');
       if(typeof array[i] === 'string') {
 		var a   =  document.createElement( 'a' )
+		a.text  = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.","");
         //a.text  = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.",""); web domains may not be able to resolve in www sometimes, e.g www1, or not having www at all
         a.href  = array[i]
 		a.style = 'color:hotpink;font-size: 23px;'
