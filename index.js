@@ -80,7 +80,29 @@ const store = new Store({
   }
 });
 
-const template = [];
+const template = [
+    {
+      label: 'FilterX',
+	  visible:true,
+      submenu: [
+        {
+			
+          label: 'Exit FullScreen',         
+		  accelerator: "Esc",
+		  visible:false,
+          click(item, focusedWindow) {
+				if (focusedWindow.isFullScreen()) {
+					focusedWindow.setFullScreen(false);
+				    mainWindow.webContents.send('Esc');
+				}
+			}
+        }
+      ]
+    }
+  ];
+//accelerator: 'Shift+CmdOrCtrl+H',;
+
+
 
 const menu = Menu.buildFromTemplate(template);
 Menu.setApplicationMenu(menu);
@@ -112,7 +134,8 @@ app.on('ready',   () => {
     mainWindow = new BrowserWindow({
         width: width,
         height: height,
-		frame: false,
+		titleBarStyle: 'hidden',
+		frame: true,
 		show:true,
 		backgroundColor: '#202124',
         webPreferences: {
@@ -229,8 +252,8 @@ app.on('ready',   () => {
 			});
 			
 			
-			globalShortcut.register("F11", toggleWindowFullScreen);
-			globalShortcut.register("Escape", () => mainWindow.setFullScreen(true));
+			//globalShortcut.register("F11", toggleWindowFullScreen);
+			//globalShortcut.register("Escape", () => mainWindow.setFullScreen(true));
 
 
 
@@ -290,12 +313,12 @@ app.on('ready',   () => {
 	
 		
 
-	var {ElectronBlocker} = require('@cliqz/adblocker-electron');
+	var {ElectronBlocker} = require('@cliqz/adblocker');
 	var {fetch} = require('cross-fetch');
-	ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker)=>{	
-		blocker.enableBlockingInSession(mainWindow.webContents.session);
-		//console.log("--AddBlcoker started" + mainWindow.webContents.session);
-	});
+	//ElectronBlocker.fromPrebuiltAdsAndTracking(fetch).then((blocker)=>{	
+	//	blocker.enableBlockingInSession(mainWindow.webContents.session);
+	//	//console.log("--AddBlcoker started" + mainWindow.webContents.session);
+	//});
 
 
 

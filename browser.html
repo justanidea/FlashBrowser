@@ -23,7 +23,7 @@
 			</div>
     <body>
 	 
-		<div id="window-controls">
+		<div id="window-controls" style="display: none ;">
 			<div class="button" id="min-button">
 				<img class="icon" srcset="icons/min-w-10.png 1x, icons/min-w-12.png 1.25x, icons/min-w-15.png 1.5x, icons/min-w-15.png 1.75x, icons/min-w-20.png 2x, icons/min-w-20.png 2.25x, icons/min-w-24.png 2.5x, icons/min-w-30.png 3x, icons/min-w-30.png 3.5x" draggable="false" />
 			</div>
@@ -89,7 +89,17 @@
 						topspacer.style.display =  isFullScreen ? "none" : oldStyle3;
                     }
             }
-            window.addEventListener('keyup', toggleFullscreen, true);
+
+			function exitFullScreen(e){
+						isFullScreen = false;
+                        header.style.display = oldStyle;
+						
+						tabs.style.display = oldStyle1;
+						nav.style.display = oldStyle2;
+						topspacer.style.display = oldStyle3;
+
+			}
+            //window.addEventListener('keyup', toggleFullscreen, true);
 
             let nav = document.getElementById('nav-body-ctrls');
 			let tabs = document.getElementById('nav-body-tabs');
@@ -209,6 +219,18 @@ function SaveSWFFunction(event) {
 }	
 
 
+var isWin = window.process.platform === "win32";
+if(isWin) {
+	var windowsControls = document.getElementById('window-controls');
+	windowsControls.style = "display: true;";
+	console.log(2233)
+}
+else {
+	document.getElementById('nav-body-tabs').style = "padding-left: 5rem;";
+	//document.getElementById('nav-body-tabs').addEventListener("dblclick", handleDoubleClick);
+	document.getElementById('topspacer').addEventListener("dblclick", handleDoubleClick);
+}
+
 			 
 			 
 //FullScreen Buton
@@ -304,7 +326,23 @@ let muteButton = document.createElement("button");
 
 
 
+function handleDoubleClick (event) {
+	//var windowsControls = document.getElementById('window-controls');
+	//windowsControls.style = "display: true;";
 
+	
+	  const doubleClickAction = remote.systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string');
+  const win = remote.getCurrentWindow();
+  if (doubleClickAction === 'Minimize') {
+    win.minimize();
+  } else if (doubleClickAction === 'Maximize') {
+    if (!win.isMaximized()) {
+      win.maximize();
+    } else {
+      win.unmaximize();
+    }
+  }
+}
 			
 
 	function jsfunction(e){
@@ -316,6 +354,7 @@ let muteButton = document.createElement("button");
 	var div = document.getElementById('overlay');
 	div.style = "display: none;";
 	require('electron').ipcRenderer.on('ping', showHideSettings);
+	require('electron').ipcRenderer.on('Esc', exitFullScreen);
 
 
 function showHideSettings(event, message, refresh){
