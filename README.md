@@ -8,10 +8,10 @@
 Other ideas sent e-mail with your flashblockchain@gmail.com with what you an do to help. 
 
 #Socials:
-• Twitter: https://twitter.com/BrowserFlash
-• Telegram: https://t.me/Flash_EN
-• Discord: https://discord.gg/8nR2J7EcrV
-• Youtube https://www.youtube.com/@FlashisBack
+- Twitter: https://twitter.com/BrowserFlash
+- Telegram: https://t.me/Flash_EN
+- Discord: https://discord.gg/8nR2J7EcrV
+- Youtube https://www.youtube.com/@FlashisBack
 
 # Setup instructions:
  - download & unzip code
