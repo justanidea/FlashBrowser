@@ -1,17 +1,8 @@
 # ⚡ Electron DEV wanted, submit a pull request for:
-
  - Browsing History View
  - Downloads View
  - Extract from webpage SWF Button
  - Move Tab By Clicking and dragging funcionability
-
-Other ideas sent e-mail with your flashblockchain@gmail.com with what you an do to help. 
-
-# Socials:
-- Twitter: https://twitter.com/BrowserFlash
-- Telegram: https://t.me/Flash_EN
-- Discord: https://discord.gg/8nR2J7EcrV
-- Youtube https://www.youtube.com/@FlashisBack
 
 # Setup instructions:
  - download & unzip code
@@ -36,13 +27,6 @@ Linux (tested on Ubuntu)
 
 # How do I use it?
 How to Enable Adobe Flash Player on Chrome Browser?
-
-<br/>![Capture](https://wethegeek.com/wp-content/uploads/2021/07/Adobe-Flash-Player.png)
-<br/>![Captures](https://images-na.ssl-images-amazon.com/images/I/A1p%2BBYQK5BL.png)
-
-You can run it from the command line (ex: FlashBrowser.exe D:\\Achilles.swf ) :
-<br/>![Captures](https://flash.pm/Capture.JPG)
-
 How to install flash player browser video:
 
 :movie_camera: Windows:
@@ -51,40 +35,37 @@ https://www.youtube.com/watch?v=Cv3umbqlw1g&t=1s
 :movie_camera: Mac:
 https://www.youtube.com/watch?v=NZFzMEZ9l-Y
 
-# Websites with flash games:
-Great Flash Game selection ( offers own Electron Browser ) 
-https://evilgames.eu/flashgames.htm 
+<br/>![Capture](https://wethegeek.com/wp-content/uploads/2021/07/Adobe-Flash-Player.png)
+<br/>![Captures](https://images-na.ssl-images-amazon.com/images/I/A1p%2BBYQK5BL.png)
 
-new site
-http://ninjasage.id
-http://coolbuddy.com/
-https://flashstorage.games/
-https://www.friv.cloud/swf/list_swf_file.txt
-https://gamaverse.com/
-http://fancyplanet.org/ </br>
-https://itch.io/games/flash <br/>
-http://mystreous.0fees.net/oyunlar/ <br/>
-http://www.kanogames.com/play/game/robokill <br/>
-http://www.stickpage.com  <br/>
-https://dovga.com/games <br/>
-https://www.siftheadsgames.com/Sift-Heads-Renegade-2.html <br/>
-http://web.archive.org/web/20140818215300/http://www.nitrome.com/games/bumpbattleroyale/#.U_J11DO286Q <br/>
-http://swfchan.com/ <br/>
-<!--- #Learn AS3:
-https://www.webfx.com/blog/web-design/flash_tutorial_websites/<br/> -->
+You can run it from the command line (ex: FlashBrowser.exe D:\\Achilles.swf ) :
+<br/>![Captures](https://flash.pm/Capture.JPG)
 
+
+# Socials:
+- Twitter: https://twitter.com/BrowserFlash
+- Telegram: https://t.me/Flash_EN
+- Discord: https://discord.gg/8nR2J7EcrV
+- Youtube https://www.youtube.com/@FlashisBack
+- e-mail flashblockchain@gmail.com
+
+# Flash Sites:
+- http://ninjasage.id *New
+- http://coolbuddy.com/
+- https://flashstorage.games/
+- https://www.friv.cloud/swf/list_swf_file.txt
+- https://gamaverse.com/
+- http://fancyplanet.org/ </br>
+- https://itch.io/games/flash <br/>
+- http://mystreous.0fees.net/oyunlar/ <br/>
+- http://www.kanogames.com/play/game/robokill <br/>
+- http://www.stickpage.com  <br/>
+- https://dovga.com/games <br/>
+- https://www.siftheadsgames.com/Sift-Heads-Renegade-2.html <br/>
+- http://web.archive.org/web/20140818215300/http://www.nitrome.com/games/bumpbattleroyale/#.U_J11DO286Q <br/>
+- http://swfchan.com/ <br/>
+
+
+# ! This is Alpha Software, please install on VM and do not log into any inportant accounts
 [Download Count](https://hanadigital.github.io/grev/?user=radubirsan&repo=FlashBrowser2)
-# Flash-Browser
-Flash Player enabled browsers 
-https://github.com/radubirsan/FlashBrowser
-https://www.palemoon.org/
-https://www.waterfox.net/download/
 
-
-Posible partners:
-Flash-to-HTML5 - https://icestonesoft.com/blog/instant-messengers/
-
-References:
-https://huwdp.github.io/Flash-Matrix/
-
-! This is Alpha Software, please install on VM and do not log into any inportant accounts.
