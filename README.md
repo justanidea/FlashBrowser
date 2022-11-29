@@ -1,12 +1,19 @@
-# DEV Contributors wanted:
-- submit a pul request
-- sent e-mail with your flashblockchain@gmail.com with what you an do to help. 
+# ⚡ Electron DEV wanted, submit a pull request for:
 
-#Discord:
-- https://discord.gg/8nR2J7EcrV
+ • Browsing History View
+ • Downloads View
+ • Extract from webpage SWF Button
+ • Move Tab By Clicking and dragging funcionability
 
-# Looking for contributors:
-Setup instructions:
+Other ideas sent e-mail with your flashblockchain@gmail.com with what you an do to help. 
+
+#Socials:
+• Twitter: https://twitter.com/BrowserFlash
+• Telegram: https://t.me/Flash_EN
+• Discord: https://discord.gg/8nR2J7EcrV
+• Youtube https://www.youtube.com/@FlashisBack
+
+# Setup instructions:
  - download & unzip code
  - install node.js use command line to navigate to the unziped folder 
  - npm install 
@@ -49,6 +56,7 @@ Great Flash Game selection ( offers own Electron Browser )
 https://evilgames.eu/flashgames.htm 
 
 new site
+http://ninjasage.id
 http://coolbuddy.com/
 https://flashstorage.games/
 https://www.friv.cloud/swf/list_swf_file.txt
