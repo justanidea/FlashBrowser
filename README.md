@@ -1,13 +1,13 @@
 # ⚡ Electron DEV wanted, submit a pull request for:
 
- • Browsing History View
- • Downloads View
- • Extract from webpage SWF Button
- • Move Tab By Clicking and dragging funcionability
+ - Browsing History View
+ - Downloads View
+ - Extract from webpage SWF Button
+ - Move Tab By Clicking and dragging funcionability
 
 Other ideas sent e-mail with your flashblockchain@gmail.com with what you an do to help. 
 
-#Socials:
+# Socials:
 - Twitter: https://twitter.com/BrowserFlash
 - Telegram: https://t.me/Flash_EN
 - Discord: https://discord.gg/8nR2J7EcrV
