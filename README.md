@@ -50,20 +50,23 @@ You can run it from the command line (ex: FlashBrowser.exe D:\\Achilles.swf ) :
 - e-mail flashblockchain@gmail.com
 
 # Flash Sites:
-- http://ninjasage.id *New
-- http://coolbuddy.com/
-- https://flashstorage.games/
-- https://www.friv.cloud/swf/list_swf_file.txt
-- https://gamaverse.com/
-- http://fancyplanet.org/ </br>
-- https://itch.io/games/flash <br/>
-- http://mystreous.0fees.net/oyunlar/ <br/>
-- http://www.kanogames.com/play/game/robokill <br/>
-- http://www.stickpage.com  <br/>
-- https://dovga.com/games <br/>
-- https://www.siftheadsgames.com/Sift-Heads-Renegade-2.html <br/>
-- http://web.archive.org/web/20140818215300/http://www.nitrome.com/games/bumpbattleroyale/#.U_J11DO286Q <br/>
-- http://swfchan.com/ <br/>
+
+| Description  | Link |
+| ------------- | ------------- |
+| Turn based Ninja  | http://ninjasage.id  |
+| Game Gallery  | http://coolbuddy.com/  |
+| Game Gallery| https://flashstorage.games/ |
+| Game Gallery| https://www.friv.cloud/swf/list_swf_file.txt|
+| Game Gallery| https://gamaverse.com/|
+| Game Gallery| http://fancyplanet.org/|
+| Game Gallery| https://itch.io/games/flash |
+| Game Gallery| http://mystreous.0fees.net/oyunlar/ |
+| Game Gallery| http://www.kanogames.com/play/game/robokill |
+| Game Gallery| http://www.stickpage.com |
+| Game Gallery| https://dovga.com/games |
+| Game Gallery| https://www.siftheadsgames.com/Sift-Heads-Renegade-2.html |
+| Game Gallery| http://web.archive.org/web/20140818215300/http://www.nitrome.com/games/bumpbattleroyale/#.U_J11DO286Q |
+
 
 
 # ! This is Alpha Software, please install on VM and do not log into any inportant accounts
