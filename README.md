@@ -65,7 +65,7 @@ You can run it from the command line (ex: FlashBrowser.exe D:\\Achilles.swf ) :
 | Game Gallery| http://www.stickpage.com |
 | Game Gallery| https://dovga.com/games |
 | Game Gallery| https://www.siftheadsgames.com/Sift-Heads-Renegade-2.html |
-| Game Gallery| http://web.archive.org/web/20140818215300/http://www.nitrome.com/games/bumpbattleroyale/#.U_J11DO286Q |
+<!---| Game Gallery| http://web.archive.org/web/20140818215300/http://www.nitrome.com/games/bumpbattleroyale/#.U_J11DO286Q |-->
 
 
 
