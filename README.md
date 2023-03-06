@@ -69,6 +69,6 @@ You can run it from the command line (ex: FlashBrowser.exe D:\\Achilles.swf ) :
 
 
 
-# ! This is Alpha Software, please install on VM and do not log into any inportant accounts
+# ! This is Alpha Software, please install on VM and do not log into any important accounts
 [Download Count](https://hanadigital.github.io/grev/?user=radubirsan&repo=FlashBrowser2)
 
