@@ -6,6 +6,7 @@ FlashBrowser-linux-x64
 FlashBrowser-win32-arm64
 FlashBrowser-win32-ia32
 FlashBrowser-win32-x64
+.idea/
 flashver/
 node_modules/
 package-lock.json
