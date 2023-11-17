@@ -19,19 +19,20 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "electron": "^9.4.4",
     "electron-builder": "^22.9.1",
     "electron-packager": "^15.4.0"
   },
   "dependencies": {
     "@cliqz/adblocker-electron": "^1.23.0",
     "cross-fetch": "^3.1.4",
+    "electron": "^9.4.4",
     "electron-context-menu": "^3.1.1",
     "electron-dl": "^3.3.1",
     "electron-find": "^1.0.7",
     "electron-navigation": "^6.6.6",
     "electron-version": "^2.0.1",
-    "resolve-dependencies": "^6.0.7"
+    "resolve-dependencies": "^6.0.7",
+    "sqlite3": "^5.0.0"
   },
   "repository": {
     "type": "git",

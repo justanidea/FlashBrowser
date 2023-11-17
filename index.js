@@ -19,6 +19,13 @@ contextMenu({
 	showSaveImageAs: true
 });
 
+
+
+
+
+
+
+
 let mainWindow;
 
 let pluginName = null; //put the right flash plugin in depending on the operating system.

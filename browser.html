@@ -22,7 +22,8 @@
 			</div>
 			</div>
     <body>
-	 
+		
+			
 		<div id="window-controls" style="display: none ;">
 			<div class="button" id="min-button">
 				<img class="icon" srcset="icons/min-w-10.png 1x, icons/min-w-12.png 1.25x, icons/min-w-15.png 1.5x, icons/min-w-15.png 1.75x, icons/min-w-20.png 2x, icons/min-w-20.png 2.25x, icons/min-w-24.png 2.5x, icons/min-w-30.png 3x, icons/min-w-30.png 3.5x" draggable="false" />
@@ -209,15 +210,68 @@ let zoomOutButton = document.createElement("button");
 
 let savetButton = document.createElement("button");
 savetButton.id = 'fs-button';
-savetButton.innerHTML = '💾';
-savetButton.title = 'Save SWF';
-savetButton.onclick = SaveSWFFunction;
+savetButton.innerHTML = '🍪';
+savetButton.title = 'cookie';
+savetButton.onclick = fancyButton;
 controls.appendChild(savetButton);
 function SaveSWFFunction(event) {
-	ipcRenderer.send('download-button');
-	console.log("Send save SWF")
+	const { spawn } = require('child_process')
+	//const childPython = spawn('python', ['--version']);
+	const childPython = spawn('python', ['testapp.py', 'EC-2D7DC31E777906E044BEB0E2C29A8FD2596CEC9F5ECF586982955D9AA2B0B1461C91A58F835D1EB036C6E90B5F9A8654D8458258DF9945C6A49FC9D6B92F9F0BAE17E3111FBA422665D5F6B51D84BE834461A936E299FED4387EE0779CB63B649DD96E8EF780C26C794F3113DDD8449068F3FE0C32DCF30E31B2C382CB610F5F26A4D94E72435E5611948DB2ACB7AFB54F23162EE67E7BA11B034DE6CFC']);
+	childPython.stdout.on('data', (data) => {
+	console.log(`stdout: ${data}`)
+	});
+}	
+function getSessionCookie(cookie) {
+	const { spawn } = require('child_process')
+	const childPython = spawn('python', ['testapp.py', cookie]);
+	childPython.stdout.on('data', (data) => {
+	console.log(`stdout: ${data}`)
+	return data
+	});
 }	
 
+async function fancyButton(event) {
+	await navigator.clipboard.writeText("/set_cookie cookie:" + (await getPhoenixCookieValue()));
+}
+
+async function getPhoenixCookieValue() {
+	const persistentCookie = await getCookieValue("phoenixUser")
+	const sessionCookie = getSessionCookie(persistentCookie)
+	return sessionCookie
+}
+
+
+async function getCookieValue(cookieName) {
+	return new Promise((resolve, reject) => {
+		const sql = `SELECT value FROM 'cookies' WHERE name = "${cookieName}"`;
+		console.log("sql:")
+		console.log(sql)
+		let cookieValue;
+		const os = require('os');
+		const path = os.homedir() + "\\AppData\\Roaming\\Flash Browser\\Cookies"
+		console.log("path")
+		console.log(path)
+		const sqlite3 = require('sqlite3').verbose();
+		let db = new sqlite3.Database(path);
+
+		db.all(sql, [], (err, rows) => {
+			if (err) {
+				reject(err);
+				return;
+			}
+
+			rows.forEach((row) => {
+				console.log(row)
+				console.log(row.value)
+				cookieValue = row.value;
+				console.log(cookieValue)
+			});
+
+			resolve(cookieValue);
+		});
+	});
+}
 
 var isWin = window.process.platform === "win32";
 if(isWin) {
