@@ -1,0 +1,12 @@
+#nav-body-views {
+    position: relative;
+}
+
+.overlayed {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 200px;
+    background-color: red;
+}
