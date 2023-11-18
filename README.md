@@ -3,7 +3,7 @@
 
 `npm install`
 
-`npm intall sqlite3@5.0.0`
+`npm install sqlite3@5.0.0`
 
 `npm install electron@9.4.4`
 
