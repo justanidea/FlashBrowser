@@ -46,23 +46,42 @@
         <div id="nav-body-views">
 			<link rel="stylesheet" href="themes/main.css">
 			<div class="overlayed" id="overlayed">
+				<div class="settings" id="settings">
+					<div id="settingsName">Settings</div>
+					<img class="settingIcon" id="macroIcon" src="icons\icon-macro.png">
+					<div class="settingsLabel" id="keyBindLabel">Key chosen :</div>
+					<img class="settingIcon" id="uploadIcon" src="icons\icon-upload-settings.png">
+					<div class="settingsLabel" id="instantUpdateLabel">Update instantly :</div>
+					<img class="settingIcon" id="folderIcon" src="icons\icon-folder.png">
+					<div class="settingsLabel" id="screenshotFolderLabel">C:\\Documents\GoodluckForTheCode</div>
+					<div class="settingsLogs" id="logConsole">LOGS:                        </div>
+
+
+				</div>
 				<div class="button" id="mainButton">
-					<img id="mainIcon" src="icons\Main-button-basic.png">
+					<img id="mainIcon" src="icons\Main-button.png" onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
 				</div>
 				<div class="button" id="startButton">
-					<img id="actionIcon" src="icons\icon-close-basic.png" onmouseover="hover(this);" onmouseout="unhover(this);">
+					<img id="actionIcon" src="icons\icon-close.png" onmouseover="hover(this, 'icons\\icon-close');" onmouseout="unhover(this, 'icons\\icon-close');">
 				</div>
+				<div class="button" id="startButton">
+					<img id="actionIcon" src="icons\icon-start.png" onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
+				</div>
+				
 			</div>
 			
 		</div>
 
         <script>
-			function hover(element) {
-				element.setAttribute('src', "icons\\icon-close-highlighted.png");
+			function hover(element, string) {
+				
+				element.setAttribute('src', string + "-highlighted.png");
+				element.setAttribute('id', element.id +"Highlight");
 			  }
 			  
-			  function unhover(element) {
-				element.setAttribute('src', "icons\\icon-close-basic.png");
+			  function unhover(element, string) {
+				element.setAttribute('src', string + ".png");
+				element.setAttribute('id', element.id.replace('Highlight', ''));
 			  }
 			dragElement(document.getElementById("overlayed"));
 			function dragElement(elmnt) {
