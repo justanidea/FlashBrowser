@@ -4,13 +4,12 @@
 
 
 .overlayed {
-    aspect-ratio: 1 / 1;
     display: inline-block;
     position: absolute;
     top: 20%;
     right: 0.25%;
     width: 5%;
-    height: 20%;
+    height: 25%;
     margin-right: 100px;
     border-radius: 5px;
     background-color: rgba(3, 37, 68, 0.5);
@@ -59,15 +58,15 @@
     margin: auto;
     cursor: pointer;
     appearance: none;
+    margin-bottom: 8px;
   }
 
-#startButton {
+#actionButton {
   max-height: 33%;
   max-width: 60%;
   margin: auto;
   cursor: pointer;
   appearance: none;
-  background-color: blue;
 }
 
 #mainIcon {
@@ -89,10 +88,13 @@
     display:block;
     max-width:100%;
     max-height:100%;
+    margin-bottom: 5px;
 }
 
 #actionIconHighlight {
     display:block;
     max-width:150%;
     max-height:150%;
+    margin-top: -24%;
+    margin-left: -24%;
 }
