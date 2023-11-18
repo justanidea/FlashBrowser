@@ -45,11 +45,25 @@
 
         <div id="nav-body-views">
 			<link rel="stylesheet" href="themes/main.css">
-			<div class="overlayed" id="overlayed"></div>
+			<div class="overlayed" id="overlayed">
+				<div class="button" id="mainButton">
+					<img id="mainIcon" src="icons\Main-button-basic.png">
+				</div>
+				<div class="button" id="startButton">
+					<img id="actionIcon" src="icons\icon-close-basic.png" onmouseover="hover(this);" onmouseout="unhover(this);">
+				</div>
+			</div>
+			
 		</div>
 
         <script>
-			
+			function hover(element) {
+				element.setAttribute('src', "icons\\icon-close-highlighted.png");
+			  }
+			  
+			  function unhover(element) {
+				element.setAttribute('src', "icons\\icon-close-basic.png");
+			  }
 			dragElement(document.getElementById("overlayed"));
 			function dragElement(elmnt) {
 				var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
