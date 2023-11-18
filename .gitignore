@@ -10,3 +10,4 @@ FlashBrowser-win32-x64
 flashver/
 node_modules/
 package-lock.json
+flashver/pepflashplayer64.dll

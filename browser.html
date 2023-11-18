@@ -2,7 +2,7 @@
 <html>
     <head>
         <link rel="stylesheet" href="themes/chrome-like.css">
-		<link rel="stylesheet" href="themes/main.css">
+		
 	</head>
 		<p id='topspacer' style="color:grey;font-size:1px; height:28px; min-height:28px !important; -webkit-app-region: drag;"></p>
 		<div id="flash-tabs" style="display: inline;">
@@ -24,7 +24,6 @@
 			</div>
     <body>
 
-
 		<div id="window-controls" style="display: none ;">
 			<div class="button" id="min-button">
 				<img class="icon" srcset="icons/min-w-10.png 1x, icons/min-w-12.png 1.25x, icons/min-w-15.png 1.5x, icons/min-w-15.png 1.75x, icons/min-w-20.png 2x, icons/min-w-20.png 2.25x, icons/min-w-24.png 2.5x, icons/min-w-30.png 3x, icons/min-w-30.png 3.5x" draggable="false" />
@@ -45,11 +44,54 @@
         <div id="nav-body-ctrls"></div>
 
         <div id="nav-body-views">
-			<div class="overlayed"></div>
+			<link rel="stylesheet" href="themes/main.css">
+			<div class="overlayed" id="overlayed"></div>
 		</div>
 
         <script>
-	 const { ipcRenderer } = require('electron');
+			
+			dragElement(document.getElementById("overlayed"));
+			function dragElement(elmnt) {
+				var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+				if (document.getElementById(elmnt.id + "header")) {
+					// if present, the header is where you move the DIV from:
+					document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+				} else {
+					// otherwise, move the DIV from anywhere inside the DIV:
+					elmnt.onmousedown = dragMouseDown;
+				}
+				
+				function dragMouseDown(e) {
+					e = e || window.event;
+					e.preventDefault();
+					// get the mouse cursor position at startup:
+					pos3 = e.clientX;
+					pos4 = e.clientY;
+					document.onmouseup = closeDragElement;
+					// call a function whenever the cursor moves:
+					document.onmousemove = elementDrag;
+				}
+				
+				function elementDrag(e) {
+					e = e || window.event;
+					e.preventDefault();
+					// calculate the new cursor position:
+					pos1 = pos3 - e.clientX;
+					pos2 = pos4 - e.clientY;
+					pos3 = e.clientX;
+					pos4 = e.clientY;
+					// set the element's new position:
+					elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+					elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+				}
+				
+				function closeDragElement() {
+					// stop moving when mouse button is released:
+					document.onmouseup = null;
+					document.onmousemove = null;
+				}
+			}
+	 	const { ipcRenderer } = require('electron');
 		const Store = require('./store');
 		const store = new Store({
 		  configName: 'user-preferences'
@@ -120,7 +162,6 @@
 
 
 
-
 		//	const {clipboard} = require('electron');
 //clipboard.writeText('Example String');
 //let clipboardStr = clipboard.readText();
@@ -154,21 +195,20 @@ var lastArgument = window.process.argv[length-1]
 
 /// Set Favorite Button
 
+let setFavoriteButton = document.createElement("button");
+			setFavoriteButton.id = 'fs-button';
+			setFavoriteButton.innerHTML = '⭐️';
+			setFavoriteButton.title = "Set as Favorite"
+			setFavoriteButton.onclick = setFavorit;
+			controls.appendChild(setFavoriteButton);
+			function setFavorit(event) {
 
-  let setFavoriteButton = document.createElement("button");
-			 setFavoriteButton.id = 'fs-button';
-			 setFavoriteButton.innerHTML = '⭐️';
-			 setFavoriteButton.title = "Set as Favorite"
-			 setFavoriteButton.onclick = setFavorit;
-			 controls.appendChild(setFavoriteButton);
-			 function setFavorit(event) {
-
-                   	let favURL = document.getElementById('nav-ctrls-url').value ;
-					console.log("set fav" + favURL);
-					const { remote } = require('electron');
-					const mainProcess = remote.require('./index');
-					mainProcess.setFavorite(favURL); // 'Yay'
-                 }
+				let favURL = document.getElementById('nav-ctrls-url').value ;
+				console.log("set fav" + favURL);
+				const { remote } = require('electron');
+				const mainProcess = remote.require('./index');
+				mainProcess.setFavorite(favURL); // 'Yay'
+				}
 
 // Set Home
 let setHomeButton = document.createElement("button");
@@ -192,9 +232,16 @@ let zoomInButton = document.createElement("button");
 			 controls.appendChild(zoomInButton);
 			 function zoomIn(event) {
 					 webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
+					 overlay = document.getElementById('overlayed');
+					 console.log(overlay)
 					 if (webview) {
+						console.log("zoom factor: " + webview.getZoomFactor())
+						console.log("overlay width: " + overlay.offsetWidth)
+						console.log("overlay new width: " + Math.floor(overlay.offsetWidth * 1.2))
+						overlay.style.width = Math.floor(overlay.offsetWidth/webview.getZoomFactor()*(webview.getZoomFactor()+0.2)).toString() + "px" ;
+						overlay.style.top = Math.floor(overlay.offsetTop/webview.getZoomFactor()*(webview.getZoomFactor()+0.2)).toString() + "px" ;
+						overlay.style.height = Math.floor(overlay.offsetHeight/webview.getZoomFactor()*(webview.getZoomFactor()+0.2)).toString() + "px" ;
 						webview.zoomFactor = webview.getZoomFactor() + 0.2//1
-
 					 }
 			 }
 let zoomOutButton = document.createElement("button");
@@ -205,8 +252,12 @@ let zoomOutButton = document.createElement("button");
 			 controls.appendChild(zoomOutButton);
 			 function zoomOut(event) {
 					  webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
+					  overlay = document.getElementById('overlayed');
 					 if (webview) {
 						webview.zoomFactor = webview.getZoomFactor() - 0.2//1
+						overlay.style.width = Math.floor(overlay.offsetWidth/webview.getZoomFactor()*(webview.getZoomFactor()-0.2)).toString() + "px" ;
+						overlay.style.top = Math.floor(overlay.offsetTop/webview.getZoomFactor()*(webview.getZoomFactor()-0.2)).toString() + "px" ;
+						overlay.style.height = Math.floor(overlay.offsetHeight/webview.getZoomFactor()*(webview.getZoomFactor()-0.2)).toString() + "px" ;
 					 }
 			 }
 
