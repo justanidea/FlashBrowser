@@ -82,31 +82,72 @@
 		</div>
 
         <script>
+			var screenActive = false;
 			function expandOverlay(element){
 				buttons = document.getElementsByClassName("actionButton");
-				console.log(buttons)
 				if (buttons[0].style.display != "none"){
 					for (var i = 0; i < buttons.length; i++) {
-						console.log(buttons[i]);
 						buttons[i].style.display = "none";
-						//Do something
 					}
 				} else {
 					for (var i = 0; i < buttons.length; i++) {
-						console.log(buttons[i]);
 						buttons[i].style.display = "block";
 					}
 				
 				}
 				
 			}
+
+			String.prototype.hexEncode = function(){
+				var hex, i;
+			
+				var result = "";
+				for (i=0; i<this.length; i++) {
+					hex = this.charCodeAt(i).toString(16);
+					result += ("000"+hex).slice(-4);
+				}
+			
+				return result
+			}
+
+			function startScreens(event, screenActive){
+				console.log("startScreens is enabled" + screenActive)
+				if (screenActive == true){
+					console.log("startScreens python program enabled")
+					const { spawn } = require('child_process');
+					const childPython = spawn('python', ['mouseEvent.py']);
+					childPython.stdout.on('data', (data) => {
+						var data = data.toString().slice(0, -2); //removing the 2 endline chars sent by the flushed python print
+						if (data === "released Button.left"){
+							console.log("triggering scrnsht")
+							const { spawn } = require('child_process');
+							const childPython = spawn('python', ['screenshot.py']);
+							console.log(childPython.pid)
+							childPython.stdout.on('data', (data) => {
+								console.log(`${data}`)
+							});
+
+						}
+					});
+
+				}
+			}
 			function enableScreening(element){
 				if (element.src.slice(-6) != "on.png"){
+					console.log("Screening state is now:" + screenActive)
 					element.setAttribute('src', "icons\\icon-start-toggled-on.png");
+					screenActive = true;
+					console.log("Screening state is now:" + screenActive)
+					startScreens(event, screenActive);
 					element.setAttribute('id', element.id.replace('Highlight', '') +"Toggled");
+					
 				} else {
+					console.log("Screening state is now:" + screenActive)
 					element.setAttribute('src', "icons\\icon-start.png");
+					screenActive = false;
+					startScreens(event, screenActive);
 					element.setAttribute('id', element.id.replace('Toggled', '') + 'Highlight');
+					console.log("Screening state is now:" + screenActive)
 				}
 			}
 

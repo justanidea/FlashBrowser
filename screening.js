@@ -4,8 +4,15 @@ let screenshottingIsEnabled = false;
 
 document.addEventListener('mousedown', function (event) {
     if (screenshottingIsEnabled) {
+        
         if (event.button === 3) {
-
+            console.log("screenshottingIsEnabled, enabling python program")
+            const { spawn } = require('child_process');
+            const childPython = spawn('python', ['screenshot.py']);
+            console.log(childPython.pid)
+            childPython.stdout.on('data', (data) => {
+            console.log(`${data}`)
+            });
         }
     }
     else {
@@ -14,7 +21,12 @@ document.addEventListener('mousedown', function (event) {
 });
 
 function enableScreenshotting() {
+    console.log("never gonna give you up")
     screenshottingIsEnabled = true;
+}
+
+function disableScreenshotting() {
+    screenshottingIsEnabled = false;
 }
 
 function readSettings() {

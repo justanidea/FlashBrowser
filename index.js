@@ -290,7 +290,7 @@ app.on('ready',   () => {
 				//	app.exit();
 			}
 			
-		
+			mainWindow.webContents.openDevTools();
 			globalShortcut.register("CTRL+SHIFT+I", () => {
 			 mainWindow.webContents.openDevTools();
 			});
