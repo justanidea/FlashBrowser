@@ -63,15 +63,15 @@
 				</div>
 				<div class="button" id="mainButton">
 					
-					<img id="mainIcon" src="icons\Main-button.png"  onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
+					<img id="mainIcon" src="icons\Main-button.png"  onclick="expandOverlay(this);" onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
 				</div>
-				<div class="button" id="actionButton">
+				<div class="actionButton" id="actionButton" tag="actionButton">
 					<img id="actionIcon" onclick="enableScreening(this);" src="icons\icon-start.png" onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
 				</div>
-				<div class="button" id="actionButton" onclick="enablePublishing();">
+				<div class="actionButton" id="actionButton" tag="actionButton" onclick="enablePublishing();">
 					<img id="actionIcon" src="icons\icon-publish.png" onmouseover="hover(this, 'icons\\icon-publish');" onmouseout="unhover(this, 'icons\\icon-publish');">
 				</div>
-				<div class="button" id="actionButton" onclick="showOverlaySettings();">
+				<div class="actionButton" id="actionButton" tag="actionButton" onclick="showOverlaySettings();">
 					<img id="actionIcon" src="icons\icon-settings.png" onmouseover="hover(this, 'icons\\icon-settings');" onmouseout="unhover(this, 'icons\\icon-settings');">
 				</div>
 				<div id="screenCount">1250
@@ -82,6 +82,24 @@
 		</div>
 
         <script>
+			function expandOverlay(element){
+				buttons = document.getElementsByClassName("actionButton");
+				console.log(buttons)
+				if (buttons[0].style.display != "none"){
+					for (var i = 0; i < buttons.length; i++) {
+						console.log(buttons[i]);
+						buttons[i].style.display = "none";
+						//Do something
+					}
+				} else {
+					for (var i = 0; i < buttons.length; i++) {
+						console.log(buttons[i]);
+						buttons[i].style.display = "block";
+					}
+				
+				}
+				
+			}
 			function enableScreening(element){
 				if (element.src.slice(-6) != "on.png"){
 					element.setAttribute('src', "icons\\icon-start-toggled-on.png");
