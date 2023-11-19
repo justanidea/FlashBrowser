@@ -3,7 +3,9 @@
     <head>
         <link rel="stylesheet" href="themes/chrome-like.css">
 		<link rel="stylesheet" href="themes/main.css">
-		<script src="screening.js"></script>
+		<link rel="stylesheet" href="themes/settings.css">
+		<link rel="stylesheet" href="themes/fonts.css">
+		<script src="screening.js"></script>  
 	</head>
 		<p id='topspacer' style="color:grey;font-size:1px; height:28px; min-height:28px !important; -webkit-app-region: drag;"></p>
 		<div id="flash-tabs" style="display: inline;">
@@ -46,6 +48,7 @@
 
         <div id="nav-body-views">
 			<div class="overlayed" id="overlayed">
+				
 				<div class="settings" id="settings">
 					<div id="settingsName">Settings</div>
 					<img class="settingIcon" id="macroIcon" src="icons\icon-macro.png">
@@ -53,22 +56,25 @@
 					<img class="settingIcon" id="uploadIcon" src="icons\icon-upload-settings.png">
 					<div class="settingsLabel" id="instantUpdateLabel">Update instantly :</div>
 					<img class="settingIcon" id="folderIcon" src="icons\icon-folder.png">
-					<div class="settingsLabel" id="screenshotFolderLabel">C:\\Documents\GoodluckForTheCode</div>
-					<div class="settingsLogs" id="logConsole">LOGS:                        </div>
+					<div class="settingsLabel" id="screenshotFolderLabel">C:\\Documents\GoodLuckMate</div>
+					<div class="settingsLogs" id="logConsole">LOGS:<br>[ERR] No popup detected<br>[ERR] No popup detected<br>[ERR] No popup detected<br>[INFO] Popup detected</div>
 
 
 				</div>
 				<div class="button" id="mainButton">
-					<img id="mainIcon" src="icons\Main-button.png" onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
+					
+					<img id="mainIcon" src="icons\Main-button.png"  onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
 				</div>
 				<div class="button" id="actionButton">
-					<img id="actionIcon" src="icons\icon-start.png" onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
+					<img id="actionIcon" onclick="enableScreening(this);" src="icons\icon-start.png" onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
 				</div>
-				<div class="button" id="actionButton">
+				<div class="button" id="actionButton" onclick="enablePublishing();">
 					<img id="actionIcon" src="icons\icon-publish.png" onmouseover="hover(this, 'icons\\icon-publish');" onmouseout="unhover(this, 'icons\\icon-publish');">
 				</div>
-				<div class="button" id="actionButton">
+				<div class="button" id="actionButton" onclick="showOverlaySettings();">
 					<img id="actionIcon" src="icons\icon-settings.png" onmouseover="hover(this, 'icons\\icon-settings');" onmouseout="unhover(this, 'icons\\icon-settings');">
+				</div>
+				<div id="screenCount">1250
 				</div>
 				
 			</div>
@@ -76,16 +82,39 @@
 		</div>
 
         <script>
+			function enableScreening(element){
+				if (element.src.slice(-6) != "on.png"){
+					element.setAttribute('src', "icons\\icon-start-toggled-on.png");
+					element.setAttribute('id', element.id.replace('Highlight', '') +"Toggled");
+				} else {
+					element.setAttribute('src', "icons\\icon-start.png");
+					element.setAttribute('id', element.id.replace('Toggled', '') + 'Highlight');
+				}
+			}
+
+			function showOverlaySettings() {
+				var htmlShow = document.getElementById("settings");
+				if (htmlShow.style.display === "none") {
+					htmlShow.style.display = "inline-block";
+				} else {
+					htmlShow.style.display = "none";
+				}
+			}
+			
 			function hover(element, string) {
-				
-				element.setAttribute('src', string + "-highlighted.png");
-				element.setAttribute('id', element.id +"Highlight");
+				if (element.src.slice(-6) != "on.png"){
+					element.setAttribute('src', string + "-highlighted.png");
+					element.setAttribute('id', element.id +"Highlight");
+				}
 			  }
 			  
-			  function unhover(element, string) {
-				element.setAttribute('src', string + ".png");
-				element.setAttribute('id', element.id.replace('Highlight', ''));
+			function unhover(element, string) {
+				if (element.src.slice(-6) != "on.png"){
+					element.setAttribute('src', string + ".png");
+					element.setAttribute('id', element.id.replace('Highlight', ''));
+				}
 			  }
+			  
 			dragElement(document.getElementById("overlayed"));
 			function dragElement(elmnt) {
 				var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
@@ -276,7 +305,6 @@ let zoomInButton = document.createElement("button");
 						console.log("overlay new width: " + Math.floor(overlay.offsetWidth * 1.2))
 						overlay.style.width = Math.floor(overlay.offsetWidth/webview.getZoomFactor()*(webview.getZoomFactor()+0.2)).toString() + "px" ;
 						overlay.style.top = Math.floor(overlay.offsetTop/webview.getZoomFactor()*(webview.getZoomFactor()+0.2)).toString() + "px" ;
-						overlay.style.height = Math.floor(overlay.offsetHeight/webview.getZoomFactor()*(webview.getZoomFactor()+0.2)).toString() + "px" ;
 						webview.zoomFactor = webview.getZoomFactor() + 0.2//1
 					 }
 			 }
@@ -293,7 +321,7 @@ let zoomOutButton = document.createElement("button");
 						webview.zoomFactor = webview.getZoomFactor() - 0.2//1
 						overlay.style.width = Math.floor(overlay.offsetWidth/webview.getZoomFactor()*(webview.getZoomFactor()-0.2)).toString() + "px" ;
 						overlay.style.top = Math.floor(overlay.offsetTop/webview.getZoomFactor()*(webview.getZoomFactor()-0.2)).toString() + "px" ;
-						overlay.style.height = Math.floor(overlay.offsetHeight/webview.getZoomFactor()*(webview.getZoomFactor()-0.2)).toString() + "px" ;
+						overlay.style.paddingBottom = Math.floor(overlay.offsetHeight/webview.getZoomFactor()*(webview.getZoomFactor()-0.2)).toString() + "px" ;
 					 }
 			 }
 
