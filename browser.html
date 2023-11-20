@@ -83,7 +83,6 @@
 
         </div>
         <div class="button" id="mainButton">
-
             <img id="mainIcon" src="icons\Main-button.png" onclick="expandOverlay(this);"
                  onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
         </div>
@@ -101,63 +100,136 @@
         </div>
         <div id="screenCount">1250
         </div>
+        <script>
+			var hasDragged = false;
+			var screenActive = false;
+			
+			function expandOverlay(element){
+				if (hasDragged == false){
+					buttons = document.getElementsByClassName("actionButton");
+					if (buttons[0].style.display != "none"){
+						for (var i = 0; i < buttons.length; i++) {
+							buttons[i].style.display = "none";
+						}
+					} else {
+						for (var i = 0; i < buttons.length; i++) {
+							buttons[i].style.display = "block";
+						}
+					
+					}
+				}
+			}
 
-    </div>
+			function startScreens(event, screenActive){
+				console.log("startScreens is enabled" + screenActive)
+				if (screenActive == true){
+					console.log("startScreens python program enabled")
+					const { spawn } = require('child_process');
+					const childPython = spawn('python', ['mouseEvent.py']);
+					childPython.stdout.on('data', (data) => {
+						var data = data.toString().slice(0, -2); //removing the 2 endline chars sent by the flushed python print
+						if (data === "released Button.left"){
+							console.log("triggering scrnsht")
+							const { spawn } = require('child_process');
+							const childPython = spawn('python', ['screenshot.py']);
+							console.log(childPython.pid)
+							childPython.stdout.on('data', (data) => {
+								console.log(`${data}`)
+							});
+						}
+					});
+				}
+			}
 
-</div>
+			function enableScreening(element){
+				if (hasDragged == false){
+					if (element.src.slice(-6) != "on.png"){
+						console.log("Screening state is now:" + screenActive)
+						element.setAttribute('src', "icons\\icon-start-toggled-on.png");
+						screenActive = true;
+						console.log("Screening state is now:" + screenActive)
+						startScreens(event, screenActive);
+						element.setAttribute('id', element.id.replace('Highlight', '') +"Toggled");
+						
+					} else {
+						console.log("Screening state is now:" + screenActive)
+						element.setAttribute('src', "icons\\icon-start.png");
+						screenActive = false;
+						startScreens(event, screenActive);
+						element.setAttribute('id', element.id.replace('Toggled', '') + 'Highlight');
+						console.log("Screening state is now:" + screenActive)
+					}
+				}
+			}
 
-<script>
-    let screenActive = false;
-
-    function expandOverlay(element) {
-        buttons = document.getElementsByClassName("actionButton");
-        if (buttons[0].style.display != "none") {
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].style.display = "none";
-            }
-        } else {
-            for (var i = 0; i < buttons.length; i++) {
-                buttons[i].style.display = "block";
-            }
-
-        }
-
-    }
-
-    String.prototype.hexEncode = function () {
-        var hex, i;
-
-        var result = "";
-        for (i = 0; i < this.length; i++) {
-            hex = this.charCodeAt(i).toString(16);
-            result += ("000" + hex).slice(-4);
-        }
-
-        return result
-    }
-
-    function startScreens(event, screenActive) {
-        console.log("startScreens is enabled" + screenActive)
-        if (screenActive === true) {
-            console.log("startScreens python program enabled")
-            const {spawn} = require('child_process');
-            const childPython = spawn('python', ['mouseEvent.py']);
-            childPython.stdout.on('data', (data) => {
-                var data = data.toString().slice(0, -2); //removing the 2 endline chars sent by the flushed python print
-                if (data === "released Button.left") {
-                    console.log("triggering scrnsht")
-                    const {spawn} = require('child_process');
-                    const childPython = spawn('python', ['screenshot.py']);
-                    console.log(childPython.pid)
-                    childPython.stdout.on('data', (data) => {
-                        console.log(`${data}`)
-                    });
-
-                }
-            });
-
-        }
-    }
+			function showOverlaySettings() {
+				if (hasDragged == false){
+						var htmlShow = document.getElementById("settings");
+					if (htmlShow.style.display === "none") {
+						htmlShow.style.display = "inline-block";
+					} else {
+						htmlShow.style.display = "none";
+					}
+				}
+			}
+			
+			function hover(element, string) {
+				if (element.src.slice(-6) != "on.png"){
+					element.setAttribute('src', string + "-highlighted.png");
+					element.setAttribute('id', element.id +"Highlight");
+				}
+			  }
+			  
+			function unhover(element, string) {
+				if (element.src.slice(-6) != "on.png"){
+					element.setAttribute('src', string + ".png");
+					element.setAttribute('id', element.id.replace('Highlight', ''));
+				}
+			  }
+			  
+			dragElement(document.getElementById("overlayed"));
+			function dragElement(elmnt) {
+				var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+				if (document.getElementById(elmnt.id + "header")) {
+					// if present, the header is where you move the DIV from:
+					document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+				} else {
+					// otherwise, move the DIV from anywhere inside the DIV:
+					elmnt.onmousedown = dragMouseDown;
+				}
+				
+				function dragMouseDown(e) {
+					e = e || window.event;
+					e.preventDefault();
+					// get the mouse cursor position at startup:
+					pos3 = e.clientX;
+					pos4 = e.clientY;
+					document.onmouseup = closeDragElement;
+					// call a function whenever the cursor moves:
+					document.onmousemove = elementDrag;
+					hasDragged = false;
+				}
+				
+				function elementDrag(e) {
+					e = e || window.event;
+					e.preventDefault();
+					// calculate the new cursor position:
+					pos1 = pos3 - e.clientX;
+					pos2 = pos4 - e.clientY;
+					pos3 = e.clientX;
+					pos4 = e.clientY;
+					hasDragged = true;
+					// set the element's new position:
+					elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+					elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+				}
+				
+				function closeDragElement() {
+					// stop moving when mouse button is released:
+					document.onmouseup = null;
+					document.onmousemove = null;
+				}
+			}
 
     function toggleScreening() {
         console.log("Screening state is now: " + screenActive)
@@ -189,71 +261,6 @@
         }
     }
 
-    function showOverlaySettings() {
-        var htmlShow = document.getElementById("settings");
-        if (htmlShow.style.display === "none") {
-            htmlShow.style.display = "inline-block";
-        } else {
-            htmlShow.style.display = "none";
-        }
-    }
-
-    function hover(element, string) {
-        if (!screenActive) {
-            element.setAttribute('src', string + "-highlighted.png");
-            element.setAttribute('class', element.className + "Highlight");
-        }
-    }
-
-    function unhover(element, string) {
-        if (!screenActive) {
-            element.setAttribute('src', string + ".png");
-            element.setAttribute('class', element.className.replace('Highlight', ''));
-        }
-    }
-
-    dragElement(document.getElementById("overlayed"));
-
-    function dragElement(elmnt) {
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        if (document.getElementById(elmnt.id + "header")) {
-            // if present, the header is where you move the DIV from:
-            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-        } else {
-            // otherwise, move the DIV from anywhere inside the DIV:
-            elmnt.onmousedown = dragMouseDown;
-        }
-
-        function dragMouseDown(e) {
-            e = e || window.event;
-            e.preventDefault();
-            // get the mouse cursor position at startup:
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            // call a function whenever the cursor moves:
-            document.onmousemove = elementDrag;
-        }
-
-        function elementDrag(e) {
-            e = e || window.event;
-            e.preventDefault();
-            // calculate the new cursor position:
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            // set the element's new position:
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-        }
-
-        function closeDragElement() {
-            // stop moving when mouse button is released:
-            document.onmouseup = null;
-            document.onmousemove = null;
-        }
-    }
 
     const {ipcRenderer} = require('electron');
     const Store = require('./store');
