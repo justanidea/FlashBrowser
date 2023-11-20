@@ -5,7 +5,6 @@
     <link rel="stylesheet" href="themes/main.css">
     <link rel="stylesheet" href="themes/settings.css">
     <link rel="stylesheet" href="themes/fonts.css">
-    <script src="screening.js"></script>
     <script src="preferences.js"></script>
 </head>
 <p id='topspacer'
@@ -87,7 +86,7 @@
                  onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
         </div>
         <div class="actionButton" class="actionButton" tag="actionButton">
-            <img class="actionIcon" id="toggleScreeningButton" onclick="toggleScreening();" src="icons\icon-start.png"
+            <img class="actionIcon" id="toggleScreeningButton" onclick="toggleScreening(this);" src="icons\icon-start.png"
                  onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
         </div>
         <div class="actionButton" class="actionButton" tag="actionButton" onclick="enablePublishing();">
@@ -120,45 +119,29 @@
 				}
 			}
 
-			function startScreens(event, screenActive){
-				console.log("startScreens is enabled" + screenActive)
+			function startScreens(event, screenActive, screenshotSubProcessPID){
 				if (screenActive == true){
-					console.log("startScreens python program enabled")
 					const { spawn } = require('child_process');
 					const childPython = spawn('python', ['mouseEvent.py']);
+					console.log("mouseListenner enabled")
+					var screenshotSubProcessPID = childPython.pid;
 					childPython.stdout.on('data', (data) => {
 						var data = data.toString().slice(0, -2); //removing the 2 endline chars sent by the flushed python print
-						if (data === "released Button.left"){
-							console.log("triggering scrnsht")
+						console.log(data);
+						if (data === "macro triggered"){
 							const { spawn } = require('child_process');
 							const childPython = spawn('python', ['screenshot.py']);
-							console.log(childPython.pid)
 							childPython.stdout.on('data', (data) => {
 								console.log(`${data}`)
 							});
 						}
 					});
-				}
-			}
-
-			function enableScreening(element){
-				if (hasDragged == false){
-					if (element.src.slice(-6) != "on.png"){
-						console.log("Screening state is now:" + screenActive)
-						element.setAttribute('src', "icons\\icon-start-toggled-on.png");
-						screenActive = true;
-						console.log("Screening state is now:" + screenActive)
-						startScreens(event, screenActive);
-						element.setAttribute('id', element.id.replace('Highlight', '') +"Toggled");
-						
-					} else {
-						console.log("Screening state is now:" + screenActive)
-						element.setAttribute('src', "icons\\icon-start.png");
-						screenActive = false;
-						startScreens(event, screenActive);
-						element.setAttribute('id', element.id.replace('Toggled', '') + 'Highlight');
-						console.log("Screening state is now:" + screenActive)
-					}
+					return screenshotSubProcessPID
+				} else { 
+					if (screenshotSubProcessPID != ""){
+						process.kill(screenshotSubProcessPID);
+						console.log("mouseListenner disabled")
+					} 
 				}
 			}
 
@@ -230,33 +213,31 @@
 					document.onmousemove = null;
 				}
 			}
-
-    function toggleScreening() {
-        console.log("Screening state is now: " + screenActive)
+	var screenshotSubProcessPID;
+    function toggleScreening(object){
         if (screenActive) {
-            screenToggleFalse()
-
+            screenToggleFalse(object)
         } else {
-            screenToggleTrue()
+            screenToggleTrue(object)
         }
-        startScreens(event, screenActive);
-        console.log("Screening state is now:" + screenActive)
+		if (screenshotSubProcessPID === undefined){
+			screenshotSubProcessPID = ""
+		}
+        screenshotSubProcessPID = startScreens(event, screenActive, screenshotSubProcessPID);
     }
 
-    function screenToggleFalse() {
+    function screenToggleFalse(object) {
         if (screenActive) {
-            let element = document.getElementById('toggleScreeningButton')
-            element.setAttribute('src', "icons\\icon-start.png");
-            element.setAttribute('class', element.className.replace('Toggled', '') + 'Highlight');
+            object.setAttribute('src', "icons\\icon-start.png");
+            object.setAttribute('class', object.className.replace('Toggled', '') + 'Highlight');
             screenActive = false;
         }
     }
 
-    function screenToggleTrue() {
+    function screenToggleTrue(object) {
         if (!screenActive) {
-            let element = document.getElementById('toggleScreeningButton')
-            element.setAttribute('src', "icons\\icon-start-toggled-on.png");
-            element.setAttribute('class', element.className.replace('Highlight', '') + "Toggled");
+            object.setAttribute('src', "icons\\icon-start-toggled-on.png");
+            object.setAttribute('class', object.className.replace('Highlight', '') + "Toggled");
             screenActive = true;
         }
     }

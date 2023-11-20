@@ -13,7 +13,7 @@ body {
     position: absolute;
     top: 20%;
     right: 0.25%;
-    width: 4%;
+    width: 3%;
     padding-bottom: 0.8%;
     margin-right: 100px;
     border-radius: 5px;
@@ -32,7 +32,8 @@ body {
 #screenCount {
     color:white;
     text-align:center;
-    font-size: large;
+    font-size: xx-small;
+    font-family: 'FontEsparragon', Arial, sans-serif;
     background-color: rgba(2, 12, 20, 0.5);
     border-radius: 5px;
     max-width: 80%;
