@@ -3,6 +3,6 @@
 
 `npm install`
 
-`npm install sqlite3@5.0.0 electron@9.4.4 key-mapper`
+`npm install sqlite3@5.0.0 electron@9.4.4 key-mapper pyautogui pynput datetime`
 
 `npm run start`

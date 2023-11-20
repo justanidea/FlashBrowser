@@ -143,6 +143,7 @@ function updateAmountSaved() {
     if (element !== undefined) {
         element.innerText = countFiles(preferences.get('screensSavedPath'))
     }
+    updateLogs()
 }
 
 function countFiles(path) {

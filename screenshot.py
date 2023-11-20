@@ -31,6 +31,6 @@ with open(os.path.join(log_path, "logs.txt"), 'r+') as logs:
             im = im.crop(box)
             im.save(imageRef)
             print('screenshot saved')
-            log = f"[{str(datetime.now().strftime("%H:%M:%S"))}] screenshot saved\n"
+            log = f"[{str(datetime.now().strftime('%H:%M:%S'))}] screenshot saved\n"
             logs.write(log)
             
