@@ -54,7 +54,7 @@ body {
     appearance: none;
   }
 
-#actionButton {
+.actionButton {
   max-height: 33%;
   max-width: 60%;
   margin: auto;
@@ -76,14 +76,14 @@ body {
     max-width:180%;
 }
 
-#actionIcon {
+.actionIcon {
     display:block;
     max-width:100%;
     max-height:100%;
     margin-bottom: 26%;
 }
 
-#actionIconHighlight {
+.actionIconHighlight {
     display:block;
     max-width:150%;
     max-height:150%;
@@ -91,7 +91,7 @@ body {
     margin-left: -24%;
 }
 
-#actionIconToggled {
+.actionIconToggled {
     display:block;
     max-width:100%;
     max-height:100%;

@@ -12,3 +12,5 @@ node_modules/
 package-lock.json
 flashver/pepflashplayer64.dll
 *.png
+preferences.json
+log.txt

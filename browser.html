@@ -1,747 +1,754 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" href="themes/chrome-like.css">
-		<link rel="stylesheet" href="themes/main.css">
-		<link rel="stylesheet" href="themes/settings.css">
-		<link rel="stylesheet" href="themes/fonts.css">
-		<script src="screening.js"></script>
-		<script src="preferences.js"></script>
-	</head>
-		<p id='topspacer' style="color:grey;font-size:1px; height:28px; min-height:28px !important; -webkit-app-region: drag;"></p>
-		<div id="flash-tabs" style="display: inline;">
-			<embed id="FlashTab1" src="about:blank#404" style='display: none;'  width="320" height="200"></embed>
-			<embed id="FlashTab2" src="about:blank#404" style='display: none;' width="320" height="200"></embed>
-			<embed id="FlashTab3" src="about:blank#404" width="320" style='display: none;'  width="320" height="200"></embed>
-		</div >
-		<div id="overlay">
-		<button  width="100%" onclick="showHideSettings()" style="cursor:pointer !important;font-size: 25px; border: solid; background: none; color: hotpink;  background-color: #222222; horizontal-align:center; ">close</button>
-		<button  width="100%" onclick="dispachClearCache()" style="cursor:pointer !important; font-size: 25px; border: solid; background: none; color: hotpink;  background-color: #222222; horizontal-align:center; ">clear cache and restart</button>
-		<button  width="100%" onclick="clearAllFavorites()" style="cursor:pointer !important; font-size: 25px; border: solid; background: none; color: hotpink;  background-color: #222222; horizontal-align:center; ">clear all favorites</button>
+<head>
+    <link rel="stylesheet" href="themes/chrome-like.css">
+    <link rel="stylesheet" href="themes/main.css">
+    <link rel="stylesheet" href="themes/settings.css">
+    <link rel="stylesheet" href="themes/fonts.css">
+    <script src="screening.js"></script>
+    <script src="preferences.js"></script>
+</head>
+<p id='topspacer'
+   style="color:grey;font-size:1px; height:28px; min-height:28px !important; -webkit-app-region: drag;"></p>
+<div id="flash-tabs" style="display: inline;">
+    <embed id="FlashTab1" src="about:blank#404" style='display: none;' width="320" height="200"></embed>
+    <embed id="FlashTab2" src="about:blank#404" style='display: none;' width="320" height="200"></embed>
+    <embed id="FlashTab3" src="about:blank#404" width="320" style='display: none;' width="320" height="200"></embed>
+</div>
+<div id="overlay">
+    <button width="100%" onclick="showHideSettings()"
+            style="cursor:pointer !important;font-size: 25px; border: solid; background: none; color: hotpink;  background-color: #222222; horizontal-align:center; ">
+        close
+    </button>
+    <button width="100%" onclick="dispachClearCache()"
+            style="cursor:pointer !important; font-size: 25px; border: solid; background: none; color: hotpink;  background-color: #222222; horizontal-align:center; ">
+        clear cache and restart
+    </button>
+    <button width="100%" onclick="clearAllFavorites()"
+            style="cursor:pointer !important; font-size: 25px; border: solid; background: none; color: hotpink;  background-color: #222222; horizontal-align:center; ">
+        clear all favorites
+    </button>
 
-			<div id="favoritesDiv">
-				<ul>
-					<li><a href="about:blank#403" target="_blank" onclick="jsfunction(event)">Link 1</a></li>
-					<li><a href="#">Link 2</a></li>
-				</ul>
-			</div>
-			</div>
-    <body>
+    <div id="favoritesDiv">
+        <ul>
+            <li><a href="about:blank#403" target="_blank" onclick="jsfunction(event)">Link 1</a></li>
+            <li><a href="#">Link 2</a></li>
+        </ul>
+    </div>
+</div>
+<body>
 
-		<div id="window-controls" style="display: none ;">
-			<div class="button" id="min-button">
-				<img class="icon" srcset="icons/min-w-10.png 1x, icons/min-w-12.png 1.25x, icons/min-w-15.png 1.5x, icons/min-w-15.png 1.75x, icons/min-w-20.png 2x, icons/min-w-20.png 2.25x, icons/min-w-24.png 2.5x, icons/min-w-30.png 3x, icons/min-w-30.png 3.5x" draggable="false" />
-			</div>
-			<div class="button" id="max-button">
-				<img class="icon" srcset="icons/max-w-10.png 1x, icons/max-w-12.png 1.25x, icons/max-w-15.png 1.5x, icons/max-w-15.png 1.75x, icons/max-w-20.png 2x, icons/max-w-20.png 2.25x, icons/max-w-24.png 2.5x, icons/max-w-30.png 3x, icons/max-w-30.png 3.5x" draggable="false" />
-			</div>
-			<div class="button" id="restore-button">
-				<img class="icon" srcset="icons/restore-w-10.png 1x, icons/restore-w-12.png 1.25x, icons/restore-w-15.png 1.5x, icons/restore-w-15.png 1.75x, icons/restore-w-20.png 2x, icons/restore-w-20.png 2.25x, icons/restore-w-24.png 2.5x, icons/restore-w-30.png 3x, icons/restore-w-30.png 3.5x" draggable="false" />
-			</div>
-			<div class="button" id="close-button">
-				<img class="icon" srcset="icons/close-w-10.png 1x, icons/close-w-12.png 1.25x, icons/close-w-15.png 1.5x, icons/close-w-15.png 1.75x, icons/close-w-20.png 2x, icons/close-w-20.png 2.25x, icons/close-w-24.png 2.5x, icons/close-w-30.png 3x, icons/close-w-30.png 3.5x" draggable="false" />
-			</div>
-		</div>
+<div id="window-controls" style="display: none ;">
+    <div class="button" id="min-button">
+        <img class="icon"
+             srcset="icons/min-w-10.png 1x, icons/min-w-12.png 1.25x, icons/min-w-15.png 1.5x, icons/min-w-15.png 1.75x, icons/min-w-20.png 2x, icons/min-w-20.png 2.25x, icons/min-w-24.png 2.5x, icons/min-w-30.png 3x, icons/min-w-30.png 3.5x"
+             draggable="false"/>
+    </div>
+    <div class="button" id="max-button">
+        <img class="icon"
+             srcset="icons/max-w-10.png 1x, icons/max-w-12.png 1.25x, icons/max-w-15.png 1.5x, icons/max-w-15.png 1.75x, icons/max-w-20.png 2x, icons/max-w-20.png 2.25x, icons/max-w-24.png 2.5x, icons/max-w-30.png 3x, icons/max-w-30.png 3.5x"
+             draggable="false"/>
+    </div>
+    <div class="button" id="restore-button">
+        <img class="icon"
+             srcset="icons/restore-w-10.png 1x, icons/restore-w-12.png 1.25x, icons/restore-w-15.png 1.5x, icons/restore-w-15.png 1.75x, icons/restore-w-20.png 2x, icons/restore-w-20.png 2.25x, icons/restore-w-24.png 2.5x, icons/restore-w-30.png 3x, icons/restore-w-30.png 3.5x"
+             draggable="false"/>
+    </div>
+    <div class="button" id="close-button">
+        <img class="icon"
+             srcset="icons/close-w-10.png 1x, icons/close-w-12.png 1.25x, icons/close-w-15.png 1.5x, icons/close-w-15.png 1.75x, icons/close-w-20.png 2x, icons/close-w-20.png 2.25x, icons/close-w-24.png 2.5x, icons/close-w-30.png 3x, icons/close-w-30.png 3.5x"
+             draggable="false"/>
+    </div>
+</div>
 
-        <div id="nav-body-tabs"></div>
+<div id="nav-body-tabs"></div>
 
-        <div id="nav-body-ctrls"></div>
+<div id="nav-body-ctrls"></div>
 
-        <div id="nav-body-views">
-			<div class="overlayed" id="overlayed">
-				
-				<div class="settings" id="settings">
-					<div id="settingsName">Settings</div>
-					<img class="settingIcon" id="macroIcon" src="icons\icon-macro.png">
-					<div class="settingsLabel" id="keyBindLabel">Key chosen :</div>
-					<img class="settingIcon" id="uploadIcon" src="icons\icon-upload-settings.png">
-					<div class="settingsLabel" id="instantUpdateLabel">Update instantly :</div>
-					<img class="settingIcon" id="folderIcon" src="icons\icon-folder.png">
-					<div class="settingsLabel" id="screenshotFolderLabel">C:\\Documents\GoodLuckMate</div>
-					<div class="settingsLogs" id="logConsole">LOGS:<br>[ERR] No popup detected<br>[ERR] No popup detected<br>[ERR] No popup detected<br>[INFO] Popup detected</div>
+<div id="nav-body-views">
+    <div class="overlayed" id="overlayed">
+
+        <div class="settings" id="settings">
+            <div id="settingsName">Settings</div>
+            <img class="settingIcon" id="macroIcon" src="icons\icon-macro.png" onclick="toggleChoosingMacro()">
+            <label class="settingsLabel" id="keyBindLabel">Key chosen: <span></span></label>
+            <img class="settingIcon" id="uploadIcon" src="icons\icon-upload-settings.png" onclick="toggleUpdateInstantly()">
+            <div class="settingsLabel" id="instantUpdateLabel">Update instantly:</div>
+            <img class="settingIcon" id="folderIcon" src="icons\icon-folder.png">
+            <div class="settingsLabel" id="screenshotFolderLabel">C:\\Documents\GoodLuckMate</div>
+            <div class="settingsLogs" id="logConsole">LOGS:<br>[ERR] No popup detected<br>[ERR] No popup detected<br>[ERR]
+                No popup detected<br>[INFO] Popup detected
+            </div>
 
 
-				</div>
-				<div class="button" id="mainButton">
-					
-					<img id="mainIcon" src="icons\Main-button.png"  onclick="expandOverlay(this);" onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
-				</div>
-				<div class="actionButton" id="actionButton" tag="actionButton">
-					<img id="actionIcon" onclick="enableScreening(this);" src="icons\icon-start.png" onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
-				</div>
-				<div class="actionButton" id="actionButton" tag="actionButton" onclick="enablePublishing();">
-					<img id="actionIcon" src="icons\icon-publish.png" onmouseover="hover(this, 'icons\\icon-publish');" onmouseout="unhover(this, 'icons\\icon-publish');">
-				</div>
-				<div class="actionButton" id="actionButton" tag="actionButton" onclick="showOverlaySettings();">
-					<img id="actionIcon" src="icons\icon-settings.png" onmouseover="hover(this, 'icons\\icon-settings');" onmouseout="unhover(this, 'icons\\icon-settings');">
-				</div>
-				<div id="screenCount">1250
-				</div>
-				
-			</div>
-			
-		</div>
+        </div>
+        <div class="button" id="mainButton">
 
-        <script>
-			var screenActive = false;
-			function expandOverlay(element){
-				buttons = document.getElementsByClassName("actionButton");
-				if (buttons[0].style.display != "none"){
-					for (var i = 0; i < buttons.length; i++) {
-						buttons[i].style.display = "none";
-					}
-				} else {
-					for (var i = 0; i < buttons.length; i++) {
-						buttons[i].style.display = "block";
-					}
-				
-				}
-				
-			}
+            <img id="mainIcon" src="icons\Main-button.png" onclick="expandOverlay(this);"
+                 onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
+        </div>
+        <div class="actionButton" class="actionButton" tag="actionButton">
+            <img class="actionIcon" id="toggleScreeningButton" onclick="toggleScreening();" src="icons\icon-start.png"
+                 onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
+        </div>
+        <div class="actionButton" class="actionButton" tag="actionButton" onclick="enablePublishing();">
+            <img class="actionIcon" src="icons\icon-publish.png" onmouseover="hover(this, 'icons\\icon-publish');"
+                 onmouseout="unhover(this, 'icons\\icon-publish');">
+        </div>
+        <div class="actionButton" class="actionButton" tag="actionButton" onclick="showOverlaySettings();">
+            <img class="actionIcon" src="icons\icon-settings.png" onmouseover="hover(this, 'icons\\icon-settings');"
+                 onmouseout="unhover(this, 'icons\\icon-settings');">
+        </div>
+        <div id="screenCount">1250
+        </div>
 
-			String.prototype.hexEncode = function(){
-				var hex, i;
-			
-				var result = "";
-				for (i=0; i<this.length; i++) {
-					hex = this.charCodeAt(i).toString(16);
-					result += ("000"+hex).slice(-4);
-				}
-			
-				return result
-			}
+    </div>
 
-			function startScreens(event, screenActive){
-				console.log("startScreens is enabled" + screenActive)
-				if (screenActive == true){
-					console.log("startScreens python program enabled")
-					const { spawn } = require('child_process');
-					const childPython = spawn('python', ['mouseEvent.py']);
-					childPython.stdout.on('data', (data) => {
-						var data = data.toString().slice(0, -2); //removing the 2 endline chars sent by the flushed python print
-						if (data === "released Button.left"){
-							console.log("triggering scrnsht")
-							const { spawn } = require('child_process');
-							const childPython = spawn('python', ['screenshot.py']);
-							console.log(childPython.pid)
-							childPython.stdout.on('data', (data) => {
-								console.log(`${data}`)
-							});
+</div>
 
-						}
-					});
+<script>
+    let screenActive = false;
 
-				}
-			}
-			function enableScreening(element){
-				if (element.src.slice(-6) != "on.png"){
-					console.log("Screening state is now:" + screenActive)
-					element.setAttribute('src', "icons\\icon-start-toggled-on.png");
-					screenActive = true;
-					console.log("Screening state is now:" + screenActive)
-					startScreens(event, screenActive);
-					element.setAttribute('id', element.id.replace('Highlight', '') +"Toggled");
-					
-				} else {
-					console.log("Screening state is now:" + screenActive)
-					element.setAttribute('src', "icons\\icon-start.png");
-					screenActive = false;
-					startScreens(event, screenActive);
-					element.setAttribute('id', element.id.replace('Toggled', '') + 'Highlight');
-					console.log("Screening state is now:" + screenActive)
-				}
-			}
+    function expandOverlay(element) {
+        buttons = document.getElementsByClassName("actionButton");
+        if (buttons[0].style.display != "none") {
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = "none";
+            }
+        } else {
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].style.display = "block";
+            }
 
-			function showOverlaySettings() {
-				var htmlShow = document.getElementById("settings");
-				if (htmlShow.style.display === "none") {
-					htmlShow.style.display = "inline-block";
-				} else {
-					htmlShow.style.display = "none";
-				}
-			}
-			
-			function hover(element, string) {
-				if (element.src.slice(-6) != "on.png"){
-					element.setAttribute('src', string + "-highlighted.png");
-					element.setAttribute('id', element.id +"Highlight");
-				}
-			  }
-			  
-			function unhover(element, string) {
-				if (element.src.slice(-6) != "on.png"){
-					element.setAttribute('src', string + ".png");
-					element.setAttribute('id', element.id.replace('Highlight', ''));
-				}
-			  }
-			  
-			dragElement(document.getElementById("overlayed"));
-			function dragElement(elmnt) {
-				var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-				if (document.getElementById(elmnt.id + "header")) {
-					// if present, the header is where you move the DIV from:
-					document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-				} else {
-					// otherwise, move the DIV from anywhere inside the DIV:
-					elmnt.onmousedown = dragMouseDown;
-				}
-				
-				function dragMouseDown(e) {
-					e = e || window.event;
-					e.preventDefault();
-					// get the mouse cursor position at startup:
-					pos3 = e.clientX;
-					pos4 = e.clientY;
-					document.onmouseup = closeDragElement;
-					// call a function whenever the cursor moves:
-					document.onmousemove = elementDrag;
-				}
-				
-				function elementDrag(e) {
-					e = e || window.event;
-					e.preventDefault();
-					// calculate the new cursor position:
-					pos1 = pos3 - e.clientX;
-					pos2 = pos4 - e.clientY;
-					pos3 = e.clientX;
-					pos4 = e.clientY;
-					// set the element's new position:
-					elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-					elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-				}
-				
-				function closeDragElement() {
-					// stop moving when mouse button is released:
-					document.onmouseup = null;
-					document.onmousemove = null;
-				}
-			}
-	 	const { ipcRenderer } = require('electron');
-		const Store = require('./store');
-		const store = new Store({
-		  configName: 'user-preferences'
-		});
-		let  home
-		try{
-			  home  = store.get('homepage');
-		}
-		catch (error) {
-		    home  = null;
-		}
-            const enav = new (require('electron-navigation'))({
-                defaultFavicons: true,
-                newTabCallback: (url, options) => {
-                    options.postTabOpenCallback = webview => {
-                        webview.setAttribute('plugins', '');
-                    }
-                    return {options};
+        }
+
+    }
+
+    String.prototype.hexEncode = function () {
+        var hex, i;
+
+        var result = "";
+        for (i = 0; i < this.length; i++) {
+            hex = this.charCodeAt(i).toString(16);
+            result += ("000" + hex).slice(-4);
+        }
+
+        return result
+    }
+
+    function startScreens(event, screenActive) {
+        console.log("startScreens is enabled" + screenActive)
+        if (screenActive === true) {
+            console.log("startScreens python program enabled")
+            const {spawn} = require('child_process');
+            const childPython = spawn('python', ['mouseEvent.py']);
+            childPython.stdout.on('data', (data) => {
+                var data = data.toString().slice(0, -2); //removing the 2 endline chars sent by the flushed python print
+                if (data === "released Button.left") {
+                    console.log("triggering scrnsht")
+                    const {spawn} = require('child_process');
+                    const childPython = spawn('python', ['screenshot.py']);
+                    console.log(childPython.pid)
+                    childPython.stdout.on('data', (data) => {
+                        console.log(`${data}`)
+                    });
+
                 }
             });
 
+        }
+    }
 
-			function toggleFullscreen(event) {
-                    if(event.key === 'Escape'){
-                        ipcRenderer.send('fullScreen-click');
-                        isFullScreen = false;
-                        header.style.display = oldStyle;
+    function toggleScreening() {
+        console.log("Screening state is now: " + screenActive)
+        if (screenActive) {
+            screenToggleFalse()
 
-						tabs.style.display = oldStyle1;
-						nav.style.display = oldStyle2;
-						topspacer.style.display = oldStyle3;
-                    }
-                    if(event.type === 'click'){
-                        ipcRenderer.send('fullScreen-click');
-                    }
-                    if (event.key === 'F11' || event.type === 'click') {
-                        isFullScreen = !isFullScreen;
-                        header.style.display = isFullScreen ? "none" : oldStyle;
-						tabs.style.display = isFullScreen ? "none" : oldStyle1;
-						nav.style.display =  isFullScreen ? "none" : oldStyle2;
-						topspacer.style.display =  isFullScreen ? "none" : oldStyle3;
-                    }
+        } else {
+            screenToggleTrue()
+        }
+        startScreens(event, screenActive);
+        console.log("Screening state is now:" + screenActive)
+    }
+
+    function screenToggleFalse() {
+        if (screenActive) {
+            let element = document.getElementById('toggleScreeningButton')
+            element.setAttribute('src', "icons\\icon-start.png");
+            element.setAttribute('class', element.className.replace('Toggled', '') + 'Highlight');
+            screenActive = false;
+        }
+    }
+
+    function screenToggleTrue() {
+        if (!screenActive) {
+            let element = document.getElementById('toggleScreeningButton')
+            element.setAttribute('src', "icons\\icon-start-toggled-on.png");
+            element.setAttribute('class', element.className.replace('Highlight', '') + "Toggled");
+            screenActive = true;
+        }
+    }
+
+    function showOverlaySettings() {
+        var htmlShow = document.getElementById("settings");
+        if (htmlShow.style.display === "none") {
+            htmlShow.style.display = "inline-block";
+        } else {
+            htmlShow.style.display = "none";
+        }
+    }
+
+    function hover(element, string) {
+        if (!screenActive) {
+            element.setAttribute('src', string + "-highlighted.png");
+            element.setAttribute('class', element.className + "Highlight");
+        }
+    }
+
+    function unhover(element, string) {
+        if (!screenActive) {
+            element.setAttribute('src', string + ".png");
+            element.setAttribute('class', element.className.replace('Highlight', ''));
+        }
+    }
+
+    dragElement(document.getElementById("overlayed"));
+
+    function dragElement(elmnt) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        if (document.getElementById(elmnt.id + "header")) {
+            // if present, the header is where you move the DIV from:
+            document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+        } else {
+            // otherwise, move the DIV from anywhere inside the DIV:
+            elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+
+    const {ipcRenderer} = require('electron');
+    const Store = require('./store');
+    const store = new Store({
+        configName: 'user-preferences'
+    });
+    let home
+    try {
+        home = store.get('homepage');
+    } catch (error) {
+        home = null;
+    }
+    const enav = new (require('electron-navigation'))({
+        defaultFavicons: true,
+        newTabCallback: (url, options) => {
+            options.postTabOpenCallback = webview => {
+                webview.setAttribute('plugins', '');
             }
-
-			function exitFullScreen(e){
-						isFullScreen = false;
-                        header.style.display = oldStyle;
-
-						tabs.style.display = oldStyle1;
-						nav.style.display = oldStyle2;
-						topspacer.style.display = oldStyle3;
-
-			}
-            //window.addEventListener('keyup', toggleFullscreen, true);
-
-            let nav = document.getElementById('nav-body-ctrls');
-			let tabs = document.getElementById('nav-body-tabs');
-			let header = document.getElementById('window-controls');
-			let topspacer = document.getElementById('topspacer');
-
-            let controls = document.getElementById('nav-body-ctrls');
-            let oldStyle = getComputedStyle(header).display;
-			let oldStyle1 = getComputedStyle(tabs).display;
-			let oldStyle2 = getComputedStyle(nav).display;
-			let oldStyle3 = getComputedStyle(topspacer).display;
-
-
-
-
-
-		//	const {clipboard} = require('electron');
-//clipboard.writeText('Example String');
-//let clipboardStr = clipboard.readText();
-var length = window.process.argv.length;
-var lastArgument = window.process.argv[length-1]
-	if(lastArgument && lastArgument.indexOf("file:///") == 0) {
-		console.log(lastArgument);
-		//lastArgument = 'file:///D:/FlashPM/FlashBrowser-master/AS3.html';
-		//lastArgument = 'file:///D:/FlashPM/FlashBrowser-master/noimage.swf';
-		//var path2 = lastArgument.replace(/\\/g, "/");
-		//path2 = 'file:///' + path2;
-		// open a local file, and use a custom icon
-		enav.newTab(lastArgument, {
-			title: 'Local file'
-		})
-	}
-	//else if(clipboardStr.indexOf("https://") == 0) {
-	 //  enav.newTab(clipboardStr);
-
-	//}
-	else if(home){
-		//console.log("WE HAGE CUSTOM HOMEPAGE" + home);
-		enav.newTab(home, {icon: "icons/restore-w-24.png"})}
-	else{
-		enav.newTab('https://search.flash.pm/', {icon: "clear"});
-		}
-
-
-
-
-
-/// Set Favorite Button
-
-let setFavoriteButton = document.createElement("button");
-			setFavoriteButton.id = 'fs-button';
-			setFavoriteButton.innerHTML = '⭐️';
-			setFavoriteButton.title = "Set as Favorite"
-			setFavoriteButton.onclick = setFavorit;
-			controls.appendChild(setFavoriteButton);
-			function setFavorit(event) {
-
-				let favURL = document.getElementById('nav-ctrls-url').value ;
-				console.log("set fav" + favURL);
-				const { remote } = require('electron');
-				const mainProcess = remote.require('./index');
-				mainProcess.setFavorite(favURL); // 'Yay'
-				}
-
-// Set Home
-let setHomeButton = document.createElement("button");
-			 setHomeButton.id = 'fs-button';
-			 setHomeButton.innerHTML = '🏠';
-			 setHomeButton.title = 'Set as hompage';
-			 setHomeButton.onclick = setHome;
-			 controls.appendChild(setHomeButton);
-			 function setHome(event) {
-                    let homeURL =  document.getElementById('nav-ctrls-url').value;
-					const { remote } = require('electron');
-					const mainProcess = remote.require('./index');
-					mainProcess.sethome(homeURL); // 'Yay'
-                 }
-//Zoom In out
-let zoomInButton = document.createElement("button");
-			 zoomInButton.id = 'fs-button';
-			 zoomInButton.innerHTML = '➕';
-			 zoomInButton.title = 'Zoom In';
-			 zoomInButton.onclick = zoomIn;
-			 controls.appendChild(zoomInButton);
-			 function zoomIn(event) {
-					 webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
-					 overlay = document.getElementById('overlayed');
-					 console.log(overlay)
-					 if (webview) {
-						console.log("zoom factor: " + webview.getZoomFactor())
-						console.log("overlay width: " + overlay.offsetWidth)
-						console.log("overlay new width: " + Math.floor(overlay.offsetWidth * 1.2))
-						overlay.style.width = Math.floor(overlay.offsetWidth/webview.getZoomFactor()*(webview.getZoomFactor()+0.2)).toString() + "px" ;
-						overlay.style.top = Math.floor(overlay.offsetTop/webview.getZoomFactor()*(webview.getZoomFactor()+0.2)).toString() + "px" ;
-						webview.zoomFactor = webview.getZoomFactor() + 0.2//1
-					 }
-			 }
-let zoomOutButton = document.createElement("button");
-			 zoomOutButton.id = 'fs-button';
-			 zoomOutButton.innerHTML = '➖';
-			 zoomInButton.title = 'Zoom Out';
-			 zoomOutButton.onclick = zoomOut;
-			 controls.appendChild(zoomOutButton);
-			 function zoomOut(event) {
-					  webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
-					  overlay = document.getElementById('overlayed');
-					 if (webview) {
-						webview.zoomFactor = webview.getZoomFactor() - 0.2//1
-						overlay.style.width = Math.floor(overlay.offsetWidth/webview.getZoomFactor()*(webview.getZoomFactor()-0.2)).toString() + "px" ;
-						overlay.style.top = Math.floor(overlay.offsetTop/webview.getZoomFactor()*(webview.getZoomFactor()-0.2)).toString() + "px" ;
-						overlay.style.paddingBottom = Math.floor(overlay.offsetHeight/webview.getZoomFactor()*(webview.getZoomFactor()-0.2)).toString() + "px" ;
-					 }
-			 }
-
-
-let savetButton = document.createElement("button");
-savetButton.id = 'fs-button';
-savetButton.innerHTML = '🍪';
-savetButton.title = 'cookie';
-savetButton.onclick = fancyButton;
-controls.appendChild(savetButton);
-function SaveSWFFunction(event) {
-	const { spawn } = require('child_process')
-	//const childPython = spawn('python', ['--version']);
-	const childPython = spawn('python', ['testapp.py', 'EC-2D7DC31E777906E044BEB0E2C29A8FD2596CEC9F5ECF586982955D9AA2B0B1461C91A58F835D1EB036C6E90B5F9A8654D8458258DF9945C6A49FC9D6B92F9F0BAE17E3111FBA422665D5F6B51D84BE834461A936E299FED4387EE0779CB63B649DD96E8EF780C26C794F3113DDD8449068F3FE0C32DCF30E31B2C382CB610F5F26A4D94E72435E5611948DB2ACB7AFB54F23162EE67E7BA11B034DE6CFC']);
-	childPython.stdout.on('data', (data) => {
-	console.log(`stdout: ${data}`)
-	});
-}
-function getSessionCookie(cookie) {
-	const { spawn } = require('child_process')
-	const childPython = spawn('python', ['testapp.py', cookie]);
-	childPython.stdout.on('data', (data) => {
-	console.log(`stdout: ${data}`)
-	return data
-	});
-}
-
-async function fancyButton(event) {
-	await navigator.clipboard.writeText("/set_cookie cookie:" + (await getPhoenixCookieValue()));
-}
-
-async function getPhoenixCookieValue() {
-	const persistentCookie = await getCookieValue("phoenixUser")
-	const sessionCookie = getSessionCookie(persistentCookie)
-	return sessionCookie
-}
-
-
-async function getCookieValue(cookieName) {
-	return new Promise((resolve, reject) => {
-		const sql = `SELECT value FROM 'cookies' WHERE name = "${cookieName}"`;
-		console.log("sql:")
-		console.log(sql)
-		let cookieValue;
-		const os = require('os');
-		const path = os.homedir() + "\\AppData\\Roaming\\Flash Browser\\Cookies"
-		console.log("path")
-		console.log(path)
-		const sqlite3 = require('sqlite3').verbose();
-		let db = new sqlite3.Database(path);
-
-		db.all(sql, [], (err, rows) => {
-			if (err) {
-				reject(err);
-				return;
-			}
-
-			rows.forEach((row) => {
-				console.log(row)
-				console.log(row.value)
-				cookieValue = row.value;
-				console.log(cookieValue)
-			});
-
-			resolve(cookieValue);
-		});
-	});
-}
-
-var isWin = window.process.platform === "win32";
-if(isWin) {
-	var windowsControls = document.getElementById('window-controls');
-	windowsControls.style = "display: true;";
-	console.log(2233)
-}
-else {
-	document.getElementById('nav-body-tabs').style = "padding-left: 5rem;";
-	//document.getElementById('nav-body-tabs').addEventListener("dblclick", handleDoubleClick);
-	document.getElementById('topspacer').addEventListener("dblclick", handleDoubleClick);
-}
-
-
-
-//FullScreen Buton
-
-  let isFullScreen = false;
-            let fsButton = document.createElement("button");
-            fsButton.id = 'fs-button';
-			fsButton.title = "FullScreen"
-			fsButton.innerHTML = '🔳️';
-            fsButton.onclick = toggleFullscreen;
-            controls.appendChild(fsButton);
-
-// Mute button
-
-let muteButton = document.createElement("button");
-			 muteButton.id = 'fs-button';
-			 muteButton.innerHTML = '🔊';
-			 muteButton.title = "Mute/UnMute"
-			 muteButton.onclick = onMute;
-			 controls.appendChild(muteButton);
-			 function onMute(event) {
-				    webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
-					 if (webview) {
-							 if(webview.isAudioMuted()) {
-								webview.setAudioMuted(false);
-								muteButton.innerHTML = '🔊';
-							 }
-							 else{
-								  webview.setAudioMuted(true);
-								  muteButton.innerHTML = '🔈';
-							 }
-
-
-						 }
-			 }
-
-
-
-
-
-///// Clear Cache Button ////
-
-
-			 function dispachClearCache(event) {
-                        ipcRenderer.send('clearChache-click');
-            }
-
-///// Clear Favorites Button ////
-			 function clearAllFavorites(event) {
-							const { remote } = require('electron');
-							const mainProcess = remote.require('./index.js');
-							mainProcess.removeAllFav();
-							console.log("Cleaned favorites")
-
-            }
-
-/////Settings Button /////
-
-		 let settingsButton = document.createElement("button");
-			 settingsButton.id = 'fs-button';
-			 settingsButton.innerHTML = '⚙️';
-			 settingsButton.title = "Show/Hide Settings";
-			 settingsButton.onclick = showSettings;
-			 controls.appendChild(settingsButton);
-			 function showSettings(event) {
-
-                    if(event.type === 'click'){
-							const { remote } = require('electron');
-							const mainProcess = remote.require('./index');
-									mainProcess.showSettings(); // 'Yay'
-
-                    }
-            }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function handleDoubleClick (event) {
-	//var windowsControls = document.getElementById('window-controls');
-	//windowsControls.style = "display: true;";
-
-
-	  const doubleClickAction = remote.systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string');
-  const win = remote.getCurrentWindow();
-  if (doubleClickAction === 'Minimize') {
-    win.minimize();
-  } else if (doubleClickAction === 'Maximize') {
-    if (!win.isMaximized()) {
-      win.maximize();
+            return {options};
+        }
+    });
+
+
+    function toggleFullscreen(event) {
+        if (event.key === 'Escape') {
+            ipcRenderer.send('fullScreen-click');
+            isFullScreen = false;
+            header.style.display = oldStyle;
+
+            tabs.style.display = oldStyle1;
+            nav.style.display = oldStyle2;
+            topspacer.style.display = oldStyle3;
+        }
+        if (event.type === 'click') {
+            ipcRenderer.send('fullScreen-click');
+        }
+        if (event.key === 'F11' || event.type === 'click') {
+            isFullScreen = !isFullScreen;
+            header.style.display = isFullScreen ? "none" : oldStyle;
+            tabs.style.display = isFullScreen ? "none" : oldStyle1;
+            nav.style.display = isFullScreen ? "none" : oldStyle2;
+            topspacer.style.display = isFullScreen ? "none" : oldStyle3;
+        }
+    }
+
+    function exitFullScreen(e) {
+        isFullScreen = false;
+        header.style.display = oldStyle;
+
+        tabs.style.display = oldStyle1;
+        nav.style.display = oldStyle2;
+        topspacer.style.display = oldStyle3;
+
+    }
+
+    //window.addEventListener('keyup', toggleFullscreen, true);
+
+    let nav = document.getElementById('nav-body-ctrls');
+    let tabs = document.getElementById('nav-body-tabs');
+    let header = document.getElementById('window-controls');
+    let topspacer = document.getElementById('topspacer');
+
+    let controls = document.getElementById('nav-body-ctrls');
+    let oldStyle = getComputedStyle(header).display;
+    let oldStyle1 = getComputedStyle(tabs).display;
+    let oldStyle2 = getComputedStyle(nav).display;
+    let oldStyle3 = getComputedStyle(topspacer).display;
+
+
+    //	const {clipboard} = require('electron');
+    //clipboard.writeText('Example String');
+    //let clipboardStr = clipboard.readText();
+    var length = window.process.argv.length;
+    var lastArgument = window.process.argv[length - 1]
+    if (lastArgument && lastArgument.indexOf("file:///") == 0) {
+        console.log(lastArgument);
+        //lastArgument = 'file:///D:/FlashPM/FlashBrowser-master/AS3.html';
+        //lastArgument = 'file:///D:/FlashPM/FlashBrowser-master/noimage.swf';
+        //var path2 = lastArgument.replace(/\\/g, "/");
+        //path2 = 'file:///' + path2;
+        // open a local file, and use a custom icon
+        enav.newTab(lastArgument, {
+            title: 'Local file'
+        })
+    }
+        //else if(clipboardStr.indexOf("https://") == 0) {
+        //  enav.newTab(clipboardStr);
+
+    //}
+    else if (home) {
+        //console.log("WE HAGE CUSTOM HOMEPAGE" + home);
+        enav.newTab(home, {icon: "icons/restore-w-24.png"})
     } else {
-      win.unmaximize();
-    }
-  }
-}
-
-
-	function jsfunction(e){
-		//console.log(e.target.href)
-		e.preventDefault(); //optional);
-		enav.newTab(e.target.href);
-	}
-
-	var div = document.getElementById('overlay');
-	div.style = "display: none;";
-	require('electron').ipcRenderer.on('ping', showHideSettings);
-	require('electron').ipcRenderer.on('Esc', exitFullScreen);
-
-
-function showHideSettings(event, message, refresh){
-			 var div = document.getElementById('overlay');
-
-
-			 let ht = window.getComputedStyle(div, null).getPropertyValue("display");
-			  console.log("Ping" + ht)
-			 if(div.style.display === 'none' && !refresh)
-			 {
-				 // Add the contents of options[0] to #foo:
-				document.getElementById('favoritesDiv').innerHTML = "";
-				document.getElementById('favoritesDiv').appendChild(makeUL(message));
-				div.style = "display: visible;";
-			 }
-			 else if(  refresh && ht === "block" ){
-				document.getElementById('favoritesDiv').innerHTML = "";
-				document.getElementById('favoritesDiv').appendChild(makeUL(message));
-				div.style = "display: visible;";
-			 }
-			 else{
-				div.style = "display: none;";
-			 }
-		}
-
-
-function makeUL(array) {
-    // Create the list element:
-    var list = document.createElement('ul');
-    if (array == null ){array = new Array()}
-    for(var i = 0; i < array.length; i++) {
-        // Create the list item:
-        var item = document.createElement('li');
-      if(typeof array[i] === 'string') {
-		var a   =  document.createElement( 'a' )
-		a.text  = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.","");
-        //a.text  = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.",""); web domains may not be able to resolve in www sometimes, e.g www1, or not having www at all
-        a.href  = array[i]
-		a.style = 'color:hotpink;font-size: 23px;'
-		a.onclick = jsfunction;
-
-
-		let btn = document.createElement("button");
-			btn.innerHTML = " remove";
-			btn.id = i;
-			btn.style = "border: none; background: none; color: hotpink;  background-color: #222222;  margin-left: 30px; ";
-			btn.onclick = function (event) {
-					const { remote } = require('electron');
-					const mainProcess = remote.require('./index');
-					mainProcess.removeFav(event.target.id); // 'Yay'
-					};
-
-		item.style = 'color:hotpink;font-size: 23px;'
-		item.appendChild(a);
-		item.appendChild(btn);
-
-        // Set its contents:
-        //item.appendChild(document.createTextNode(array[i]));
-
-        // Add it to the list:
-        list.appendChild(item);
-	 }
-    }
-
-    // Finally, return the constructed list:
-    return list;
-}
-
-
-
-
-
-
-
-/// Suggest nav bar
-let navBar = document.getElementById('nav-ctrls-url')
-navBar.addEventListener('keyup', checkFavorites);
-   function checkFavorites(e) {
-
-
-
-
-
-
-		let  listFavorites  = store.get('favorites');
-		console.log('checkFavoritess', listFavorites);
-		if(listFavorites){
-			let inputText = navBar.value;
-			let deURL;
-
-			for ( var i=0; i < listFavorites.length; i++)
-			{
-
-				deURL = listFavorites[i].replace(/(^\w+:|^)\/\//, '');
-				deURL = deURL.replace("www.", "");
-				//console.log(i  + "  " + listFavorites[i] + "!" + deURL);
-				if(e.keyCode !=8 && e.keyCode !=17 && !e.ctrlKey && deURL != inputText && deURL && deURL.indexOf(inputText) == 0 ) {
-
-				console.log("Fond it" + deURL)
-					navBar.value = deURL;
-					navBar.setSelectionRange(inputText.length,999);
-
-				}
-			}
-		}
-
+        enav.newTab('https://search.flash.pm/', {icon: "clear"});
     }
 
 
-//Find on Page
-let finInwebview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
-const FindInPage = require('electron-find').FindInPage;
-const { remote } = require('electron');
-let findInPage = new FindInPage(remote.getCurrentWebContents(), {
- parentElement:document.querySelector('#nav-body-views'), offsetTop : 70, boxBgColor :'#000000', boxShadowColor  :'#111111'
-});
+    /// Set Favorite Button
+
+    let setFavoriteButton = document.createElement("button");
+    setFavoriteButton.id = 'fs-button';
+    setFavoriteButton.innerHTML = '⭐️';
+    setFavoriteButton.title = "Set as Favorite"
+    setFavoriteButton.onclick = setFavorit;
+    controls.appendChild(setFavoriteButton);
+
+    function setFavorit(event) {
+
+        let favURL = document.getElementById('nav-ctrls-url').value;
+        console.log("set fav" + favURL);
+        const {remote} = require('electron');
+        const mainProcess = remote.require('./index');
+        mainProcess.setFavorite(favURL); // 'Yay'
+    }
+
+    // Set Home
+    let setHomeButton = document.createElement("button");
+    setHomeButton.id = 'fs-button';
+    setHomeButton.innerHTML = '🏠';
+    setHomeButton.title = 'Set as hompage';
+    setHomeButton.onclick = setHome;
+    controls.appendChild(setHomeButton);
+
+    function setHome(event) {
+        let homeURL = document.getElementById('nav-ctrls-url').value;
+        const {remote} = require('electron');
+        const mainProcess = remote.require('./index');
+        mainProcess.sethome(homeURL); // 'Yay'
+    }
+
+    //Zoom In out
+    let zoomInButton = document.createElement("button");
+    zoomInButton.id = 'fs-button';
+    zoomInButton.innerHTML = '➕';
+    zoomInButton.title = 'Zoom In';
+    zoomInButton.onclick = zoomIn;
+    controls.appendChild(zoomInButton);
+
+    function zoomIn(event) {
+        webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
+        overlay = document.getElementById('overlayed');
+        console.log(overlay)
+        if (webview) {
+            console.log("zoom factor: " + webview.getZoomFactor())
+            console.log("overlay width: " + overlay.offsetWidth)
+            console.log("overlay new width: " + Math.floor(overlay.offsetWidth * 1.2))
+            overlay.style.width = Math.floor(overlay.offsetWidth / webview.getZoomFactor() * (webview.getZoomFactor() + 0.2)).toString() + "px";
+            overlay.style.top = Math.floor(overlay.offsetTop / webview.getZoomFactor() * (webview.getZoomFactor() + 0.2)).toString() + "px";
+            webview.zoomFactor = webview.getZoomFactor() + 0.2//1
+        }
+    }
+
+    let zoomOutButton = document.createElement("button");
+    zoomOutButton.id = 'fs-button';
+    zoomOutButton.innerHTML = '➖';
+    zoomInButton.title = 'Zoom Out';
+    zoomOutButton.onclick = zoomOut;
+    controls.appendChild(zoomOutButton);
+
+    function zoomOut(event) {
+        webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
+        overlay = document.getElementById('overlayed');
+        if (webview) {
+            webview.zoomFactor = webview.getZoomFactor() - 0.2//1
+            overlay.style.width = Math.floor(overlay.offsetWidth / webview.getZoomFactor() * (webview.getZoomFactor() - 0.2)).toString() + "px";
+            overlay.style.top = Math.floor(overlay.offsetTop / webview.getZoomFactor() * (webview.getZoomFactor() - 0.2)).toString() + "px";
+            overlay.style.paddingBottom = Math.floor(overlay.offsetHeight / webview.getZoomFactor() * (webview.getZoomFactor() - 0.2)).toString() + "px";
+        }
+    }
 
 
-ipcRenderer.on('on-find', (e, args) => {
+    let savetButton = document.createElement("button");
+    savetButton.id = 'fs-button';
+    savetButton.innerHTML = '🍪';
+    savetButton.title = 'cookie';
+    savetButton.onclick = fancyButton;
+    controls.appendChild(savetButton);
+
+    function SaveSWFFunction(event) {
+        const {spawn} = require('child_process')
+        //const childPython = spawn('python', ['--version']);
+        const childPython = spawn('python', ['testapp.py', 'EC-2D7DC31E777906E044BEB0E2C29A8FD2596CEC9F5ECF586982955D9AA2B0B1461C91A58F835D1EB036C6E90B5F9A8654D8458258DF9945C6A49FC9D6B92F9F0BAE17E3111FBA422665D5F6B51D84BE834461A936E299FED4387EE0779CB63B649DD96E8EF780C26C794F3113DDD8449068F3FE0C32DCF30E31B2C382CB610F5F26A4D94E72435E5611948DB2ACB7AFB54F23162EE67E7BA11B034DE6CFC']);
+        childPython.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`)
+        });
+    }
+
+    function getSessionCookie(cookie) {
+        const {spawn} = require('child_process')
+        const childPython = spawn('python', ['testapp.py', cookie]);
+        childPython.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`)
+            return data
+        });
+    }
+
+    async function fancyButton(event) {
+        await navigator.clipboard.writeText("/set_cookie cookie:" + (await getPhoenixCookieValue()));
+    }
+
+    async function getPhoenixCookieValue() {
+        const persistentCookie = await getCookieValue("phoenixUser")
+        const sessionCookie = getSessionCookie(persistentCookie)
+        return sessionCookie
+    }
 
 
+    async function getCookieValue(cookieName) {
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT value FROM 'cookies' WHERE name = "${cookieName}"`;
+            console.log("sql:")
+            console.log(sql)
+            let cookieValue;
+            const os = require('os');
+            const path = os.homedir() + "\\AppData\\Roaming\\Flash Browser\\Cookies"
+            console.log("path")
+            console.log(path)
+            const sqlite3 = require('sqlite3').verbose();
+            let db = new sqlite3.Database(path);
 
-  findInPage.openFindWindow();
-  console.log(223 + document.querySelector('#nav-body-views'));
+            db.all(sql, [], (err, rows) => {
+                if (err) {
+                    reject(err);
+                    return;
+                }
 
-})
-
-
-
-
-
-//Promote on last tab close:
-	let closeTabBtns = document.getElementsByClassName("nav-tabs-tab")[0];
-	console.log("closeTabBtns " + closeTabBtns)
-	closeTabBtns.addEventListener('click', closeTab);
-	console.log("closeTabBtns A#");
-   function closeTab(e){
-
-	console.log("CLOSE A#" + document.getElementsByClassName('nav-tabs-tab').length);
-		if(document.getElementsByClassName('nav-tabs-tab').length == 1) {
-
-			   enav.newTab('https://www.flash.pm/browser/preview', {
-                    close: false,
-                    icon: enav.TAB_ICON,
-
+                rows.forEach((row) => {
+                    console.log(row)
+                    console.log(row.value)
+                    cookieValue = row.value;
+                    console.log(cookieValue)
                 });
 
-				//$('#nav-body-tabs').css({ opacity: 0.0 });
-				// $('#nav-body-tabs').hide()
-				// $('#nav-body-ctrls').hide()
-				//win.close();
-			}
-			};
+                resolve(cookieValue);
+            });
+        });
+    }
+
+    var isWin = window.process.platform === "win32";
+    if (isWin) {
+        var windowsControls = document.getElementById('window-controls');
+        windowsControls.style = "display: true;";
+        console.log(2233)
+    } else {
+        document.getElementById('nav-body-tabs').style = "padding-left: 5rem;";
+        //document.getElementById('nav-body-tabs').addEventListener("dblclick", handleDoubleClick);
+        document.getElementById('topspacer').addEventListener("dblclick", handleDoubleClick);
+    }
 
 
-        </script>
-    </body>
+    //FullScreen Buton
+
+    let isFullScreen = false;
+    let fsButton = document.createElement("button");
+    fsButton.id = 'fs-button';
+    fsButton.title = "FullScreen"
+    fsButton.innerHTML = '🔳️';
+    fsButton.onclick = toggleFullscreen;
+    controls.appendChild(fsButton);
+
+    // Mute button
+
+    let muteButton = document.createElement("button");
+    muteButton.id = 'fs-button';
+    muteButton.innerHTML = '🔊';
+    muteButton.title = "Mute/UnMute"
+    muteButton.onclick = onMute;
+    controls.appendChild(muteButton);
+
+    function onMute(event) {
+        webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
+        if (webview) {
+            if (webview.isAudioMuted()) {
+                webview.setAudioMuted(false);
+                muteButton.innerHTML = '🔊';
+            } else {
+                webview.setAudioMuted(true);
+                muteButton.innerHTML = '🔈';
+            }
+
+
+        }
+    }
+
+
+    ///// Clear Cache Button ////
+
+
+    function dispachClearCache(event) {
+        ipcRenderer.send('clearChache-click');
+    }
+
+    ///// Clear Favorites Button ////
+    function clearAllFavorites(event) {
+        const {remote} = require('electron');
+        const mainProcess = remote.require('./index.js');
+        mainProcess.removeAllFav();
+        console.log("Cleaned favorites")
+
+    }
+
+    /////Settings Button /////
+
+    let settingsButton = document.createElement("button");
+    settingsButton.id = 'fs-button';
+    settingsButton.innerHTML = '⚙️';
+    settingsButton.title = "Show/Hide Settings";
+    settingsButton.onclick = showSettings;
+    controls.appendChild(settingsButton);
+
+    function showSettings(event) {
+
+        if (event.type === 'click') {
+            const {remote} = require('electron');
+            const mainProcess = remote.require('./index');
+            mainProcess.showSettings(); // 'Yay'
+
+        }
+    }
+
+
+    function handleDoubleClick(event) {
+        //var windowsControls = document.getElementById('window-controls');
+        //windowsControls.style = "display: true;";
+
+
+        const doubleClickAction = remote.systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string');
+        const win = remote.getCurrentWindow();
+        if (doubleClickAction === 'Minimize') {
+            win.minimize();
+        } else if (doubleClickAction === 'Maximize') {
+            if (!win.isMaximized()) {
+                win.maximize();
+            } else {
+                win.unmaximize();
+            }
+        }
+    }
+
+
+    function jsfunction(e) {
+        //console.log(e.target.href)
+        e.preventDefault(); //optional);
+        enav.newTab(e.target.href);
+    }
+
+    var div = document.getElementById('overlay');
+    div.style = "display: none;";
+    require('electron').ipcRenderer.on('ping', showHideSettings);
+    require('electron').ipcRenderer.on('Esc', exitFullScreen);
+
+
+    function showHideSettings(event, message, refresh) {
+        var div = document.getElementById('overlay');
+
+
+        let ht = window.getComputedStyle(div, null).getPropertyValue("display");
+        console.log("Ping" + ht)
+        if (div.style.display === 'none' && !refresh) {
+            // Add the contents of options[0] to #foo:
+            document.getElementById('favoritesDiv').innerHTML = "";
+            document.getElementById('favoritesDiv').appendChild(makeUL(message));
+            div.style = "display: visible;";
+        } else if (refresh && ht === "block") {
+            document.getElementById('favoritesDiv').innerHTML = "";
+            document.getElementById('favoritesDiv').appendChild(makeUL(message));
+            div.style = "display: visible;";
+        } else {
+            div.style = "display: none;";
+        }
+    }
+
+
+    function makeUL(array) {
+        // Create the list element:
+        var list = document.createElement('ul');
+        if (array == null) {
+            array = new Array()
+        }
+        for (var i = 0; i < array.length; i++) {
+            // Create the list item:
+            var item = document.createElement('li');
+            if (typeof array[i] === 'string') {
+                var a = document.createElement('a')
+                a.text = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.", "");
+                //a.text  = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.",""); web domains may not be able to resolve in www sometimes, e.g www1, or not having www at all
+                a.href = array[i]
+                a.style = 'color:hotpink;font-size: 23px;'
+                a.onclick = jsfunction;
+
+
+                let btn = document.createElement("button");
+                btn.innerHTML = " remove";
+                btn.id = i;
+                btn.style = "border: none; background: none; color: hotpink;  background-color: #222222;  margin-left: 30px; ";
+                btn.onclick = function (event) {
+                    const {remote} = require('electron');
+                    const mainProcess = remote.require('./index');
+                    mainProcess.removeFav(event.target.id); // 'Yay'
+                };
+
+                item.style = 'color:hotpink;font-size: 23px;'
+                item.appendChild(a);
+                item.appendChild(btn);
+
+                // Set its contents:
+                //item.appendChild(document.createTextNode(array[i]));
+
+                // Add it to the list:
+                list.appendChild(item);
+            }
+        }
+
+        // Finally, return the constructed list:
+        return list;
+    }
+
+
+    /// Suggest nav bar
+    let navBar = document.getElementById('nav-ctrls-url')
+    navBar.addEventListener('keyup', checkFavorites);
+
+    function checkFavorites(e) {
+
+
+        let listFavorites = store.get('favorites');
+        console.log('checkFavoritess', listFavorites);
+        if (listFavorites) {
+            let inputText = navBar.value;
+            let deURL;
+
+            for (var i = 0; i < listFavorites.length; i++) {
+
+                deURL = listFavorites[i].replace(/(^\w+:|^)\/\//, '');
+                deURL = deURL.replace("www.", "");
+                //console.log(i  + "  " + listFavorites[i] + "!" + deURL);
+                if (e.keyCode != 8 && e.keyCode != 17 && !e.ctrlKey && deURL != inputText && deURL && deURL.indexOf(inputText) == 0) {
+
+                    console.log("Fond it" + deURL)
+                    navBar.value = deURL;
+                    navBar.setSelectionRange(inputText.length, 999);
+
+                }
+            }
+        }
+
+    }
+
+
+    //Find on Page
+    let finInwebview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
+    const FindInPage = require('electron-find').FindInPage;
+    const {remote} = require('electron');
+    let findInPage = new FindInPage(remote.getCurrentWebContents(), {
+        parentElement: document.querySelector('#nav-body-views'),
+        offsetTop: 70,
+        boxBgColor: '#000000',
+        boxShadowColor: '#111111'
+    });
+
+
+    ipcRenderer.on('on-find', (e, args) => {
+
+
+        findInPage.openFindWindow();
+        console.log(223 + document.querySelector('#nav-body-views'));
+
+    })
+
+
+    //Promote on last tab close:
+    let closeTabBtns = document.getElementsByClassName("nav-tabs-tab")[0];
+    console.log("closeTabBtns " + closeTabBtns)
+    closeTabBtns.addEventListener('click', closeTab);
+    console.log("closeTabBtns A#");
+
+    function closeTab(e) {
+
+        console.log("CLOSE A#" + document.getElementsByClassName('nav-tabs-tab').length);
+        if (document.getElementsByClassName('nav-tabs-tab').length == 1) {
+
+            enav.newTab('https://www.flash.pm/browser/preview', {
+                close: false,
+                icon: enav.TAB_ICON,
+
+            });
+
+            //$('#nav-body-tabs').css({ opacity: 0.0 });
+            // $('#nav-body-tabs').hide()
+            // $('#nav-body-ctrls').hide()
+            //win.close();
+        }
+    };
+
+
+</script>
+</body>
 </html>

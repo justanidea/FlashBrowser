@@ -31,6 +31,7 @@
     "electron-find": "^1.0.7",
     "electron-navigation": "^6.6.6",
     "electron-version": "^2.0.1",
+    "key-mapper": "^1.0.1",
     "resolve-dependencies": "^6.0.7",
     "sqlite3": "^5.0.0"
   },

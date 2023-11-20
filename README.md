@@ -3,9 +3,6 @@
 
 `npm install`
 
-`npm install sqlite3@5.0.0`
+`npm install sqlite3@5.0.0 electron@9.4.4 key-mapper`
 
-`npm install electron@9.4.4`
-
- `npm run start`
- 
+`npm run start`
