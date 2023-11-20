@@ -14,3 +14,5 @@ flashver/pepflashplayer64.dll
 *.png
 preferences.json
 saved/logs.txt
+*.dll
+*.txt

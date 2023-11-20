@@ -14,7 +14,7 @@ class Preferences {
         this.path = "preferences.json";
         this.data = parseDataFile(this.path, opts);
         createOrUpdateFile(this.path, this.data);
-        createOrMakeEmptyLogFile()
+        createOrMakeEmptyLogFile();
     }
 
     get(key) {
@@ -28,8 +28,12 @@ class Preferences {
     }
 
 }
+
 document.addEventListener('DOMContentLoaded', function() {
     updateSettingsDiv();
+    console.log("before");
+    updateAmountSaved();
+    console.log("after");
 });
 let preferences = new Preferences({
     macro: 3,
@@ -56,8 +60,6 @@ function updateSettingsDiv() {
     instantUpdateDiv.innerText = 'Upload instantly: ' + preferences.get('uploadInstantly');
     const screenshotFolderDiv = document.getElementById('screenshotFolderLabel');
     screenshotFolderDiv.innerText = preferences.get('screensSavedPath');
-    updateLogs();
-    updateAmountSaved();
     const uploadInstantlyIcon = document.getElementById('uploadIcon');
     unhoverUpdateInstantly(uploadInstantlyIcon);
 }
@@ -139,11 +141,11 @@ document.addEventListener('keydown', function (event) {
 });
 
 function updateAmountSaved() {
+    console.log("init updateAmountSaved");
     const element = document.getElementById('screenCount')
     if (element !== undefined) {
         element.innerText = countFiles(preferences.get('screensSavedPath'))
     }
-    updateLogs()
 }
 
 function countFiles(path) {
@@ -164,10 +166,6 @@ function countFiles(path) {
         return -1; // Return -1 to indicate an error
     }
 }
-
-// Execute the checkCondition function every 10 seconds (10000 milliseconds)
-setInterval(updateAmountSaved, 10000);
-
 
 function hoverUpdateInstantly(element) {
     if (preferences.get('uploadInstantly')) {

@@ -1,8 +1,5 @@
-import pygetwindow
-import time
 import os
 import pyautogui
-import PIL
 from datetime import datetime
 from PIL import Image
 
@@ -11,6 +8,7 @@ if not os.path.exists("saved\\screenshots\\"):
     os.makedirs("saved\\screenshots\\") 
 path = 'saved\\screenshots\\'
 log_path = 'saved\\'
+print("init")
 with open(os.path.join(log_path, "logs.txt"), 'r+') as logs:
     previous_logs = logs.read()
     

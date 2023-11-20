@@ -65,8 +65,7 @@
 <div id="nav-body-ctrls"></div>
 
 <div id="nav-body-views">
-    <div class="overlayed" id="overlayed">
-
+	<div id="overlay_entity">
         <div class="settings" id="settings">
             <div id="settingsName">Settings</div>
             <img class="settingIcon" id="macroIcon" src="icons\icon-macro.png" onclick="toggleChoosingMacro()">
@@ -78,45 +77,66 @@
             <div class="settingsLabel" id="instantUploadLabel">Upload instantly:</div>
             <img class="settingIcon" id="folderIcon" src="icons\icon-folder.png">
             <div class="settingsLabel" id="screenshotFolderLabel">C:\\Documents\GoodLuckMate</div>
-            <div class="settingsLogs" id="logConsole">LOGS:<br>[ERR] No popup detected<br>[ERR] No popup detected<br>[ERR]
-                No popup detected<br>[INFO] Popup detected
+            <div class="settingsLogs" id="logConsole">LOGS:<br>No logs are currently displayed.
             </div>
-
-
-        </div>
-        <div class="button" id="mainButton">
-            <img id="mainIcon" src="icons\Main-button.png" onclick="expandOverlay(this);"
-                 onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
-        </div>
-        <div class="actionButton" class="actionButton" tag="actionButton">
-            <img class="actionIcon" id="toggleScreeningButton" onclick="toggleScreening(this);" src="icons\icon-start.png"
-                 onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
-        </div>
-        <div class="actionButton" class="actionButton" tag="actionButton" onclick="enablePublishing();">
-            <img class="actionIcon" src="icons\icon-publish.png" onmouseover="hover(this, 'icons\\icon-publish');"
-                 onmouseout="unhover(this, 'icons\\icon-publish');">
-        </div>
-        <div class="actionButton" class="actionButton" tag="actionButton" onclick="showOverlaySettings();">
-            <img class="actionIcon" src="icons\icon-settings.png" onmouseover="hover(this, 'icons\\icon-settings');"
-                 onmouseout="unhover(this, 'icons\\icon-settings');">
-        </div>
-        <div id="screenCount">1250
-        </div>
+		</div>
+		<div id="mainOverlay">
+			<div id="mainButton">
+				<img id="mainIcon" src="icons\Main-button.png" onclick="expandOverlay(this);"
+					onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
+			</div>
+			<div id="mainOverlayBg">
+				<div class="actionButton">
+					<img class="actionIcon" id="toggleScreeningButton" onclick="toggleScreening(this);" src="icons\icon-start.png"
+						onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
+				</div>
+				<div class="actionButton" onclick="enablePublishing();">
+					<img class="actionIcon" src="icons\icon-publish.png" onmouseover="hover(this, 'icons\\icon-publish');"
+						onmouseout="unhover(this, 'icons\\icon-publish');">
+				</div>
+				<div class="actionButton" onclick="showOverlaySettings();">
+					<img class="actionIcon" src="icons\icon-settings.png" onmouseover="hover(this, 'icons\\icon-settings');"
+						onmouseout="unhover(this, 'icons\\icon-settings');">
+				</div>
+			</div>
+			<div id="miniMainOverlayBg"></div>
+			<div id="screenCount">1250</div>
+		</div>
+	</div>	
         <script>
 			var hasDragged = false;
 			var screenActive = false;
-			
 			function expandOverlay(element){
 				if (hasDragged == false){
-					buttons = document.getElementsByClassName("actionButton");
-					if (buttons[0].style.display != "none"){
-						for (var i = 0; i < buttons.length; i++) {
-							buttons[i].style.display = "none";
+					overlayBg = document.getElementById("mainOverlayBg");
+					screenCount = document.getElementById("screenCount");
+					if (overlayBg != undefined){
+						var settings = document.getElementById("settings");
+						if (settings.style.display != "none"){
+							settings.style.display = "none";
 						}
+						overlayBg.id = "disappear_overlay";
+						screenCount.id = "disappear_screenCount";
+						setTimeout(function() {
+							overlayBg = document.getElementById("disappear_overlay");
+							screenCount = document.getElementById("disappear_screenCount");
+							miniOverlayBg =  document.getElementById("miniMainOverlayBg");
+							miniOverlayBg.style.display = "block";
+							overlayBg.id = "mainOverlayBgHidden";
+							screenCount.id = "screenCount";
+						}, 100);
 					} else {
-						for (var i = 0; i < buttons.length; i++) {
-							buttons[i].style.display = "block";
-						}
+						overlayBg = document.getElementById("mainOverlayBgHidden");
+						overlayBg.id = "appear_overlay";
+						screenCount.id = "appear_screenCount";
+						miniOverlayBg =  document.getElementById("miniMainOverlayBg");
+						miniOverlayBg.style.display = "none";
+						setTimeout(function() {
+							overlayBg = document.getElementById("appear_overlay");
+							screenCount = document.getElementById("appear_screenCount");
+							overlayBg.id = "mainOverlayBg";
+							screenCount.id = "screenCount";
+						}, 100);
 					
 					}
 				}
@@ -136,6 +156,8 @@
 							const childPython = spawn('python', ['screenshot.py']);
 							childPython.stdout.on('data', (data) => {
 								console.log(`${data}`)
+								updateLogs();
+  								updateAmountSaved();
 							});
 						}
 					});
@@ -150,7 +172,7 @@
 
 			function showOverlaySettings() {
 				if (hasDragged == false){
-						var htmlShow = document.getElementById("settings");
+					var htmlShow = document.getElementById("settings");
 					if (htmlShow.style.display === "none") {
 						htmlShow.style.display = "inline-block";
 					} else {
@@ -173,7 +195,7 @@
 				}
 			  }
 			  
-			dragElement(document.getElementById("overlayed"));
+			dragElement(document.getElementById("overlay_entity"));
 			function dragElement(elmnt) {
 				var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 				if (document.getElementById(elmnt.id + "header")) {

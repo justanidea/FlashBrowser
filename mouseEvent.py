@@ -1,7 +1,3 @@
-import sys
-import requests
-import time
-import asyncio
 from pynput.mouse import Listener as MouseListener
 from pynput.keyboard import Listener as KeyboardListener
 
@@ -15,6 +11,17 @@ with open(path, 'r') as settings:
     if "Mouse" in settings['macroName']:
         # print("mouse key detected:" + settings['macroName'])
         is_mouse_event = True
+        match settings['macro']:
+            case 0:
+                settings['macroName'] = "Button.left"
+            case 1:
+                settings['macroName'] = "Button.center"
+            case 2:
+                settings['macroName'] = "Button.right"
+            case 3:
+                settings['macroName'] = "Button.x1"
+            case 4:
+                settings['macroName'] = "Button.x2"
     else:
         # print("keyboard key detected:" + settings['macroName'])
         pass
@@ -24,8 +31,10 @@ with open(path, 'r') as settings:
 def on_click(x, y, button, pressed):
     if is_mouse_event == True:
         if not pressed:
+            msg = format(button)
             # print(button)
-            print(f"macro triggered", flush=True )
+            if msg == settings['macroName']:
+                print(f"macro triggered", flush=True )
 
 def on_release(key):
     msg = format(key.char)
@@ -35,7 +44,6 @@ def on_release(key):
     if msg == "\x03":
         exit()
         
-    
 keyboard_listener = KeyboardListener(on_release=on_release)
 mouse_listener = MouseListener(on_click=on_click)
 

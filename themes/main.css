@@ -8,7 +8,45 @@ body {
 }
 
 
-.overlayed {
+#overlayed {
+    display: inline-block;
+    position: absolute;
+    top: 20%;
+    right: 0.25%;
+    width: 3%;
+    max-height: 15%;
+    padding-bottom: 25%;
+    margin-right: 100px;
+    border-radius: 5px;
+    background-color: rgba(3, 37, 68, 0.5);
+    overflow:visible;
+}
+
+#mainOverlay {
+    display: inline-block;
+    position: absolute;
+    padding-bottom: 0.8%;
+    border-radius: 5px;
+}
+
+#miniMainOverlayBg {
+    display: none;
+    border-radius: 5px;
+    background-color: rgba(3, 37, 68, 0.5);
+    padding-bottom: 40%;
+    padding-top: 30%;
+    margin-top: -20%;
+}
+
+#mainOverlayBg {
+    border-radius: 5px;
+    background-color: rgba(3, 37, 68, 0.5);
+    padding-bottom: 40%;
+    padding-top: 30%;
+    margin-top: -20%;
+}
+
+#overlay_entity{
     display: inline-block;
     position: absolute;
     top: 20%;
@@ -18,15 +56,137 @@ body {
     margin-right: 100px;
     border-radius: 5px;
     background-color: rgba(3, 37, 68, 0.5);
+    overflow:visible;
 }
 
-.frontScreen {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    pointer-events:initial;
-    opacity: 90%;
-    background-color: brown;
+#disappear_screenCount
+{
+    display: block;
+    color:white;
+    text-align:center;
+    font-size: xx-small;
+    font-family: 'FontEsparragon', Arial, sans-serif;
+    background-color: rgba(2, 12, 20, 0.5);
+    border-radius: 5px;
+    max-width: 90%;
+    max-height: 33%;
+    margin: auto;
+    cursor: pointer;
+    appearance: none;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-top: -40%;
+    -webkit-animation: translateUpScreenCount .15s;
+}
+
+#appear_screenCount
+{
+    display: block;
+    color:white;
+    text-align:center;
+    font-size: xx-small;
+    font-family: 'FontEsparragon', Arial, sans-serif;
+    background-color: rgba(2, 12, 20, 0.5);
+    border-radius: 5px;
+    max-width: 90%;
+    max-height: 33%;
+    margin: auto;
+    cursor: pointer;
+    appearance: none;
+    padding-top: 5%;
+    padding-bottom: 5%;
+    margin-top: -40%;
+    -webkit-animation: translateDownScreenCount .15s;
+}
+
+#disappear_overlay
+{
+    display: inline-block;
+    -webkit-animation: collapseOverlay .15s;
+}
+
+#appear_overlay
+{
+    border-radius: 5px;
+    background-color: rgba(3, 37, 68, 0.5);
+    padding-bottom: 40%;
+    padding-top: 30%;
+    margin-top: -20%;
+    display: inline-block;
+    -webkit-animation: expandOverlay .15s;
+}
+
+#mainOverlayBgHidden
+{
+    display: none;
+}
+
+@-webkit-keyframes translateUpScreenCount {
+    0% {
+        display: block;
+        margin: auto;
+        transform: translateY(0%);
+    }
+
+    100% {
+        display: block;
+        margin: auto;
+        transform: translateY(-500%);
+    }
+}
+
+@-webkit-keyframes translateDownScreenCount {
+    0% {
+        display: block;
+        margin: auto;
+        transform: translateY(-1050%);
+    }
+
+    100% {
+        display: block;
+        margin: auto;
+        transform: translateY(-200%);
+    }
+}
+
+@-webkit-keyframes collapseOverlay {
+    0% {
+        display: block;
+        margin: auto;
+        transform: translateY(0%) scaleY(1);
+    }
+
+    99% {
+        display: block;
+        margin: auto;
+        transform: translateY(-45%) scaleY(0.2); 
+    }
+
+    100% {
+        display: none;
+        margin: auto;
+        transform: translateY(-50%) scaleY(0.2);
+    }
+}
+
+@-webkit-keyframes expandOverlay {
+    0% {
+        display: none;
+        margin: auto;
+        transform: translateY(-50%) scaleY(0.2);
+    }
+
+    1% {
+        display: block;
+        margin: auto;
+        transform: translateY(-50%) scaleY(0.2); 
+    }
+
+    100% {
+        display: block;
+        margin: auto;
+        transform: translateY(0%) scaleY(0.9);
+    }
 }
 
 #screenCount {
@@ -36,16 +196,15 @@ body {
     font-family: 'FontEsparragon', Arial, sans-serif;
     background-color: rgba(2, 12, 20, 0.5);
     border-radius: 5px;
-    max-width: 80%;
+    max-width: 90%;
     max-height: 33%;
     margin: auto;
     cursor: pointer;
     appearance: none;
     padding-top: 5%;
     padding-bottom: 5%;
+    margin-top: -40%;
 }
-
-
 
 #mainButton {
     width: 100%;
@@ -78,6 +237,7 @@ body {
 }
 
 .actionIcon {
+    transition: display 1s;  
     display:block;
     max-width:100%;
     max-height:100%;
