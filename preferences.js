@@ -2,7 +2,7 @@ console.log("preferences.js is being loaded in")
 
 const fs = require('fs');
 
-const logPath = 'log.txt';
+const logPath = 'saved\\logs.txt';
 
 
 function createOrUpdateFile(path, data) {
@@ -34,16 +34,9 @@ document.addEventListener('DOMContentLoaded', function() {
 let preferences = new Preferences({
     macro: 3,
     macroName: 'macro button name',
-    updateInstantly: true,
-    screensSavedPath: '.\\saved\\'
+    uploadInstantly: true,
+    screensSavedPath: '.\\saved\\screenshots\\'
 });
-// let  home
-// try{
-//     home  = store.get('homepage');
-// }
-// catch (error) {
-//     home  = null;
-// }
 
 function parseDataFile(filePath, defaults) {
     try {
@@ -59,11 +52,14 @@ function parseDataFile(filePath, defaults) {
 function updateSettingsDiv() {
     const keyBindDiv = document.getElementById('keyBindLabel');
     keyBindDiv.innerText = 'Key chosen: ' + preferences.get('macroName');
-    const instantUpdateDiv = document.getElementById('instantUpdateLabel');
-    instantUpdateDiv.innerText = 'Update instantly: ' + preferences.get('updateInstantly');
+    const instantUpdateDiv = document.getElementById('instantUploadLabel');
+    instantUpdateDiv.innerText = 'Upload instantly: ' + preferences.get('uploadInstantly');
     const screenshotFolderDiv = document.getElementById('screenshotFolderLabel');
     screenshotFolderDiv.innerText = preferences.get('screensSavedPath');
     updateLogs();
+    updateAmountSaved();
+    const uploadInstantlyIcon = document.getElementById('uploadIcon');
+    unhoverUpdateInstantly(uploadInstantlyIcon);
 }
 
 function updateLogs() {
@@ -82,9 +78,11 @@ function createOrMakeEmptyLogFile() {
 let choosingMacro = false;
 function toggleChoosingMacro() {
     let element = document.getElementById('macroIcon');
+    const toggleButton = document.getElementById('toggleScreeningButton')
+    if (toggleButton === undefined || element === undefined) return;
     choosingMacro = !choosingMacro;
     if (choosingMacro) {
-        screenToggleFalse();
+        screenToggleFalse(toggleButton);
         element.setAttribute('src', "icons\\icon-macro-highlighted.png");
     }
     else {
@@ -92,19 +90,20 @@ function toggleChoosingMacro() {
     }
 }
 
-function toggleUpdateInstantly() {
-    preferences.set('updateInstantly', !preferences.get('updateInstantly'))
+function toggleUploadInstantly() {
+    preferences.set('uploadInstantly', !preferences.get('uploadInstantly'))
+    const toggleButton = document.getElementById('uploadIcon')
+    if (toggleButton === undefined) return;
+    if (preferences.get('uploadInstantly')) {
+        toggleButton.setAttribute('src', "icons\\icon-upload-turned-on.png");
+    }
+    else {
+        toggleButton.setAttribute('src', "icons\\icon-upload-settings.png");
+    }
 }
 
 document.addEventListener('mousedown', function (event) {
-    if (screenActive) {
-        if (typeof preferences.get('macro') === 'number' && Number.isInteger(preferences.get('macro'))) {
-            if (event.button === preferences.get('macro')) {
-                callPython();
-            }
-        }
-    }
-    else if (choosingMacro) {
+    if (!screenActive && choosingMacro) {
         toggleChoosingMacro();
         preferences.set('macro', event.button);
         preferences.set('macroName', getMouseButtonName(event.button));
@@ -127,14 +126,7 @@ function getMouseButtonName(buttonCode) {
     }
 }
 document.addEventListener('keydown', function (event) {
-    if (screenActive) {
-        if (typeof preferences.get('macro') === 'string') {
-            if (event.button === preferences.get('macro')) {
-                callPython();
-            }
-        }
-    }
-    else if (choosingMacro) {
+    if (!screenActive && choosingMacro) {
         toggleChoosingMacro();
         preferences.set('macro', event.key);
         let macroName = event.key;
@@ -146,13 +138,50 @@ document.addEventListener('keydown', function (event) {
     }
 });
 
-function callPython() {
-    console.log("screenshottingIsEnabled, enabling python program")
-    const { spawn } = require('child_process');
-    const childPython = spawn('python', ['screenshot.py']);
-    console.log(childPython.pid)
-    childPython.stdout.on('data', (data) => {
-        console.log(`${data}`)
-    });
-    updateLogs();
+function updateAmountSaved() {
+    const element = document.getElementById('screenCount')
+    if (element !== undefined) {
+        element.innerText = countFiles(preferences.get('screensSavedPath'))
+    }
+}
+
+function countFiles(path) {
+    try {
+        const files = fs.readdirSync(path);
+        let fileCount = 0;
+
+        files.forEach(file => {
+            const fullPath = `${path}/${file}`;
+            if (fs.statSync(fullPath).isFile()) {
+                fileCount++;
+            }
+        });
+
+        return fileCount;
+    } catch (error) {
+        console.error('Error reading directory:', error.message);
+        return -1; // Return -1 to indicate an error
+    }
+}
+
+// Execute the checkCondition function every 10 seconds (10000 milliseconds)
+setInterval(updateAmountSaved, 10000);
+
+
+function hoverUpdateInstantly(element) {
+    if (preferences.get('uploadInstantly')) {
+        element.setAttribute('src', "icons\\icon-upload-settings-turned-on-highlighted.png");
+    }
+    else {
+        element.setAttribute('src', "icons\\icon-upload-settings-highlighted.png");
+    }
+}
+
+function unhoverUpdateInstantly(element) {
+    if (preferences.get('uploadInstantly')) {
+        element.setAttribute('src', "icons\\icon-upload-turned-on.png");
+    }
+    else {
+        element.setAttribute('src', "icons\\icon-upload-settings.png");
+    }
 }

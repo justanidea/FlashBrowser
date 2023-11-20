@@ -71,8 +71,11 @@
             <div id="settingsName">Settings</div>
             <img class="settingIcon" id="macroIcon" src="icons\icon-macro.png" onclick="toggleChoosingMacro()">
             <label class="settingsLabel" id="keyBindLabel">Key chosen: <span></span></label>
-            <img class="settingIcon" id="uploadIcon" src="icons\icon-upload-settings.png" onclick="toggleUpdateInstantly()">
-            <div class="settingsLabel" id="instantUpdateLabel">Update instantly:</div>
+            <img class="settingIcon" id="uploadIcon" src="icons\icon-upload-settings.png"
+                 onclick="toggleUploadInstantly()"
+                 onmouseover="hoverUpdateInstantly(this);"
+                 onmouseout="unhoverUpdateInstantly(this);">
+            <div class="settingsLabel" id="instantUploadLabel">Upload instantly:</div>
             <img class="settingIcon" id="folderIcon" src="icons\icon-folder.png">
             <div class="settingsLabel" id="screenshotFolderLabel">C:\\Documents\GoodLuckMate</div>
             <div class="settingsLogs" id="logConsole">LOGS:<br>[ERR] No popup detected<br>[ERR] No popup detected<br>[ERR]
