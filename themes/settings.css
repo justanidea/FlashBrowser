@@ -1,6 +1,6 @@
 .settings {
     color:white;
-    background-color: rgba(3, 37, 68, 0.5);
+    background-color: rgba(3, 37, 68, 0.7);
     display: inline-block;
     position: absolute;
     margin-right: 110%;
@@ -31,7 +31,7 @@
 
 .settingsLabel {
     color:white;
-    background-color: rgba(2, 12, 20, 0.5);
+    background-color: rgba(2, 12, 20, 0.7);
     display: inline-block;
     border-radius: 5px;
     height: 5%;
@@ -41,12 +41,12 @@
     padding-bottom: 1%;
     padding-left: 1%;
     font-family: 'FontEsparragon', Arial, sans-serif;
-    font-size: small;
+    font-size: 70%;
 }
 
 .settingsLogs {
     color:white;
-    background-color: rgba(2, 12, 20, 0.5);
+    background-color: rgba(2, 12, 20, 0.7);
     display: inline-block;
     border-radius: 5px;
     width: 90%;
@@ -56,5 +56,5 @@
     padding-left: 3%;
     padding-bottom: 30%;
     font-family: 'FontEsparragon', Arial, sans-serif;
-    font-size: small;
+    font-size: 65%;
 }

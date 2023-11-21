@@ -18,7 +18,7 @@ body {
     padding-bottom: 25%;
     margin-right: 100px;
     border-radius: 5px;
-    background-color: rgba(3, 37, 68, 0.5);
+    background-color: rgba(3, 37, 68, 0.7);
     overflow:visible;
 }
 
@@ -32,7 +32,7 @@ body {
 #miniMainOverlayBg {
     display: none;
     border-radius: 5px;
-    background-color: rgba(3, 37, 68, 0.5);
+    background-color: rgba(3, 37, 68, 0.7);
     padding-bottom: 40%;
     padding-top: 30%;
     margin-top: -20%;
@@ -40,7 +40,7 @@ body {
 
 #mainOverlayBg {
     border-radius: 5px;
-    background-color: rgba(3, 37, 68, 0.5);
+    background-color: rgba(3, 37, 68, 0.7);
     padding-bottom: 40%;
     padding-top: 30%;
     margin-top: -20%;
@@ -55,7 +55,7 @@ body {
     padding-bottom: 0.8%;
     margin-right: 100px;
     border-radius: 5px;
-    background-color: rgba(3, 37, 68, 0.5);
+    background-color: rgba(3, 37, 68, 0.7);
     overflow:visible;
 }
 
@@ -66,7 +66,7 @@ body {
     text-align:center;
     font-size: xx-small;
     font-family: 'FontEsparragon', Arial, sans-serif;
-    background-color: rgba(2, 12, 20, 0.5);
+    background-color: rgba(2, 12, 20, 0.7);
     border-radius: 5px;
     max-width: 90%;
     max-height: 33%;
@@ -86,7 +86,7 @@ body {
     text-align:center;
     font-size: xx-small;
     font-family: 'FontEsparragon', Arial, sans-serif;
-    background-color: rgba(2, 12, 20, 0.5);
+    background-color: rgba(2, 12, 20, 0.7);
     border-radius: 5px;
     max-width: 90%;
     max-height: 33%;
@@ -108,7 +108,7 @@ body {
 #appear_overlay
 {
     border-radius: 5px;
-    background-color: rgba(3, 37, 68, 0.5);
+    background-color: rgba(3, 37, 68, 0.7);
     padding-bottom: 40%;
     padding-top: 30%;
     margin-top: -20%;
@@ -194,7 +194,7 @@ body {
     text-align:center;
     font-size: xx-small;
     font-family: 'FontEsparragon', Arial, sans-serif;
-    background-color: rgba(2, 12, 20, 0.5);
+    background-color: rgba(2, 12, 20, 0.7);
     border-radius: 5px;
     max-width: 90%;
     max-height: 33%;

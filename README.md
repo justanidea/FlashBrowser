@@ -15,5 +15,7 @@
 
 `pip install -U python-dotenv`
 
+`pip install -U dxcam[cv2]`
+
 `npm run start`
 

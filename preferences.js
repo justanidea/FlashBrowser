@@ -1,9 +1,14 @@
 console.log("preferences.js is being loaded in")
 
 const fs = require('fs');
-
+const {
+    app,
+    protocol,
+    BrowserWindow,
+	globalShortcut,
+    Menu
+} = require('electron');
 const logPath = 'saved\\logs.txt';
-
 
 function createOrUpdateFile(path, data) {
     fs.writeFileSync(path, JSON.stringify(data));

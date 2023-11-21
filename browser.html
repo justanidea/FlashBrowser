@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="themes/settings.css">
     <link rel="stylesheet" href="themes/fonts.css">
     <script src="preferences.js"></script>
+    <script src="index.js"></script>
 </head>
 <p id='topspacer'
    style="color:grey;font-size:1px; height:28px; min-height:28px !important; -webkit-app-region: drag;"></p>
@@ -142,7 +143,7 @@
 					}
 				}
 			}
-
+            
 			function startScreens(event, screenActive, screenshotSubProcessPID){
 				if (screenActive == true){
 					const { spawn } = require('child_process');
@@ -150,18 +151,20 @@
 					console.log("mouseListenner enabled")
 					var screenshotSubProcessPID = childPython.pid;
 					childPython.stdout.on('data', (data) => {
-						var data = data.toString().slice(0, -2); //removing the 2 endline chars sent by the flushed python print
-						console.log(data);
-						if (data === "macro triggered"){
-							const { spawn } = require('child_process');
-							const childPython = spawn('python', ['screenshot.py']);
-							childPython.stdout.on('data', (data) => {
-								console.log(`${data}`)
-								updateLogs();
-  								updateAmountSaved();
-							});
-						}
-					});
+						//var data = data.toString().slice(0, -2); //removing the 2 endline chars sent by the flushed python print
+						console.log(`${data}`);
+                        updateLogs();
+                        updateAmountSaved();
+                    });
+						//if (data === "macro triggered"){
+							//const { spawn } = require('child_process');
+							//const childPython = spawn('python', ['screenshot.py']);
+							//childPython.stdout.on('data', (data) => {
+								//console.log(`${data}`)
+								
+							//});
+						//}
+					
 					return screenshotSubProcessPID
 				} else { 
 					if (screenshotSubProcessPID != ""){
