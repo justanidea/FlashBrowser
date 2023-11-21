@@ -98,9 +98,30 @@ function toggleUploadInstantly() {
     if (toggleButton === undefined) return;
     if (preferences.get('uploadInstantly')) {
         toggleButton.setAttribute('src', "icons\\icon-upload-turned-on.png");
+        const publishButton = document.getElementById('publishIcon');
+        if (publishButton !== undefined) {
+            unhoverPublish(publishButton);
+        }
+        if (screenActive && !publishSaves) {
+            runPublishBot();
+        }
     }
     else {
+        if (!publishSaves && screenActive) {
+            killPublishBot();
+        }
         toggleButton.setAttribute('src', "icons\\icon-upload-settings.png");
+    }
+}
+
+function handleScreenActivated() {
+    if (preferences.get('uploadInstantly') && !publishSaves) {
+        if (screenActive) {
+            runPublishBot();
+        }
+        else {
+            killPublishBot();
+        }
     }
 }
 
@@ -160,6 +181,10 @@ function countFiles(path) {
             }
         });
 
+        if (publishSaves && fileCount === 0) {
+            killPublishBot();
+        }
+
         return fileCount;
     } catch (error) {
         console.error('Error reading directory:', error.message);
@@ -183,4 +208,59 @@ function unhoverUpdateInstantly(element) {
     else {
         element.setAttribute('src', "icons\\icon-upload-settings.png");
     }
+}
+
+function hoverPublish(element) {
+    if (!(screenActive && preferences.get('uploadInstantly')) && !publishSaves) {
+        element.setAttribute('src', "icons\\icon-publish-highlighted.png");
+    }
+}
+
+function unhoverPublish(element) {
+    if (!(screenActive && preferences.get('uploadInstantly')) && !publishSaves) {
+        element.setAttribute('src', "icons\\icon-publish.png");
+    }
+}
+
+let publishingPythonProcessId = -1;
+let publishSaves = false;
+
+function togglePublishing() {
+    if (publishSaves) {
+        publishSaves = false;
+        if (!preferences.get('uploadInstantly')) {
+            killPublishBot();
+        }
+    }
+    else {
+        publishSaves = true;
+        if (!(screenActive && preferences.get('uploadInstantly')))
+        runPublishBot();
+    }
+}
+
+function runPublishBot() {
+    const element = document.getElementById('publishIcon')
+    element.setAttribute('src', "icons\\icon-publish-activated.png");
+    console.log("publishSaves enabled")
+    const { spawn } = require('child_process');
+    const childPython = spawn('python', ['publishing.py']);
+    publishingPythonProcessId = childPython.pid;
+}
+
+function killPublishBot() {
+    try {
+        process.kill(publishingPythonProcessId);
+        publishingPythonProcessId = -1;
+    }
+    catch (e) {
+        console.log("Error when killing publishing bot by process id: ", publishingPythonProcessId)
+    }
+
+    const element = document.getElementById('publishIcon')
+    if (element !== undefined) {
+        unhoverPublish(element);
+    }
+
+    console.log("publishSaves disabled")
 }

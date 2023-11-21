@@ -90,9 +90,10 @@
 					<img class="actionIcon" id="toggleScreeningButton" onclick="toggleScreening(this);" src="icons\icon-start.png"
 						onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
 				</div>
-				<div class="actionButton" onclick="enablePublishing();">
-					<img class="actionIcon" src="icons\icon-publish.png" onmouseover="hover(this, 'icons\\icon-publish');"
-						onmouseout="unhover(this, 'icons\\icon-publish');">
+				<div class="actionButton" onclick="togglePublishing();">
+					<img class="actionIcon" src="icons\icon-publish.png" id="publishIcon"
+                         onmouseover="hoverPublish(this);"
+                         onmouseout="unhoverPublish(this);">
 				</div>
 				<div class="actionButton" onclick="showOverlaySettings();">
 					<img class="actionIcon" src="icons\icon-settings.png" onmouseover="hover(this, 'icons\\icon-settings');"
@@ -256,6 +257,7 @@
             object.setAttribute('src', "icons\\icon-start.png");
             object.setAttribute('class', object.className.replace('Toggled', '') + 'Highlight');
             screenActive = false;
+            handleScreenActivated();
         }
     }
 
@@ -264,6 +266,7 @@
             object.setAttribute('src', "icons\\icon-start-toggled-on.png");
             object.setAttribute('class', object.className.replace('Highlight', '') + "Toggled");
             screenActive = true;
+            handleScreenActivated();
         }
     }
 
