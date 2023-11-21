@@ -1,7 +1,7 @@
 .settings {
     color:white;
     background-color: rgba(3, 37, 68, 0.7);
-    display: inline-block;
+    display: none;
     position: absolute;
     margin-right: 110%;
     right: 0.25%;

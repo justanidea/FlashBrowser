@@ -86,7 +86,7 @@
 				<img id="mainIcon" src="icons\Main-button.png" onclick="expandOverlay(this);"
 					onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
 			</div>
-			<div id="mainOverlayBg">
+			<div id="mainOverlayBgHidden">
 				<div class="actionButton">
 					<img class="actionIcon" id="toggleScreeningButton" onclick="toggleScreening(this);" src="icons\icon-start.png"
 						onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
@@ -106,12 +106,17 @@
 		</div>
 	</div>	
         <script>
-			var hasDragged = false;
+			var hasDragged = true;
 			var screenActive = false;
 			function expandOverlay(element){
 				if (hasDragged == false){
 					overlayBg = document.getElementById("mainOverlayBg");
 					screenCount = document.getElementById("screenCount");
+                    screenCountBool = false;
+                    if (screenCount == undefined){
+                        screenCount = document.getElementById("screenCountActive");
+                        screenCountBool = true;
+                    }
 					if (overlayBg != undefined){
 						var settings = document.getElementById("settings");
 						if (settings.style.display != "none"){
@@ -125,7 +130,12 @@
 							miniOverlayBg =  document.getElementById("miniMainOverlayBg");
 							miniOverlayBg.style.display = "block";
 							overlayBg.id = "mainOverlayBgHidden";
-							screenCount.id = "screenCount";
+                            if (screenCountBool == true){
+                                screenCount.id = "screenCountActive";
+                            } else {
+                                screenCount.id = "screenCount";
+                            }
+							
 						}, 100);
 					} else {
 						overlayBg = document.getElementById("mainOverlayBgHidden");
@@ -137,7 +147,11 @@
 							overlayBg = document.getElementById("appear_overlay");
 							screenCount = document.getElementById("appear_screenCount");
 							overlayBg.id = "mainOverlayBg";
-							screenCount.id = "screenCount";
+							if (screenCountBool == true){
+                                screenCount.id = "screenCountActive";
+                            } else {
+                                screenCount.id = "screenCount";
+                            }
 						}, 100);
 					
 					}
@@ -151,20 +165,10 @@
 					console.log("mouseListenner enabled")
 					var screenshotSubProcessPID = childPython.pid;
 					childPython.stdout.on('data', (data) => {
-						//var data = data.toString().slice(0, -2); //removing the 2 endline chars sent by the flushed python print
 						console.log(`${data}`);
                         updateLogs();
                         updateAmountSaved();
-                    });
-						//if (data === "macro triggered"){
-							//const { spawn } = require('child_process');
-							//const childPython = spawn('python', ['screenshot.py']);
-							//childPython.stdout.on('data', (data) => {
-								//console.log(`${data}`)
-								
-							//});
-						//}
-					
+                    });		
 					return screenshotSubProcessPID
 				} else { 
 					if (screenshotSubProcessPID != ""){
@@ -203,21 +207,17 @@
 			function dragElement(elmnt) {
 				var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 				if (document.getElementById(elmnt.id + "header")) {
-					// if present, the header is where you move the DIV from:
 					document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
 				} else {
-					// otherwise, move the DIV from anywhere inside the DIV:
 					elmnt.onmousedown = dragMouseDown;
 				}
 				
 				function dragMouseDown(e) {
 					e = e || window.event;
 					e.preventDefault();
-					// get the mouse cursor position at startup:
 					pos3 = e.clientX;
 					pos4 = e.clientY;
 					document.onmouseup = closeDragElement;
-					// call a function whenever the cursor moves:
 					document.onmousemove = elementDrag;
 					hasDragged = false;
 				}
@@ -225,23 +225,21 @@
 				function elementDrag(e) {
 					e = e || window.event;
 					e.preventDefault();
-					// calculate the new cursor position:
 					pos1 = pos3 - e.clientX;
 					pos2 = pos4 - e.clientY;
 					pos3 = e.clientX;
 					pos4 = e.clientY;
 					hasDragged = true;
-					// set the element's new position:
 					elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
 					elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
 				}
 				
 				function closeDragElement() {
-					// stop moving when mouse button is released:
 					document.onmouseup = null;
 					document.onmousemove = null;
 				}
 			}
+
 	var screenshotSubProcessPID;
     function toggleScreening(object){
         if (screenActive) {
@@ -260,6 +258,8 @@
             object.setAttribute('src', "icons\\icon-start.png");
             object.setAttribute('class', object.className.replace('Toggled', '') + 'Highlight');
             screenActive = false;
+            screenCount = document.getElementById("screenCountActive");
+            screenCount.id = "screenCount";
             handleScreenActivated();
         }
     }
@@ -269,10 +269,11 @@
             object.setAttribute('src', "icons\\icon-start-toggled-on.png");
             object.setAttribute('class', object.className.replace('Highlight', '') + "Toggled");
             screenActive = true;
+            screenCount = document.getElementById("screenCount");
+            screenCount.id = "screenCountActive";
             handleScreenActivated();
         }
     }
-
 
     const {ipcRenderer} = require('electron');
     const Store = require('./store');
@@ -294,7 +295,6 @@
             return {options};
         }
     });
-
 
     function toggleFullscreen(event) {
         if (event.key === 'Escape') {
@@ -328,8 +328,6 @@
 
     }
 
-    //window.addEventListener('keyup', toggleFullscreen, true);
-
     let nav = document.getElementById('nav-body-ctrls');
     let tabs = document.getElementById('nav-body-tabs');
     let header = document.getElementById('window-controls');
@@ -341,19 +339,10 @@
     let oldStyle2 = getComputedStyle(nav).display;
     let oldStyle3 = getComputedStyle(topspacer).display;
 
-
-    //	const {clipboard} = require('electron');
-    //clipboard.writeText('Example String');
-    //let clipboardStr = clipboard.readText();
     var length = window.process.argv.length;
     var lastArgument = window.process.argv[length - 1]
     if (lastArgument && lastArgument.indexOf("file:///") == 0) {
         console.log(lastArgument);
-        //lastArgument = 'file:///D:/FlashPM/FlashBrowser-master/AS3.html';
-        //lastArgument = 'file:///D:/FlashPM/FlashBrowser-master/noimage.swf';
-        //var path2 = lastArgument.replace(/\\/g, "/");
-        //path2 = 'file:///' + path2;
-        // open a local file, and use a custom icon
         enav.newTab(lastArgument, {
             title: 'Local file'
         })
