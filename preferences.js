@@ -168,7 +168,10 @@ document.addEventListener('keydown', function (event) {
 
 function updateAmountSaved() {
     console.log("init updateAmountSaved");
-    const element = document.getElementById('screenCount')
+    var element = document.getElementById('screenCount')
+    if (element == undefined){
+        element = document.getElementById('screenCountActive')
+    }
     if (element !== undefined) {
         element.innerText = countFiles(preferences.get('screensSavedPath'))
     }

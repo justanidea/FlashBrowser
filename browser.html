@@ -402,14 +402,7 @@
 
     function zoomIn(event) {
         webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
-        overlay = document.getElementById('overlayed');
-        console.log(overlay)
         if (webview) {
-            console.log("zoom factor: " + webview.getZoomFactor())
-            console.log("overlay width: " + overlay.offsetWidth)
-            console.log("overlay new width: " + Math.floor(overlay.offsetWidth * 1.2))
-            overlay.style.width = Math.floor(overlay.offsetWidth / webview.getZoomFactor() * (webview.getZoomFactor() + 0.2)).toString() + "px";
-            overlay.style.top = Math.floor(overlay.offsetTop / webview.getZoomFactor() * (webview.getZoomFactor() + 0.2)).toString() + "px";
             webview.zoomFactor = webview.getZoomFactor() + 0.2//1
         }
     }
@@ -423,12 +416,8 @@
 
     function zoomOut(event) {
         webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
-        overlay = document.getElementById('overlayed');
         if (webview) {
             webview.zoomFactor = webview.getZoomFactor() - 0.2//1
-            overlay.style.width = Math.floor(overlay.offsetWidth / webview.getZoomFactor() * (webview.getZoomFactor() - 0.2)).toString() + "px";
-            overlay.style.top = Math.floor(overlay.offsetTop / webview.getZoomFactor() * (webview.getZoomFactor() - 0.2)).toString() + "px";
-            overlay.style.paddingBottom = Math.floor(overlay.offsetHeight / webview.getZoomFactor() * (webview.getZoomFactor() - 0.2)).toString() + "px";
         }
     }
 
