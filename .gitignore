@@ -16,3 +16,4 @@ preferences.json
 saved/logs.txt
 *.dll
 *.txt
+.env
