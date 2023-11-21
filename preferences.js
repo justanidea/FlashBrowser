@@ -246,6 +246,10 @@ function runPublishBot() {
     const { spawn } = require('child_process');
     const childPython = spawn('python', ['publishing.py']);
     publishingPythonProcessId = childPython.pid;
+    childPython.stdout.on('data', (data) => {
+        console.log(`${data}`)
+        updateAmountSaved();
+    });
 }
 
 function killPublishBot() {
