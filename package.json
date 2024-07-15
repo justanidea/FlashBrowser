@@ -4,7 +4,7 @@
   "description": "Browser For Galaxy Life players",
   "author": "kibble",
   "version": "1.0.1",
-  "main": "index.js",
+  "main": "preloa.js",
   "scripts": {
     "start": "electron .",
     "publish": "electron-builder --win -p always",

@@ -1,0 +1,38 @@
+<skin sku="new">
+	<props>
+
+		<prop sku="speech_color" color="0x096A7F"/> 
+		<prop sku="area_color" color="0x132327"/>
+		<prop sku="battle_color" color="0x0b1616"/>
+		<prop sku="generic_box_color"/> <!-- no color because the png already has the right color. Anyway we need to define it because it has been defined as abstract in skin default -->
+		
+		<!-- COLORS -->
+		<prop sku="color_fill_bkg" color="0x033638" intensity="0.2" />
+		<prop sku="stroke_color" stroke="0x100746"/>
+		<prop sku="mouse_over_button" glow="0x3dfff9"/>
+		<prop sku="disabled" colorHUE="0x434343" alpha="0.6"/> <!-- color for the grid in the shop -->		
+		<prop sku="text_light_negative" fontName="font_1" textColor="light_negative_color" stroke="negative_stroke"/>				
+		
+		<!-- Texts -->		
+		<prop sku="text_title" fontName="font_1" textColor="text_color_1" dropShadow="0x000000" /><!-- brown (generic) -->
+		<prop sku="text_title_3" fontName="font_1" textColor="text_color_1" dropShadow="0x000000"/><!-- brown (generic)stroke="0x550108" -->
+		<prop sku="text_cancel" props="text_title" textColor="0xffbbba" dropShadow="0x000000"/> <!--to cancel button -->
+		<prop sku="text_attack" props="text_title" textColor="0xede1ef" dropShadow="0x000000"/> <!--to attack button -->
+		<prop sku="text_old_tab" textColor="0xb3d5dc"/>
+
+		<!-- Textures -->
+		<prop sku="pop_tiles" type="tiled_area_noflipped_top_trimming" assetIds="popup_corner_top_left,popup_left,popup_top,popup_corner_bottom_left,popup_bottom,popup_gradient,popup_top_trimming" />
+
+		
+		<prop sku="pop_xl" props="pop_tiles" isInvisibleUntilTextureBuilt="1" />
+		<prop sku="pop_xl_no_buttons" props="pop_tiles" isInvisibleUntilTextureBuilt="1"/>
+		<prop sku="pop_xl_battle" props="pop_xl" isInvisibleUntilTextureBuilt="1"/>
+		<prop sku="pop_l" props="pop_tiles" isInvisibleUntilTextureBuilt="1"/>
+		<prop sku="pop_m" props="pop_tiles" isInvisibleUntilTextureBuilt="1"/>
+		<prop sku="pop_s" props="pop_tiles" isInvisibleUntilTextureBuilt="1"/>
+
+		<!-- btns to prevent errors in console - Andy  -->				
+		<prop sku="btn_accept" props="btn_common"/>							
+				
+	</props>				
+</skin>

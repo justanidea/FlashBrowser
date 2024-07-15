@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="themes/settings.css">
     <link rel="stylesheet" href="themes/fonts.css">
     <script src="preferences.js"></script>
-    <script src="index.js"></script>
+<!--    <script src="index.js"></script>-->
 </head>
 <p id='topspacer'
    style="color:grey;font-size:1px; height:28px; min-height:28px !important; -webkit-app-region: drag;"></p>
@@ -66,7 +66,7 @@
 <div id="nav-body-ctrls"></div>
 
 <div id="nav-body-views">
-	<div id="overlay_entity">
+    <div id="overlay_entity">
         <div class="settings" id="settings">
             <div id="settingsName">Settings</div>
             <img class="settingIcon" id="macroIcon" src="icons\icon-macro.png" onclick="toggleChoosingMacro()">
@@ -80,672 +80,749 @@
             <div class="settingsLabel" id="screenshotFolderLabel">C:\\Documents\GoodLuckMate</div>
             <div class="settingsLogs" id="logConsole">LOGS:<br>No logs are currently displayed.
             </div>
-		</div>
-		<div id="mainOverlay">
-			<div id="mainButton">
-				<img id="mainIcon" src="icons\Main-button.png" onclick="expandOverlay(this);"
-					onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
-			</div>
-			<div id="mainOverlayBgHidden">
-				<div class="actionButton">
-					<img class="actionIcon" id="toggleScreeningButton" onclick="toggleScreening(this);" src="icons\icon-start.png"
-						onmouseover="hover(this, 'icons\\icon-start');" onmouseout="unhover(this, 'icons\\icon-start');">
-				</div>
-				<div class="actionButton" onclick="togglePublishing();">
-					<img class="actionIcon" src="icons\icon-publish.png" id="publishIcon"
+        </div>
+        <div id="mainOverlay">
+            <div id="mainButton">
+                <img id="mainIcon" src="icons\Main-button.png" onclick="expandOverlay(this);"
+                     onmouseover="hover(this, 'icons\\Main-button');" onmouseout="unhover(this, 'icons\\Main-button');">
+            </div>
+            <div id="mainOverlayBgHidden">
+                <div class="actionButton">
+                    <img class="actionIcon" id="toggleScreeningButton" onclick="toggleScreening(this);"
+                         src="icons\icon-start.png"
+                         onmouseover="hover(this, 'icons\\icon-start');"
+                         onmouseout="unhover(this, 'icons\\icon-start');">
+                </div>
+                <div class="actionButton" onclick="togglePublishing();">
+                    <img class="actionIcon" src="icons\icon-publish.png" id="publishIcon"
                          onmouseover="hoverPublish(this);"
                          onmouseout="unhoverPublish(this);">
-				</div>
-				<div class="actionButton" onclick="showOverlaySettings();">
-					<img class="actionIcon" src="icons\icon-settings.png" onmouseover="hover(this, 'icons\\icon-settings');"
-						onmouseout="unhover(this, 'icons\\icon-settings');">
-				</div>
-			</div>
-			<div id="miniMainOverlayBg"></div>
-			<div id="screenCount">1250</div>
-		</div>
-	</div>	
-        <script>
-			var hasDragged = true;
-			var screenActive = false;
-			function expandOverlay(element){
-				if (hasDragged == false){
-					overlayBg = document.getElementById("mainOverlayBg");
-					screenCount = document.getElementById("screenCount");
-                    screenCountBool = false;
-                    if (screenCount == undefined){
-                        screenCount = document.getElementById("screenCountActive");
-                        screenCountBool = true;
+                </div>
+                <div class="actionButton" onclick="showOverlaySettings();">
+                    <img class="actionIcon" src="icons\icon-settings.png"
+                         onmouseover="hover(this, 'icons\\icon-settings');"
+                         onmouseout="unhover(this, 'icons\\icon-settings');">
+                </div>
+            </div>
+            <div id="miniMainOverlayBg"></div>
+            <div id="screenCount">1250</div>
+        </div>
+    </div>
+    <script>
+
+        //#region overlay
+        var hasDragged = true;
+        var screenActive = false;
+
+        function expandOverlay(element) {
+            if (hasDragged == false) {
+                overlayBg = document.getElementById("mainOverlayBg");
+                screenCount = document.getElementById("screenCount");
+                screenCountBool = false;
+                if (screenCount == undefined) {
+                    screenCount = document.getElementById("screenCountActive");
+                    screenCountBool = true;
+                }
+                if (overlayBg != undefined) {
+                    var settings = document.getElementById("settings");
+                    if (settings.style.display != "none") {
+                        settings.style.display = "none";
                     }
-					if (overlayBg != undefined){
-						var settings = document.getElementById("settings");
-						if (settings.style.display != "none"){
-							settings.style.display = "none";
-						}
-						overlayBg.id = "disappear_overlay";
-						screenCount.id = "disappear_screenCount";
-						setTimeout(function() {
-							overlayBg = document.getElementById("disappear_overlay");
-							screenCount = document.getElementById("disappear_screenCount");
-							miniOverlayBg =  document.getElementById("miniMainOverlayBg");
-							miniOverlayBg.style.display = "block";
-							overlayBg.id = "mainOverlayBgHidden";
-                            if (screenCountBool == true){
-                                screenCount.id = "screenCountActive";
-                            } else {
-                                screenCount.id = "screenCount";
-                            }
-							
-						}, 100);
-					} else {
-						overlayBg = document.getElementById("mainOverlayBgHidden");
-						overlayBg.id = "appear_overlay";
-						screenCount.id = "appear_screenCount";
-						miniOverlayBg =  document.getElementById("miniMainOverlayBg");
-						miniOverlayBg.style.display = "none";
-						setTimeout(function() {
-							overlayBg = document.getElementById("appear_overlay");
-							screenCount = document.getElementById("appear_screenCount");
-							overlayBg.id = "mainOverlayBg";
-							if (screenCountBool == true){
-                                screenCount.id = "screenCountActive";
-                            } else {
-                                screenCount.id = "screenCount";
-                            }
-						}, 100);
-					
-					}
-				}
-			}
-            
-			function startScreens(event, screenActive, screenshotSubProcessPID){
-				if (screenActive == true){
-					const { spawn } = require('child_process');
-					const childPython = spawn('python', ['mouseEvent.py']);
-					console.log("mouseListenner enabled")
-					var screenshotSubProcessPID = childPython.pid;
-					childPython.stdout.on('data', (data) => {
-						console.log(`${data}`);
-                        updateLogs();
-                        updateAmountSaved();
-                    });		
-					return screenshotSubProcessPID
-				} else { 
-					if (screenshotSubProcessPID != ""){
-						process.kill(screenshotSubProcessPID);
-						console.log("mouseListenner disabled")
-					} 
-				}
-			}
+                    overlayBg.id = "disappear_overlay";
+                    screenCount.id = "disappear_screenCount";
+                    setTimeout(function () {
+                        overlayBg = document.getElementById("disappear_overlay");
+                        screenCount = document.getElementById("disappear_screenCount");
+                        miniOverlayBg = document.getElementById("miniMainOverlayBg");
+                        miniOverlayBg.style.display = "block";
+                        overlayBg.id = "mainOverlayBgHidden";
+                        if (screenCountBool == true) {
+                            screenCount.id = "screenCountActive";
+                        } else {
+                            screenCount.id = "screenCount";
+                        }
 
-			function showOverlaySettings() {
-				if (hasDragged == false){
-					var htmlShow = document.getElementById("settings");
-					if (htmlShow.style.display === "none") {
-						htmlShow.style.display = "inline-block";
-					} else {
-						htmlShow.style.display = "none";
-					}
-				}
-			}
-			
-			function hover(element, string) {
-				if (element.src.slice(-6) != "on.png"){
-					element.setAttribute('src', string + "-highlighted.png");
-					element.setAttribute('id', element.id +"Highlight");
-				}
-			  }
-			  
-			function unhover(element, string) {
-				if (element.src.slice(-6) != "on.png"){
-					element.setAttribute('src', string + ".png");
-					element.setAttribute('id', element.id.replace('Highlight', ''));
-				}
-			  }
-			  
-			dragElement(document.getElementById("overlay_entity"));
-			function dragElement(elmnt) {
-				var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-				if (document.getElementById(elmnt.id + "header")) {
-					document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-				} else {
-					elmnt.onmousedown = dragMouseDown;
-				}
-				
-				function dragMouseDown(e) {
-					e = e || window.event;
-					e.preventDefault();
-					pos3 = e.clientX;
-					pos4 = e.clientY;
-					document.onmouseup = closeDragElement;
-					document.onmousemove = elementDrag;
-					hasDragged = false;
-				}
-				
-				function elementDrag(e) {
-					e = e || window.event;
-					e.preventDefault();
-					pos1 = pos3 - e.clientX;
-					pos2 = pos4 - e.clientY;
-					pos3 = e.clientX;
-					pos4 = e.clientY;
-					hasDragged = true;
-					elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-					elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-				}
-				
-				function closeDragElement() {
-					document.onmouseup = null;
-					document.onmousemove = null;
-				}
-			}
+                    }, 100);
+                } else {
+                    overlayBg = document.getElementById("mainOverlayBgHidden");
+                    overlayBg.id = "appear_overlay";
+                    screenCount.id = "appear_screenCount";
+                    miniOverlayBg = document.getElementById("miniMainOverlayBg");
+                    miniOverlayBg.style.display = "none";
+                    setTimeout(function () {
+                        overlayBg = document.getElementById("appear_overlay");
+                        screenCount = document.getElementById("appear_screenCount");
+                        overlayBg.id = "mainOverlayBg";
+                        if (screenCountBool == true) {
+                            screenCount.id = "screenCountActive";
+                        } else {
+                            screenCount.id = "screenCount";
+                        }
+                    }, 100);
 
-	var screenshotSubProcessPID;
-    function toggleScreening(object){
-        if (screenActive) {
-            screenToggleFalse(object)
-        } else {
-            screenToggleTrue(object)
-        }
-		if (screenshotSubProcessPID === undefined){
-			screenshotSubProcessPID = ""
-		}
-        screenshotSubProcessPID = startScreens(event, screenActive, screenshotSubProcessPID);
-    }
-
-    function screenToggleFalse(object) {
-        if (screenActive) {
-            object.setAttribute('src', "icons\\icon-start.png");
-            object.setAttribute('class', object.className.replace('Toggled', '') + 'Highlight');
-            screenActive = false;
-            screenCount = document.getElementById("screenCountActive");
-            screenCount.id = "screenCount";
-            handleScreenActivated();
-        }
-    }
-
-    function screenToggleTrue(object) {
-        if (!screenActive) {
-            object.setAttribute('src', "icons\\icon-start-toggled-on.png");
-            object.setAttribute('class', object.className.replace('Highlight', '') + "Toggled");
-            screenActive = true;
-            screenCount = document.getElementById("screenCount");
-            screenCount.id = "screenCountActive";
-            handleScreenActivated();
-        }
-    }
-
-    const {ipcRenderer} = require('electron');
-    const Store = require('./store');
-    const store = new Store({
-        configName: 'user-preferences'
-    });
-    let home
-    try {
-        home = store.get('homepage');
-    } catch (error) {
-        home = null;
-    }
-    const enav = new (require('electron-navigation'))({
-        defaultFavicons: true,
-        newTabCallback: (url, options) => {
-            options.postTabOpenCallback = webview => {
-                webview.setAttribute('plugins', '');
+                }
             }
-            return {options};
         }
-    });
 
-    function toggleFullscreen(event) {
-        if (event.key === 'Escape') {
-            ipcRenderer.send('fullScreen-click');
+        function startScreens(event, screenActive, screenshotSubProcessPID) {
+            if (screenActive == true) {
+                const {spawn} = require('child_process');
+                const childPython = spawn('python', ['mouseEvent.py']);
+                console.log("mouseListenner enabled")
+                var screenshotSubProcessPID = childPython.pid;
+                childPython.stdout.on('data', (data) => {
+                    console.log(`${data}`);
+                    updateLogs();
+                    updateAmountSaved();
+                });
+                return screenshotSubProcessPID
+            } else {
+                if (screenshotSubProcessPID != "") {
+                    process.kill(screenshotSubProcessPID);
+                    console.log("mouseListenner disabled")
+                }
+            }
+        }
+
+        function showOverlaySettings() {
+            if (hasDragged == false) {
+                var htmlShow = document.getElementById("settings");
+                if (htmlShow.style.display === "none") {
+                    htmlShow.style.display = "inline-block";
+                } else {
+                    htmlShow.style.display = "none";
+                }
+            }
+        }
+
+        function hover(element, string) {
+            if (element.src.slice(-6) != "on.png") {
+                element.setAttribute('src', string + "-highlighted.png");
+                element.setAttribute('id', element.id + "Highlight");
+            }
+        }
+
+        function unhover(element, string) {
+            if (element.src.slice(-6) != "on.png") {
+                element.setAttribute('src', string + ".png");
+                element.setAttribute('id', element.id.replace('Highlight', ''));
+            }
+        }
+
+        dragElement(document.getElementById("overlay_entity"));
+
+        function dragElement(elmnt) {
+            var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+            if (document.getElementById(elmnt.id + "header")) {
+                document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+            } else {
+                elmnt.onmousedown = dragMouseDown;
+            }
+
+            function dragMouseDown(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                document.onmouseup = closeDragElement;
+                document.onmousemove = elementDrag;
+                hasDragged = false;
+            }
+
+            function elementDrag(e) {
+                e = e || window.event;
+                e.preventDefault();
+                pos1 = pos3 - e.clientX;
+                pos2 = pos4 - e.clientY;
+                pos3 = e.clientX;
+                pos4 = e.clientY;
+                hasDragged = true;
+                elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+                elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+            }
+
+            function closeDragElement() {
+                document.onmouseup = null;
+                document.onmousemove = null;
+            }
+        }
+
+        var screenshotSubProcessPID;
+
+        function toggleScreening(object) {
+            if (screenActive) {
+                screenToggleFalse(object)
+            } else {
+                screenToggleTrue(object)
+            }
+            if (screenshotSubProcessPID === undefined) {
+                screenshotSubProcessPID = ""
+            }
+            screenshotSubProcessPID = startScreens(event, screenActive, screenshotSubProcessPID);
+        }
+
+        function screenToggleFalse(object) {
+            if (screenActive) {
+                object.setAttribute('src', "icons\\icon-start.png");
+                object.setAttribute('class', object.className.replace('Toggled', '') + 'Highlight');
+                screenActive = false;
+                screenCount = document.getElementById("screenCountActive");
+                screenCount.id = "screenCount";
+                handleScreenActivated();
+            }
+        }
+
+        function screenToggleTrue(object) {
+            if (!screenActive) {
+                object.setAttribute('src', "icons\\icon-start-toggled-on.png");
+                object.setAttribute('class', object.className.replace('Highlight', '') + "Toggled");
+                screenActive = true;
+                screenCount = document.getElementById("screenCount");
+                screenCount.id = "screenCountActive";
+                handleScreenActivated();
+            }
+        }
+
+        //#endregion
+
+        //#region home page
+        const {ipcRenderer} = require('electron');
+        const Store = require('./store');
+        const store = new Store({
+            configName: 'user-preferences'
+        });
+        let home
+        try {
+            home = store.get('homepage');
+        } catch (error) {
+            home = null;
+        }
+        //#endregion
+        //TODO: selfmade webview
+        //#region selfmade webview
+        document.addEventListener('DOMContentLoaded', function () {
+            const navBodyViewsElement = document.getElementById('nav-body-views');
+            const childToRemove = navBodyViewsElement.getElementsByTagName('webview')[0];
+            // childToRemove.setAttribute('plugins', '');
+        });
+
+
+                //this is not needed, just set the attribute of the webview to plugins like in .setAttribute('plugins', ''); for the element
+                const enav = new (require('electron-navigation'))({
+                    // defaultFavicons: true,
+                    // newTabCallback: (url, options) => {
+                    //     // options.postTabOpenCallback = webview => {
+                    //     //     // webview.setAttribute(':preload', 'preload.js');
+                    //     //     // console.log("webview postTabOpenCallback:")
+                    //     //     // console.log(webview.outerHTML)
+                    //     //     // webview.setAttribute('plugins', ''); //this enables the flash plugins to actually work
+                    //     // }
+                    //     return {options};
+                    // }
+                });
+
+
+        //#region tabs & fullscreen
+
+        function toggleFullscreen(event) {
+            if (event.key === 'Escape') {
+                ipcRenderer.send('fullScreen-click');
+                isFullScreen = false;
+                header.style.display = oldStyle;
+
+                tabs.style.display = oldStyle1;
+                nav.style.display = oldStyle2;
+                topspacer.style.display = oldStyle3;
+            }
+            if (event.type === 'click') {
+                ipcRenderer.send('fullScreen-click');
+            }
+            if (event.key === 'F11' || event.type === 'click') {
+                isFullScreen = !isFullScreen;
+                header.style.display = isFullScreen ? "none" : oldStyle;
+                tabs.style.display = isFullScreen ? "none" : oldStyle1;
+                nav.style.display = isFullScreen ? "none" : oldStyle2;
+                topspacer.style.display = isFullScreen ? "none" : oldStyle3;
+            }
+        }
+
+        function exitFullScreen(e) {
             isFullScreen = false;
             header.style.display = oldStyle;
 
             tabs.style.display = oldStyle1;
             nav.style.display = oldStyle2;
             topspacer.style.display = oldStyle3;
-        }
-        if (event.type === 'click') {
-            ipcRenderer.send('fullScreen-click');
-        }
-        if (event.key === 'F11' || event.type === 'click') {
-            isFullScreen = !isFullScreen;
-            header.style.display = isFullScreen ? "none" : oldStyle;
-            tabs.style.display = isFullScreen ? "none" : oldStyle1;
-            nav.style.display = isFullScreen ? "none" : oldStyle2;
-            topspacer.style.display = isFullScreen ? "none" : oldStyle3;
-        }
-    }
-
-    function exitFullScreen(e) {
-        isFullScreen = false;
-        header.style.display = oldStyle;
-
-        tabs.style.display = oldStyle1;
-        nav.style.display = oldStyle2;
-        topspacer.style.display = oldStyle3;
-
-    }
-
-    let nav = document.getElementById('nav-body-ctrls');
-    let tabs = document.getElementById('nav-body-tabs');
-    let header = document.getElementById('window-controls');
-    let topspacer = document.getElementById('topspacer');
-
-    let controls = document.getElementById('nav-body-ctrls');
-    let oldStyle = getComputedStyle(header).display;
-    let oldStyle1 = getComputedStyle(tabs).display;
-    let oldStyle2 = getComputedStyle(nav).display;
-    let oldStyle3 = getComputedStyle(topspacer).display;
-
-    var length = window.process.argv.length;
-    var lastArgument = window.process.argv[length - 1]
-    if (lastArgument && lastArgument.indexOf("file:///") == 0) {
-        console.log(lastArgument);
-        enav.newTab(lastArgument, {
-            title: 'Local file'
-        })
-    }
-        //else if(clipboardStr.indexOf("https://") == 0) {
-        //  enav.newTab(clipboardStr);
-
-    //}
-    else if (home) {
-        //console.log("WE HAGE CUSTOM HOMEPAGE" + home);
-        enav.newTab(home, {icon: "icons/restore-w-24.png"})
-    } else {
-        enav.newTab('https://search.flash.pm/', {icon: "clear"});
-    }
-
-
-    /// Set Favorite Button
-
-    let setFavoriteButton = document.createElement("button");
-    setFavoriteButton.id = 'fs-button';
-    setFavoriteButton.innerHTML = '⭐️';
-    setFavoriteButton.title = "Set as Favorite"
-    setFavoriteButton.onclick = setFavorit;
-    controls.appendChild(setFavoriteButton);
-
-    function setFavorit(event) {
-
-        let favURL = document.getElementById('nav-ctrls-url').value;
-        console.log("set fav" + favURL);
-        const {remote} = require('electron');
-        const mainProcess = remote.require('./index');
-        mainProcess.setFavorite(favURL); // 'Yay'
-    }
-
-    // Set Home
-    let setHomeButton = document.createElement("button");
-    setHomeButton.id = 'fs-button';
-    setHomeButton.innerHTML = '🏠';
-    setHomeButton.title = 'Set as hompage';
-    setHomeButton.onclick = setHome;
-    controls.appendChild(setHomeButton);
-
-    function setHome(event) {
-        let homeURL = document.getElementById('nav-ctrls-url').value;
-        const {remote} = require('electron');
-        const mainProcess = remote.require('./index');
-        mainProcess.sethome(homeURL); // 'Yay'
-    }
-
-    //Zoom In out
-    let zoomInButton = document.createElement("button");
-    zoomInButton.id = 'fs-button';
-    zoomInButton.innerHTML = '➕';
-    zoomInButton.title = 'Zoom In';
-    zoomInButton.onclick = zoomIn;
-    controls.appendChild(zoomInButton);
-
-    function zoomIn(event) {
-        webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
-        if (webview) {
-            webview.zoomFactor = webview.getZoomFactor() + 0.2//1
-        }
-    }
-
-    let zoomOutButton = document.createElement("button");
-    zoomOutButton.id = 'fs-button';
-    zoomOutButton.innerHTML = '➖';
-    zoomInButton.title = 'Zoom Out';
-    zoomOutButton.onclick = zoomOut;
-    controls.appendChild(zoomOutButton);
-
-    function zoomOut(event) {
-        webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
-        if (webview) {
-            webview.zoomFactor = webview.getZoomFactor() - 0.2//1
-        }
-    }
-
-
-    let savetButton = document.createElement("button");
-    savetButton.id = 'fs-button';
-    savetButton.innerHTML = '🍪';
-    savetButton.title = 'cookie';
-    savetButton.onclick = fancyButton;
-    controls.appendChild(savetButton);
-
-    function SaveSWFFunction(event) {
-        const {spawn} = require('child_process')
-        //const childPython = spawn('python', ['--version']);
-        const childPython = spawn('python', ['testapp.py', 'EC-2D7DC31E777906E044BEB0E2C29A8FD2596CEC9F5ECF586982955D9AA2B0B1461C91A58F835D1EB036C6E90B5F9A8654D8458258DF9945C6A49FC9D6B92F9F0BAE17E3111FBA422665D5F6B51D84BE834461A936E299FED4387EE0779CB63B649DD96E8EF780C26C794F3113DDD8449068F3FE0C32DCF30E31B2C382CB610F5F26A4D94E72435E5611948DB2ACB7AFB54F23162EE67E7BA11B034DE6CFC']);
-        childPython.stdout.on('data', (data) => {
-            console.log(`stdout: ${data}`)
-        });
-    }
-
-    function getSessionCookie(cookie) {
-        const {spawn} = require('child_process')
-        const childPython = spawn('python', ['testapp.py', cookie]);
-        childPython.stdout.on('data', (data) => {
-            console.log(`stdout: ${data}`)
-            return data
-        });
-    }
-
-    async function fancyButton(event) {
-        await navigator.clipboard.writeText("/set_cookie cookie:" + (await getPhoenixCookieValue()));
-    }
-
-    async function getPhoenixCookieValue() {
-        const persistentCookie = await getCookieValue("phoenixUser")
-        const sessionCookie = getSessionCookie(persistentCookie)
-        return sessionCookie
-    }
-
-
-    async function getCookieValue(cookieName) {
-        return new Promise((resolve, reject) => {
-            const sql = `SELECT value FROM 'cookies' WHERE name = "${cookieName}"`;
-            console.log("sql:")
-            console.log(sql)
-            let cookieValue;
-            const os = require('os');
-            const path = os.homedir() + "\\AppData\\Roaming\\Flash Browser\\Cookies"
-            console.log("path")
-            console.log(path)
-            const sqlite3 = require('sqlite3').verbose();
-            let db = new sqlite3.Database(path);
-
-            db.all(sql, [], (err, rows) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
-
-                rows.forEach((row) => {
-                    console.log(row)
-                    console.log(row.value)
-                    cookieValue = row.value;
-                    console.log(cookieValue)
-                });
-
-                resolve(cookieValue);
-            });
-        });
-    }
-
-    var isWin = window.process.platform === "win32";
-    if (isWin) {
-        var windowsControls = document.getElementById('window-controls');
-        windowsControls.style = "display: true;";
-        console.log(2233)
-    } else {
-        document.getElementById('nav-body-tabs').style = "padding-left: 5rem;";
-        //document.getElementById('nav-body-tabs').addEventListener("dblclick", handleDoubleClick);
-        document.getElementById('topspacer').addEventListener("dblclick", handleDoubleClick);
-    }
-
-
-    //FullScreen Buton
-
-    let isFullScreen = false;
-    let fsButton = document.createElement("button");
-    fsButton.id = 'fs-button';
-    fsButton.title = "FullScreen"
-    fsButton.innerHTML = '🔳️';
-    fsButton.onclick = toggleFullscreen;
-    controls.appendChild(fsButton);
-
-    // Mute button
-
-    let muteButton = document.createElement("button");
-    muteButton.id = 'fs-button';
-    muteButton.innerHTML = '🔊';
-    muteButton.title = "Mute/UnMute"
-    muteButton.onclick = onMute;
-    controls.appendChild(muteButton);
-
-    function onMute(event) {
-        webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
-        if (webview) {
-            if (webview.isAudioMuted()) {
-                webview.setAudioMuted(false);
-                muteButton.innerHTML = '🔊';
-            } else {
-                webview.setAudioMuted(true);
-                muteButton.innerHTML = '🔈';
-            }
-
 
         }
-    }
 
+        let nav = document.getElementById('nav-body-ctrls');
+        let tabs = document.getElementById('nav-body-tabs');
+        let header = document.getElementById('window-controls');
+        let topspacer = document.getElementById('topspacer');
 
-    ///// Clear Cache Button ////
+        let controls = document.getElementById('nav-body-ctrls');
+        let oldStyle = getComputedStyle(header).display;
+        let oldStyle1 = getComputedStyle(tabs).display;
+        let oldStyle2 = getComputedStyle(nav).display;
+        let oldStyle3 = getComputedStyle(topspacer).display;
 
-
-    function dispachClearCache(event) {
-        ipcRenderer.send('clearChache-click');
-    }
-
-    ///// Clear Favorites Button ////
-    function clearAllFavorites(event) {
-        const {remote} = require('electron');
-        const mainProcess = remote.require('./index.js');
-        mainProcess.removeAllFav();
-        console.log("Cleaned favorites")
-
-    }
-
-    /////Settings Button /////
-
-    let settingsButton = document.createElement("button");
-    settingsButton.id = 'fs-button';
-    settingsButton.innerHTML = '⚙️';
-    settingsButton.title = "Show/Hide Settings";
-    settingsButton.onclick = showSettings;
-    controls.appendChild(settingsButton);
-
-    function showSettings(event) {
-
-        if (event.type === 'click') {
-            const {remote} = require('electron');
-            const mainProcess = remote.require('./index');
-            mainProcess.showSettings(); // 'Yay'
-
+        var length = window.process.argv.length;
+        var lastArgument = window.process.argv[length - 1]
+        if (lastArgument && lastArgument.indexOf("file:///") == 0) {
+            console.log(lastArgument);
+            enav.newTab(lastArgument, {
+                title: 'Local file'
+            })
         }
-    }
+            //else if(clipboardStr.indexOf("https://") == 0) {
+            //  enav.newTab(clipboardStr);
 
-
-    function handleDoubleClick(event) {
-        //var windowsControls = document.getElementById('window-controls');
-        //windowsControls.style = "display: true;";
-
-
-        const doubleClickAction = remote.systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string');
-        const win = remote.getCurrentWindow();
-        if (doubleClickAction === 'Minimize') {
-            win.minimize();
-        } else if (doubleClickAction === 'Maximize') {
-            if (!win.isMaximized()) {
-                win.maximize();
-            } else {
-                win.unmaximize();
-            }
-        }
-    }
-
-
-    function jsfunction(e) {
-        //console.log(e.target.href)
-        e.preventDefault(); //optional);
-        enav.newTab(e.target.href);
-    }
-
-    var div = document.getElementById('overlay');
-    div.style = "display: none;";
-    require('electron').ipcRenderer.on('ping', showHideSettings);
-    require('electron').ipcRenderer.on('Esc', exitFullScreen);
-
-
-    function showHideSettings(event, message, refresh) {
-        var div = document.getElementById('overlay');
-
-
-        let ht = window.getComputedStyle(div, null).getPropertyValue("display");
-        console.log("Ping" + ht)
-        if (div.style.display === 'none' && !refresh) {
-            // Add the contents of options[0] to #foo:
-            document.getElementById('favoritesDiv').innerHTML = "";
-            document.getElementById('favoritesDiv').appendChild(makeUL(message));
-            div.style = "display: visible;";
-        } else if (refresh && ht === "block") {
-            document.getElementById('favoritesDiv').innerHTML = "";
-            document.getElementById('favoritesDiv').appendChild(makeUL(message));
-            div.style = "display: visible;";
+        //}
+        else if (home) {
+            //console.log("WE HAGE CUSTOM HOMEPAGE" + home);
+            enav.newTab(home, {icon: "icons/restore-w-24.png"})
         } else {
-            div.style = "display: none;";
+            enav.newTab('https://search.flash.pm/', {icon: "clear"});
         }
-    }
 
+        //#endregion
 
-    function makeUL(array) {
-        // Create the list element:
-        var list = document.createElement('ul');
-        if (array == null) {
-            array = new Array()
-        }
-        for (var i = 0; i < array.length; i++) {
-            // Create the list item:
-            var item = document.createElement('li');
-            if (typeof array[i] === 'string') {
-                var a = document.createElement('a')
-                a.text = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.", "");
-                //a.text  = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.",""); web domains may not be able to resolve in www sometimes, e.g www1, or not having www at all
-                a.href = array[i]
-                a.style = 'color:hotpink;font-size: 23px;'
-                a.onclick = jsfunction;
+                //#region buttons
+                //#region original buttons
+                /// Set Favorite Button
 
+                let setFavoriteButton = document.createElement("button");
+                setFavoriteButton.id = 'fs-button';
+                setFavoriteButton.innerHTML = '⭐️';
+                setFavoriteButton.title = "Set as Favorite"
+                setFavoriteButton.onclick = setFavorit;
+                controls.appendChild(setFavoriteButton);
 
-                let btn = document.createElement("button");
-                btn.innerHTML = " remove";
-                btn.id = i;
-                btn.style = "border: none; background: none; color: hotpink;  background-color: #222222;  margin-left: 30px; ";
-                btn.onclick = function (event) {
+                function setFavorit(event) {
+
+                    let favURL = document.getElementById('nav-ctrls-url').value;
+                    console.log("set fav" + favURL);
                     const {remote} = require('electron');
                     const mainProcess = remote.require('./index');
-                    mainProcess.removeFav(event.target.id); // 'Yay'
-                };
+                    mainProcess.setFavorite(favURL); // 'Yay'
+                }
 
-                item.style = 'color:hotpink;font-size: 23px;'
-                item.appendChild(a);
-                item.appendChild(btn);
+                // Set Home
+                let setHomeButton = document.createElement("button");
+                setHomeButton.id = 'fs-button';
+                setHomeButton.innerHTML = '🏠';
+                setHomeButton.title = 'Set as hompage';
+                setHomeButton.onclick = setHome;
+                controls.appendChild(setHomeButton);
 
-                // Set its contents:
-                //item.appendChild(document.createTextNode(array[i]));
+                function setHome(event) {
+                    let homeURL = document.getElementById('nav-ctrls-url').value;
+                    const {remote} = require('electron');
+                    const mainProcess = remote.require('./index');
+                    mainProcess.sethome(homeURL); // 'Yay'
+                }
 
-                // Add it to the list:
-                list.appendChild(item);
-            }
-        }
+                //Zoom In out
+                let zoomInButton = document.createElement("button");
+                zoomInButton.id = 'fs-button';
+                zoomInButton.innerHTML = '➕';
+                zoomInButton.title = 'Zoom In';
+                zoomInButton.onclick = zoomIn;
+                controls.appendChild(zoomInButton);
 
-        // Finally, return the constructed list:
-        return list;
-    }
+                function zoomIn(event) {
+                    webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
+                    if (webview) {
+                        webview.zoomFactor = webview.getZoomFactor() + 0.2//1
+                    }
+                }
+
+                let zoomOutButton = document.createElement("button");
+                zoomOutButton.id = 'fs-button';
+                zoomOutButton.innerHTML = '➖';
+                zoomInButton.title = 'Zoom Out';
+                zoomOutButton.onclick = zoomOut;
+                controls.appendChild(zoomOutButton);
+
+                function zoomOut(event) {
+                    webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
+                    if (webview) {
+                        webview.zoomFactor = webview.getZoomFactor() - 0.2//1
+                    }
+                }
+
+                //#endregion
 
 
-    /// Suggest nav bar
-    let navBar = document.getElementById('nav-ctrls-url')
-    navBar.addEventListener('keyup', checkFavorites);
+                let savetButton = document.createElement("button");
+                savetButton.id = 'fs-button';
+                savetButton.innerHTML = '🍪';
+                savetButton.title = 'cookie';
+                savetButton.onclick = fancyButton;
+                controls.appendChild(savetButton);
 
-    function checkFavorites(e) {
+                let testButton = document.createElement("button");
+                testButton.id = 'fs-button';
+                testButton.innerHTML = 'T';
+                testButton.title = 'test';
+                testButton.onclick = testButtonFunction;
+                controls.appendChild(testButton);
+
+                function SaveSWFFunction(event) {
+                    const {spawn} = require('child_process')
+                    //const childPython = spawn('python', ['--version']);
+                    const childPython = spawn('python', ['testapp.py', 'EC-2D7DC31E777906E044BEB0E2C29A8FD2596CEC9F5ECF586982955D9AA2B0B1461C91A58F835D1EB036C6E90B5F9A8654D8458258DF9945C6A49FC9D6B92F9F0BAE17E3111FBA422665D5F6B51D84BE834461A936E299FED4387EE0779CB63B649DD96E8EF780C26C794F3113DDD8449068F3FE0C32DCF30E31B2C382CB610F5F26A4D94E72435E5611948DB2ACB7AFB54F23162EE67E7BA11B034DE6CFC']);
+                    childPython.stdout.on('data', (data) => {
+                        console.log(`stdout: ${data}`)
+                    });
+                }
+
+                function getSessionCookie(cookie) {
+                    const {spawn} = require('child_process')
+                    const childPython = spawn('python', ['testapp.py', cookie]);
+                    childPython.stdout.on('data', (data) => {
+                        console.log(`stdout: ${data}`)
+                        return data
+                    });
+                }
+
+                async function fancyButton(event) {
+                    await navigator.clipboard.writeText("/set_cookie cookie:" + (await getPhoenixCookieValue()));
+                }
+
+                function testButtonFunction(event) {
+                    console.log("test button clicked");
+
+                    // Assuming there is only one element with the class "nav-views-view active"
+                    let webview = document.getElementsByClassName("nav-views-view active")[0];
+
+                    // Check if the webview element is found
+                    if (webview) {
+                        console.log("webview:")
+                        console.log(webview)
+                        let shadowRoot = webview.shadowRoot;
+                        console.log("shadowRoot:")
+                        console.log(shadowRoot)
+                        let iframe = shadowRoot.querySelector('iframe');
+                        console.log("iframe:")
+                        console.log(iframe)
+                        let webviewDocument = webview.contentDocument;
+                        console.log("webviewDocument:")
+                        console.log(webviewDocument)
+                        let iframeDocument = iframe.contentDocument | iframe.contentWindow.document;
+                        console.log("iframeDocument:")
+                        console.log(iframeDocument)
+                        let iframeContent = iframeDocument.documentElement.outerHTML;
+                        console.log(iframeContent);
+                        console.log("executeJavaScript");
+                        webview.executeJavaScript("console.log('log from webview');");
+                        console.log("executedJavaScript");
+
+                    } else {
+                        console.error("WebView element not found");
+                    }
+
+                    console.log("testButtonFunction done");
+                }
 
 
-        let listFavorites = store.get('favorites');
-        console.log('checkFavoritess', listFavorites);
-        if (listFavorites) {
-            let inputText = navBar.value;
-            let deURL;
+                async function getPhoenixCookieValue() {
+                    const persistentCookie = await getCookieValue("phoenixUser")
+                    const sessionCookie = getSessionCookie(persistentCookie)
+                    return sessionCookie
+                }
 
-            for (var i = 0; i < listFavorites.length; i++) {
 
-                deURL = listFavorites[i].replace(/(^\w+:|^)\/\//, '');
-                deURL = deURL.replace("www.", "");
-                //console.log(i  + "  " + listFavorites[i] + "!" + deURL);
-                if (e.keyCode != 8 && e.keyCode != 17 && !e.ctrlKey && deURL != inputText && deURL && deURL.indexOf(inputText) == 0) {
+                async function getCookieValue(cookieName) {
+                    return new Promise((resolve, reject) => {
+                        const sql = `SELECT value FROM 'cookies' WHERE name = "${cookieName}"`;
+                        console.log("sql:")
+                        console.log(sql)
+                        let cookieValue;
+                        const os = require('os');
+                        const path = os.homedir() + "\\AppData\\Roaming\\Flash Browser\\Cookies"
+                        console.log("path")
+                        console.log(path)
+                        const sqlite3 = require('sqlite3').verbose();
+                        let db = new sqlite3.Database(path);
 
-                    console.log("Fond it" + deURL)
-                    navBar.value = deURL;
-                    navBar.setSelectionRange(inputText.length, 999);
+                        db.all(sql, [], (err, rows) => {
+                            if (err) {
+                                reject(err);
+                                return;
+                            }
+
+                            rows.forEach((row) => {
+                                console.log(row)
+                                console.log(row.value)
+                                cookieValue = row.value;
+                                console.log(cookieValue)
+                            });
+
+                            resolve(cookieValue);
+                        });
+                    });
+                }
+
+                var isWin = window.process.platform === "win32";
+                if (isWin) {
+                    var windowsControls = document.getElementById('window-controls');
+                    windowsControls.style = "display: true;";
+                    console.log(2233)
+                } else {
+                    document.getElementById('nav-body-tabs').style = "padding-left: 5rem;";
+                    //document.getElementById('nav-body-tabs').addEventListener("dblclick", handleDoubleClick);
+                    document.getElementById('topspacer').addEventListener("dblclick", handleDoubleClick);
+                }
+
+
+                //FullScreen Buton
+
+                let isFullScreen = false;
+                let fsButton = document.createElement("button");
+                fsButton.id = 'fs-button';
+                fsButton.title = "FullScreen"
+                fsButton.innerHTML = '🔳️';
+                fsButton.onclick = toggleFullscreen;
+                controls.appendChild(fsButton);
+
+                // Mute button
+
+                let muteButton = document.createElement("button");
+                muteButton.id = 'fs-button';
+                muteButton.innerHTML = '🔊';
+                muteButton.title = "Mute/UnMute"
+                muteButton.onclick = onMute;
+                controls.appendChild(muteButton);
+
+                function onMute(event) {
+                    webview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
+                    if (webview) {
+                        if (webview.isAudioMuted()) {
+                            webview.setAudioMuted(false);
+                            muteButton.innerHTML = '🔊';
+                        } else {
+                            webview.setAudioMuted(true);
+                            muteButton.innerHTML = '🔈';
+                        }
+
+
+                    }
+                }
+
+
+                ///// Clear Cache Button ////
+
+
+                function dispachClearCache(event) {
+                    ipcRenderer.send('clearChache-click');
+                }
+
+                ///// Clear Favorites Button ////
+                function clearAllFavorites(event) {
+                    const {remote} = require('electron');
+                    const mainProcess = remote.require('./index.js');
+                    mainProcess.removeAllFav();
+                    console.log("Cleaned favorites")
 
                 }
-            }
-        }
 
-    }
+                /////Settings Button /////
 
+                let settingsButton = document.createElement("button");
+                settingsButton.id = 'fs-button';
+                settingsButton.innerHTML = '⚙️';
+                settingsButton.title = "Show/Hide Settings";
+                settingsButton.onclick = showSettings;
+                controls.appendChild(settingsButton);
 
-    //Find on Page
-    let finInwebview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
-    const FindInPage = require('electron-find').FindInPage;
-    const {remote} = require('electron');
-    let findInPage = new FindInPage(remote.getCurrentWebContents(), {
-        parentElement: document.querySelector('#nav-body-views'),
-        offsetTop: 70,
-        boxBgColor: '#000000',
-        boxShadowColor: '#111111'
-    });
+                function showSettings(event) {
 
+                    if (event.type === 'click') {
+                        const {remote} = require('electron');
+                        const mainProcess = remote.require('./index');
+                        mainProcess.showSettings(); // 'Yay'
 
-    ipcRenderer.on('on-find', (e, args) => {
+                    }
+                }
 
+                //#endregion
 
-        findInPage.openFindWindow();
-        console.log(223 + document.querySelector('#nav-body-views'));
-
-    })
-
-
-    //Promote on last tab close:
-    let closeTabBtns = document.getElementsByClassName("nav-tabs-tab")[0];
-    console.log("closeTabBtns " + closeTabBtns)
-    closeTabBtns.addEventListener('click', closeTab);
-    console.log("closeTabBtns A#");
-
-    function closeTab(e) {
-
-        console.log("CLOSE A#" + document.getElementsByClassName('nav-tabs-tab').length);
-        if (document.getElementsByClassName('nav-tabs-tab').length == 1) {
-
-            enav.newTab('https://www.flash.pm/browser/preview', {
-                close: false,
-                icon: enav.TAB_ICON,
-
-            });
-
-            //$('#nav-body-tabs').css({ opacity: 0.0 });
-            // $('#nav-body-tabs').hide()
-            // $('#nav-body-ctrls').hide()
-            //win.close();
-        }
-    };
+                //#region quality of life
+                function handleDoubleClick(event) {
+                    //var windowsControls = document.getElementById('window-controls');
+                    //windowsControls.style = "display: true;";
 
 
-</script>
+                    const doubleClickAction = remote.systemPreferences.getUserDefault('AppleActionOnDoubleClick', 'string');
+                    const win = remote.getCurrentWindow();
+                    if (doubleClickAction === 'Minimize') {
+                        win.minimize();
+                    } else if (doubleClickAction === 'Maximize') {
+                        if (!win.isMaximized()) {
+                            win.maximize();
+                        } else {
+                            win.unmaximize();
+                        }
+                    }
+                }
+
+
+                function jsfunction(e) {
+                    //console.log(e.target.href)
+                    e.preventDefault(); //optional);
+                    enav.newTab(e.target.href);
+                }
+
+                var div = document.getElementById('overlay');
+                div.style = "display: none;";
+                require('electron').ipcRenderer.on('ping', showHideSettings);
+                require('electron').ipcRenderer.on('Esc', exitFullScreen);
+
+
+                function showHideSettings(event, message, refresh) {
+                    var div = document.getElementById('overlay');
+
+
+                    let ht = window.getComputedStyle(div, null).getPropertyValue("display");
+                    console.log("Ping" + ht)
+                    if (div.style.display === 'none' && !refresh) {
+                        // Add the contents of options[0] to #foo:
+                        document.getElementById('favoritesDiv').innerHTML = "";
+                        document.getElementById('favoritesDiv').appendChild(makeUL(message));
+                        div.style = "display: visible;";
+                    } else if (refresh && ht === "block") {
+                        document.getElementById('favoritesDiv').innerHTML = "";
+                        document.getElementById('favoritesDiv').appendChild(makeUL(message));
+                        div.style = "display: visible;";
+                    } else {
+                        div.style = "display: none;";
+                    }
+                }
+
+
+                function makeUL(array) {
+                    // Create the list element:
+                    var list = document.createElement('ul');
+                    if (array == null) {
+                        array = new Array()
+                    }
+                    for (var i = 0; i < array.length; i++) {
+                        // Create the list item:
+                        var item = document.createElement('li');
+                        if (typeof array[i] === 'string') {
+                            var a = document.createElement('a')
+                            a.text = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.", "");
+                            //a.text  = array[i].replace(/(^\w+:|^)\/\//, '').replace("www.",""); web domains may not be able to resolve in www sometimes, e.g www1, or not having www at all
+                            a.href = array[i]
+                            a.style = 'color:hotpink;font-size: 23px;'
+                            a.onclick = jsfunction;
+
+
+                            let btn = document.createElement("button");
+                            btn.innerHTML = " remove";
+                            btn.id = i;
+                            btn.style = "border: none; background: none; color: hotpink;  background-color: #222222;  margin-left: 30px; ";
+                            btn.onclick = function (event) {
+                                const {remote} = require('electron');
+                                const mainProcess = remote.require('./index');
+                                mainProcess.removeFav(event.target.id); // 'Yay'
+                            };
+
+                            item.style = 'color:hotpink;font-size: 23px;'
+                            item.appendChild(a);
+                            item.appendChild(btn);
+
+                            // Set its contents:
+                            //item.appendChild(document.createTextNode(array[i]));
+
+                            // Add it to the list:
+                            list.appendChild(item);
+                        }
+                    }
+
+                    // Finally, return the constructed list:
+                    return list;
+                }
+
+
+                /// Suggest nav bar
+                let navBar = document.getElementById('nav-ctrls-url')
+                navBar.addEventListener('keyup', checkFavorites);
+
+                function checkFavorites(e) {
+
+
+                    let listFavorites = store.get('favorites');
+                    console.log('checkFavoritess', listFavorites);
+                    if (listFavorites) {
+                        let inputText = navBar.value;
+                        let deURL;
+
+                        for (var i = 0; i < listFavorites.length; i++) {
+
+                            deURL = listFavorites[i].replace(/(^\w+:|^)\/\//, '');
+                            deURL = deURL.replace("www.", "");
+                            //console.log(i  + "  " + listFavorites[i] + "!" + deURL);
+                            if (e.keyCode != 8 && e.keyCode != 17 && !e.ctrlKey && deURL != inputText && deURL && deURL.indexOf(inputText) == 0) {
+
+                                console.log("Fond it" + deURL)
+                                navBar.value = deURL;
+                                navBar.setSelectionRange(inputText.length, 999);
+
+                            }
+                        }
+                    }
+
+                }
+
+                //#endregion
+
+                //#region tab handling
+                //Find on Page
+                let finInwebview = document.getElementById('nav-body-views').getElementsByClassName("active")[0];
+                const FindInPage = require('electron-find').FindInPage;
+                const {remote} = require('electron');
+                let findInPage = new FindInPage(remote.getCurrentWebContents(), {
+                    parentElement: document.querySelector('#nav-body-views'),
+                    offsetTop: 70,
+                    boxBgColor: '#000000',
+                    boxShadowColor: '#111111'
+                });
+
+
+                ipcRenderer.on('on-find', (e, args) => {
+                    // findInPage.openFindWindow();
+                    console.log(223 + document.querySelector('#nav-body-views'));
+                })
+
+
+                //Promote on last tab close:
+                let closeTabBtns = document.getElementsByClassName("nav-tabs-tab")[0];
+                console.log("closeTabBtns " + closeTabBtns)
+                closeTabBtns.addEventListener('click', closeTab);
+                console.log("closeTabBtns A#");
+
+                function closeTab(e) {
+
+                    console.log("CLOSE A#" + document.getElementsByClassName('nav-tabs-tab').length);
+                    if (document.getElementsByClassName('nav-tabs-tab').length == 1) {
+
+                        enav.newTab('https://www.flash.pm/browser/preview', {
+                            close: false,
+                            icon: enav.TAB_ICON,
+
+                        });
+
+                        //$('#nav-body-tabs').css({ opacity: 0.0 });
+                        // $('#nav-body-tabs').hide()
+                        // $('#nav-body-ctrls').hide()
+                        //win.close();
+                    }
+                };
+                //#endregion
+    </script>
+</div>
 </body>
 </html>
